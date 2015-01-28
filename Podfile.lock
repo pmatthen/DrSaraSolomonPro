@@ -1,0 +1,52 @@
+PODS:
+  - AFNetworking (1.3.4)
+  - BEMSimpleLineGraph (3.1)
+  - Bolts (1.1.3)
+  - Facebook-iOS-SDK (3.22.0):
+    - Bolts (~> 1.0)
+  - FatSecretKit (0.0.2):
+    - SVHTTPRequest (~> 0.3)
+  - Parse (1.2.19):
+    - Facebook-iOS-SDK (~> 3.11)
+  - RestKit (0.20.3):
+    - RestKit/Core
+  - RestKit/Core (0.20.3):
+    - RestKit/CoreData
+    - RestKit/Network
+    - RestKit/ObjectMapping
+  - RestKit/CoreData (0.20.3)
+  - RestKit/Network (0.20.3):
+    - AFNetworking (~> 1.3.0)
+    - RestKit/ObjectMapping
+    - RestKit/Support
+    - SOCKit
+  - RestKit/ObjectMapping (0.20.3)
+  - RestKit/Support (0.20.3):
+    - TransitionKit (= 1.1.1)
+  - SOCKit (1.1)
+  - SVHTTPRequest (0.5)
+  - TransitionKit (1.1.1)
+
+DEPENDENCIES:
+  - BEMSimpleLineGraph
+  - FatSecretKit (from `~/Desktop/FatSecretKit-master`)
+  - Parse (~> 1.2)
+  - RestKit (~> 0.20.0)
+
+EXTERNAL SOURCES:
+  FatSecretKit:
+    :path: ~/Desktop/FatSecretKit-master
+
+SPEC CHECKSUMS:
+  AFNetworking: 80c4e0652b08eb34e25b9c0ff3c82556fe5967b4
+  BEMSimpleLineGraph: db20cc489912a023d9a082b7c05f15789195f3f6
+  Bolts: 3db0a875235e0c9042b013af13af0f00f79b102c
+  Facebook-iOS-SDK: 0eda8ff7120aada0a9c5f98552f7625da6c3440a
+  FatSecretKit: 4036c1f5a9f8559fbf37b00a9cffbd8afb990ec0
+  Parse: ffebaecaddd32cb52671010f81567c298ff93d04
+  RestKit: 7f9490e709ee745e166c4d2aa7a8d132831275b0
+  SOCKit: d8d0dd3688ae1026c12367570da8fa8e1a6980fb
+  SVHTTPRequest: 4fdeb78b1900f0c58409bd4930d07d051fce0160
+  TransitionKit: b573f93c422f6aedf7d40e93e7c2f202d1295063
+
+COCOAPODS: 0.33.1

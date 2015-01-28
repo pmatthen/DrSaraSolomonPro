@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>7185881B-EEF0-48B5-A148-F05E7AFB496F</string>
+	<key>IDESourceControlProjectName</key>
+	<string>MyProfile</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>7CE8A58FC444BD7BE56FD71532F383D4C9CFC639</key>
+		<string>https://github.com/pmatthen/myProfile.git</string>
+		<key>8FD6D1164CD75959AF27F95BF95BA09BE572D66B</key>
+		<string>https://github.com/pmatthen/FatSecretKit.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>MyProfile.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>7CE8A58FC444BD7BE56FD71532F383D4C9CFC639</key>
+		<string>..</string>
+		<key>8FD6D1164CD75959AF27F95BF95BA09BE572D66B</key>
+		<string>../../FatSecretKit</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/pmatthen/myProfile.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>7CE8A58FC444BD7BE56FD71532F383D4C9CFC639</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>8FD6D1164CD75959AF27F95BF95BA09BE572D66B</string>
+			<key>IDESourceControlWCCName</key>
+			<string>FatSecretKit</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>7CE8A58FC444BD7BE56FD71532F383D4C9CFC639</string>
+			<key>IDESourceControlWCCName</key>
+			<string>MyProfile</string>
+		</dict>
+	</array>
+</dict>
+</plist>
