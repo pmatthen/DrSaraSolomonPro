@@ -312,6 +312,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		02B67734BE9973CE71C34699 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		1862537E1A56B17200620044 /* FoodTrackerItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoodTrackerItem.h; sourceTree = "<group>"; };
 		1862537F1A56B17200620044 /* FoodTrackerItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoodTrackerItem.m; sourceTree = "<group>"; };
 		186E03151A47BBFD00C83B49 /* IngredientDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IngredientDetailViewController.h; sourceTree = "<group>"; };
@@ -342,8 +343,8 @@
 		18FFF16E1A453C5E001A7489 /* MacroCalculatorViewControllerStep3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacroCalculatorViewControllerStep3.m; sourceTree = "<group>"; };
 		18FFF1701A453C72001A7489 /* MacroCalculatorViewControllerStep2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacroCalculatorViewControllerStep2.h; sourceTree = "<group>"; };
 		18FFF1711A453C72001A7489 /* MacroCalculatorViewControllerStep2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacroCalculatorViewControllerStep2.m; sourceTree = "<group>"; };
-		301D1E42605B4E359204793F /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		502340235F374596A7810DF6 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		520161BF368519B9D39F4FE2 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		B111042219EFD72700FD1411 /* Add_Food_Button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Add_Food_Button@2x.png"; sourceTree = "<group>"; };
 		B11689AC1A2BE201003971A6 /* NewsletterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsletterViewController.h; sourceTree = "<group>"; };
 		B11689AD1A2BE201003971A6 /* NewsletterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsletterViewController.m; sourceTree = "<group>"; };
@@ -702,6 +703,15 @@
 			name = "Macro Calculator";
 			sourceTree = "<group>";
 		};
+		285CD80E270E5100ADB33361 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				520161BF368519B9D39F4FE2 /* Pods.debug.xcconfig */,
+				02B67734BE9973CE71C34699 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		B1269710191A1835002425C3 /* Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -806,7 +816,7 @@
 				B1681B5519174DF500923BB3 /* MyProfileTests */,
 				B1681B2F19174DF500923BB3 /* Frameworks */,
 				B1681B2E19174DF500923BB3 /* Products */,
-				301D1E42605B4E359204793F /* Pods.xcconfig */,
+				285CD80E270E5100ADB33361 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1937,7 +1947,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		DAEEEB75CBCE406C824ECC8F /* Check Pods Manifest.lock */ = {
@@ -2140,7 +2150,7 @@
 		};
 		B1681B6019174DF500923BB3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 301D1E42605B4E359204793F /* Pods.xcconfig */;
+			baseConfigurationReference = 520161BF368519B9D39F4FE2 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -2150,24 +2160,24 @@
 				GCC_PREFIX_HEADER = "MyProfile/Dr Sara Solomon Pro-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MyProfile/Dr Sara Solomon Pro-Info.plist";
 				PRODUCT_NAME = "Dr Sara Solomon Pro";
-				PROVISIONING_PROFILE = "72048e2d-69f1-4f54-9aa1-1b3283e2e176";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
 		};
 		B1681B6119174DF500923BB3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 301D1E42605B4E359204793F /* Pods.xcconfig */;
+			baseConfigurationReference = 02B67734BE9973CE71C34699 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MyProfile/Dr Sara Solomon Pro-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MyProfile/Dr Sara Solomon Pro-Info.plist";
 				PRODUCT_NAME = "Dr Sara Solomon Pro";
-				PROVISIONING_PROFILE = "72048e2d-69f1-4f54-9aa1-1b3283e2e176";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

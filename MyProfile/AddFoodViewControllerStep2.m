@@ -38,6 +38,23 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [[FSClient sharedClient] searchFoods:searchText completion:^(NSArray *foods, NSInteger maxResults, NSInteger totalResults, NSInteger pageNumber) {
+        resultsArray = foods;
+        FSFood *tempFood = resultsArray[0];
+        [[FSClient sharedClient] getFood:tempFood.identifier completion:^(FSFood *food) {
+            for (int i = 0; i < [food.servings count]; i++) {
+                FSServing *tempServing = food.servings[i];
+                NSLog(@"serving_description = %@", tempServing.servingDescription);
+                NSLog(@"metric_serving_amount = %.0f", tempServing.metricServingAmountValue);
+                NSLog(@"metric_serving_unit = %@", tempServing.metricServingUnit);
+                NSLog(@"number_of_units = %f", tempServing.numberOfUnitsValue);
+                NSLog(@"meausurement_description = %@", tempServing.measurementDescription);
+                NSLog(@"*************************");
+            }
+        }];
+    }];
+    
     [mySegmentedControl setTintColor:[UIColor whiteColor]];
     
     isSelectedArray = [NSMutableArray new];
@@ -53,11 +70,12 @@
     query = [PFQuery queryWithClassName:@"Recipe"];
     [query whereKey:@"name" hasPrefix:[searchTextField.text lowercaseString]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
+        if (!error && self.mySegmentedControl.selectedSegmentIndex == 0) {
             resultsArray = objects;
             [self deselectAllCells];
             [myTableView reloadData];
-        } else {
+        }
+        if (error) {
             NSString *errorString = [error userInfo][@"error"];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:errorString delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
             [alert show];
@@ -288,11 +306,13 @@
             //
             [query whereKey:@"name" hasPrefix:[searchTextField.text lowercaseString]];
             [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                if (!error) {
+                if (!error && self.mySegmentedControl.selectedSegmentIndex == 0) {
                     resultsArray = objects;
                     [self deselectAllCells];
                     [myTableView reloadData];
-                } else {
+                    NSLog(@"Shouldn't be here");
+                }
+                if (error) {
                     NSString *errorString = [error userInfo][@"error"];
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:errorString delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
                     [alert show];

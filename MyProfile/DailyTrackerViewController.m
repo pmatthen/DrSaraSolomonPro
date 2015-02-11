@@ -92,28 +92,28 @@
     carbsLabel.frame = CGRectMake(250, 185, carbsLabel.frame.size.width, carbsLabel.frame.size.height);
     
     caloriesConsumedLabel = [[UILabel alloc] init];
-    caloriesConsumedLabel.font = [UIFont fontWithName:@"Oswald" size:30];
+    caloriesConsumedLabel.font = [UIFont fontWithName:@"Oswald" size:28];
     caloriesConsumedLabel.textColor = [UIColor whiteColor];
     caloriesConsumedLabel.text = @"0";
     caloriesConsumedLabel.hidden = YES;
     [caloriesConsumedLabel sizeToFit];
     
     proteinsConsumedLabel = [[UILabel alloc] init];
-    proteinsConsumedLabel.font = [UIFont fontWithName:@"Oswald" size:30];
+    proteinsConsumedLabel.font = [UIFont fontWithName:@"Oswald" size:28];
     proteinsConsumedLabel.textColor = [UIColor whiteColor];
     proteinsConsumedLabel.text = @"0";
     proteinsConsumedLabel.hidden = YES;
     [proteinsConsumedLabel sizeToFit];
     
     fatsConsumedLabel = [[UILabel alloc] init];
-    fatsConsumedLabel.font = [UIFont fontWithName:@"Oswald" size:30];
+    fatsConsumedLabel.font = [UIFont fontWithName:@"Oswald" size:28];
     fatsConsumedLabel.textColor = [UIColor whiteColor];
     fatsConsumedLabel.text = @"0";
     fatsConsumedLabel.hidden = YES;
     [fatsConsumedLabel sizeToFit];
     
     carbsConsumedLabel = [[UILabel alloc] init];
-    carbsConsumedLabel.font = [UIFont fontWithName:@"Oswald" size:30];
+    carbsConsumedLabel.font = [UIFont fontWithName:@"Oswald" size:28];
     carbsConsumedLabel.textColor = [UIColor whiteColor];
     carbsConsumedLabel.text = @"0";
     carbsConsumedLabel.hidden = YES;
@@ -397,7 +397,7 @@
     proteinsAllowedLabel.frame = CGRectMake(90, 135, proteinsAllowedLabel.frame.size.width, proteinsAllowedLabel.frame.size.height);
     [self.view addSubview:proteinsAllowedLabel];
     
-    float fatsAllowed = caloriesAllowed * fatsFactor;
+    float fatsAllowed = (caloriesAllowed * fatsFactor)/9;
     
     [fatsAllowedLabel removeFromSuperview];
     
@@ -406,7 +406,7 @@
     fatsAllowedLabel.frame = CGRectMake(170, 135, fatsAllowedLabel.frame.size.width, fatsAllowedLabel.frame.size.height);
     [self.view addSubview:fatsAllowedLabel];
     
-    float carbsAllowed = caloriesAllowed - proteinsAllowed - fatsAllowed;
+    float carbsAllowed = (caloriesAllowed - (proteinsAllowed * 4) - (caloriesAllowed * fatsFactor))/4;
     
     carbsAllowedLabel.text = [NSString stringWithFormat:@"%.0f", carbsAllowed];
     [carbsAllowedLabel sizeToFit];
@@ -538,7 +538,7 @@
     
     [caloriesConsumedLabel removeFromSuperview];
     
-    caloriesConsumedLabel.text = [NSString stringWithFormat:@"%.1f", caloriesConsumed];
+    caloriesConsumedLabel.text = [NSString stringWithFormat:@"%.0f", caloriesConsumed];
     [caloriesConsumedLabel sizeToFit];
     caloriesConsumedLabel.frame = CGRectMake(10, 100, caloriesConsumedLabel.frame.size.width, caloriesConsumedLabel.frame.size.height);
     [self.view addSubview:caloriesConsumedLabel];
@@ -560,7 +560,7 @@
     
     [proteinsConsumedLabel removeFromSuperview];
     
-    proteinsConsumedLabel.text = [NSString stringWithFormat:@"%.1f", proteinsConsumed];
+    proteinsConsumedLabel.text = [NSString stringWithFormat:@"%.0f", proteinsConsumed];
     [proteinsConsumedLabel sizeToFit];
     proteinsConsumedLabel.frame = CGRectMake(90, 100, proteinsConsumedLabel.frame.size.width, proteinsConsumedLabel.frame.size.height);
     [self.view addSubview:proteinsConsumedLabel];
@@ -582,7 +582,7 @@
     
     [fatsConsumedLabel removeFromSuperview];
     
-    fatsConsumedLabel.text = [NSString stringWithFormat:@"%.1f", fatsConsumed];
+    fatsConsumedLabel.text = [NSString stringWithFormat:@"%.0f", fatsConsumed];
     [fatsConsumedLabel sizeToFit];
     fatsConsumedLabel.frame = CGRectMake(170, 100, fatsConsumedLabel.frame.size.width, fatsConsumedLabel.frame.size.height);
     [self.view addSubview:fatsConsumedLabel];
@@ -604,7 +604,7 @@
     
     [carbsConsumedLabel removeFromSuperview];
     
-    carbsConsumedLabel.text = [NSString stringWithFormat:@"%.1f", carbsConsumed];
+    carbsConsumedLabel.text = [NSString stringWithFormat:@"%.0f", carbsConsumed];
     [carbsConsumedLabel sizeToFit];
     carbsConsumedLabel.frame = CGRectMake(250, 100, carbsConsumedLabel.frame.size.width, carbsConsumedLabel.frame.size.height);
     [self.view addSubview:carbsConsumedLabel];

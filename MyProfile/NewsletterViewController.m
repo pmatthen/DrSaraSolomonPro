@@ -7,9 +7,13 @@
 //
 
 #import "NewsletterViewController.h"
+#import <TDOAuth.h>
 
 @interface NewsletterViewController ()
-
+{
+    NSString *token;
+    NSString *tokenSecret;
+}
 @end
 
 @implementation NewsletterViewController
@@ -23,6 +27,10 @@
     titleLabel.text = @"NEWSLETTER";
     
     [self.view addSubview:titleLabel];
+    
+    //TDOAuth code
+    
+    [self getRequestToken];
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -42,4 +50,34 @@
 
 - (IBAction)joinButtonTouched:(id)sender {
 }
+
+- (void) getRequestToken {
+    //withings additional params
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    [dict setObject:@"oob" forKey:@"oauth_callback"];
+    
+    //init request
+    NSURLRequest *rq = [TDOAuth URLRequestForPath:@"/request_token" GETParameters:dict scheme:@"https" host:@"aweber_api/aweber_api.php" consumerKey:@"AkvOUVruFXN9VgOanp0bPP9m" consumerSecret:@"S1IVJH9WnXtBAuK9HwhbFmSqYqbBpfHu7Q4OCHnH" accessToken:nil tokenSecret:nil];
+    
+    //fire request
+    NSURLResponse* response;
+    NSError* error = nil;
+    NSData* result = [NSURLConnection sendSynchronousRequest:rq  returningResponse:&response error:&error];
+    NSString *s = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
+    NSLog(@"s = %@", s);
+    //parse result
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    NSArray *split = [s componentsSeparatedByString:@"&"];
+    for (NSString *str in split){
+        NSArray *split2 = [str componentsSeparatedByString:@"="];
+        [params setObject:split2[1] forKey:split2[0]];
+    }
+    
+    token = params[@"oauth_token"];
+    tokenSecret = params[@"oauth_token_secret"];
+    
+    NSLog(@"token = %@", token);
+    NSLog(@"token secret = %@", tokenSecret);
+}
+
 @end

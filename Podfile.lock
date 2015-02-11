@@ -6,10 +6,11 @@ PODS:
     - Bolts (~> 1.0)
   - FatSecretKit (0.0.2):
     - SVHTTPRequest (~> 0.3)
+  - OMGHTTPURLRQ/UserAgent (2.1)
   - Parse (1.2.19):
     - Facebook-iOS-SDK (~> 3.11)
   - RestKit (0.20.3):
-    - RestKit/Core
+    - RestKit/Core (= 0.20.3)
   - RestKit/Core (0.20.3):
     - RestKit/CoreData
     - RestKit/Network
@@ -25,6 +26,8 @@ PODS:
     - TransitionKit (= 1.1.1)
   - SOCKit (1.1)
   - SVHTTPRequest (0.5)
+  - TDOAuth (1.0.4):
+    - OMGHTTPURLRQ/UserAgent
   - TransitionKit (1.1.1)
 
 DEPENDENCIES:
@@ -32,6 +35,7 @@ DEPENDENCIES:
   - FatSecretKit (from `~/Desktop/FatSecretKit-master`)
   - Parse (~> 1.2)
   - RestKit (~> 0.20.0)
+  - TDOAuth
 
 EXTERNAL SOURCES:
   FatSecretKit:
@@ -43,10 +47,12 @@ SPEC CHECKSUMS:
   Bolts: 3db0a875235e0c9042b013af13af0f00f79b102c
   Facebook-iOS-SDK: 0eda8ff7120aada0a9c5f98552f7625da6c3440a
   FatSecretKit: 4036c1f5a9f8559fbf37b00a9cffbd8afb990ec0
+  OMGHTTPURLRQ: f8c515dfd2f57a5d74c710978f600231f52afec5
   Parse: ffebaecaddd32cb52671010f81567c298ff93d04
   RestKit: 7f9490e709ee745e166c4d2aa7a8d132831275b0
   SOCKit: d8d0dd3688ae1026c12367570da8fa8e1a6980fb
   SVHTTPRequest: 4fdeb78b1900f0c58409bd4930d07d051fce0160
+  TDOAuth: 3d02dc155fcb71572def39c05b80b4fbbe11d4f9
   TransitionKit: b573f93c422f6aedf7d40e93e7c2f202d1295063
 
-COCOAPODS: 0.33.1
+COCOAPODS: 0.35.0

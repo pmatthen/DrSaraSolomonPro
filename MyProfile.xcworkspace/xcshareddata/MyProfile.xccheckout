@@ -10,6 +10,8 @@
 	<string>MyProfile</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
+		<key>5875EF99B453971119D53FEF358A44135818DD6C</key>
+		<string>https://github.com/pmatthen/DrSaraSolomonPro.git</string>
 		<key>7CE8A58FC444BD7BE56FD71532F383D4C9CFC639</key>
 		<string>https://github.com/pmatthen/myProfile.git</string>
 		<key>8FD6D1164CD75959AF27F95BF95BA09BE572D66B</key>
@@ -19,19 +21,29 @@
 	<string>MyProfile.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>7CE8A58FC444BD7BE56FD71532F383D4C9CFC639</key>
+		<key>5875EF99B453971119D53FEF358A44135818DD6C</key>
 		<string>..</string>
+		<key>7CE8A58FC444BD7BE56FD71532F383D4C9CFC639</key>
+		<string>../../MyProfile</string>
 		<key>8FD6D1164CD75959AF27F95BF95BA09BE572D66B</key>
 		<string>../../FatSecretKit</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/pmatthen/myProfile.git</string>
+	<string>https://github.com/pmatthen/DrSaraSolomonPro.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>7CE8A58FC444BD7BE56FD71532F383D4C9CFC639</string>
+	<string>5875EF99B453971119D53FEF358A44135818DD6C</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>5875EF99B453971119D53FEF358A44135818DD6C</string>
+			<key>IDESourceControlWCCName</key>
+			<string>DrSaraSolomonPro</string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
