@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9FFBEC98625242B9AC6864C3"
+               BlueprintIdentifier = "CBF8B7027B495A2F69A937EA"
                BuildableName = "libPods-TDOAuth.a"
                BlueprintName = "Pods-TDOAuth"
                ReferencedContainer = "container:Pods.xcodeproj">

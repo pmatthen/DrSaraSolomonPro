@@ -33,9 +33,7 @@
     
     NSMutableArray *foodServingsInfoArray;
     
-    NSMutableArray *isUnitPresentArray;
     NSMutableArray *unitsArray;
-    NSMutableArray *updatedUnitsArray;
     NSMutableArray *integerArray;
     NSMutableArray *fractionArray;
     
@@ -48,10 +46,6 @@
     UILabel *fiberValueLabel;
     UILabel *sugarsValueLabel;
     UILabel *proteinValueLabel;
-    
-    BOOL gDone;
-    BOOL mlDone;
-    BOOL ozDone;
 }
 
 @end
@@ -67,9 +61,7 @@
     indexForMlRatio = -1;
     indexForOzRatio = -1;
     
-    isUnitPresentArray = [[NSMutableArray alloc] initWithArray:@[@0, @0, @0]];
     unitsArray = [NSMutableArray new];
-    updatedUnitsArray = [NSMutableArray new];
     integerArray = [NSMutableArray new];
     fractionArray = [[NSMutableArray alloc] initWithArray:@[@"-", @"1/8", @"1/4", @"1/3", @"1/2", @"2/3", @"3/4"]];
     
@@ -83,7 +75,15 @@
         [self configureFoodName];
         [self fillUnitsArray];
         
-        [myPickerView selectRow:3 inComponent:0 animated:NO];
+        FSServing *tempFoodServing = foodServingsInfoArray[0];
+        float componentZero = (int)tempFoodServing.numberOfUnitsValue;
+        
+        if (componentZero == 0) {
+            [myPickerView selectRow:4 inComponent:1 animated:YES];
+        } else {
+            [myPickerView selectRow:(int)componentZero inComponent:0 animated:YES];
+        }
+        
         [self interpretPickerView];
     }];
     
@@ -113,35 +113,35 @@
     calorieLabel.textColor = [UIColor whiteColor];
     calorieLabel.text = @"CALORIES";
     [calorieLabel sizeToFit];
-    [calorieLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) - (calorieLabel.frame.size.width))/2, 20, calorieLabel.frame.size.width, calorieLabel.frame.size.height)];
+    [calorieLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) - (calorieLabel.frame.size.width))/2 - 19, 20, calorieLabel.frame.size.width, calorieLabel.frame.size.height)];
     
     UILabel *totalFatLabel = [[UILabel alloc] init];
     totalFatLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
     totalFatLabel.textColor = [UIColor whiteColor];
     totalFatLabel.text = @"TOTAL FAT";
     [totalFatLabel sizeToFit];
-    [totalFatLabel setFrame:CGRectMake((nutritionView.frame.size.width/3) + 10, 20, totalFatLabel.frame.size.width, totalFatLabel.frame.size.height)];
+    [totalFatLabel setFrame:CGRectMake((nutritionView.frame.size.width/3) + 10 - 19, 20, totalFatLabel.frame.size.width, totalFatLabel.frame.size.height)];
     
     UILabel *satFatLabel = [[UILabel alloc] init];
     satFatLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
     satFatLabel.textColor = [UIColor grayColor];
     satFatLabel.text = @"SAT FAT";
     [satFatLabel sizeToFit];
-    [satFatLabel setFrame:CGRectMake((nutritionView.frame.size.width/3) + 20, totalFatLabel.frame.origin.y + totalFatLabel.frame.size.height + 5, satFatLabel.frame.size.width, satFatLabel.frame.size.height)];
+    [satFatLabel setFrame:CGRectMake((nutritionView.frame.size.width/3) + 20 - 19, totalFatLabel.frame.origin.y + totalFatLabel.frame.size.height + 5, satFatLabel.frame.size.width, satFatLabel.frame.size.height)];
     
     UILabel *cholesterolLabel = [[UILabel alloc] init];
     cholesterolLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
     cholesterolLabel.textColor = [UIColor whiteColor];
     cholesterolLabel.text = @"CHOLEST";
     [cholesterolLabel sizeToFit];
-    [cholesterolLabel setFrame:CGRectMake((nutritionView.frame.size.width/3) + 10, satFatLabel.frame.origin.y + satFatLabel.frame.size.height + 5, cholesterolLabel.frame.size.width, cholesterolLabel.frame.size.height)];
+    [cholesterolLabel setFrame:CGRectMake((nutritionView.frame.size.width/3) + 10 - 19, satFatLabel.frame.origin.y + satFatLabel.frame.size.height + 5, cholesterolLabel.frame.size.width, cholesterolLabel.frame.size.height)];
     
     UILabel *sodiumLabel = [[UILabel alloc] init];
     sodiumLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
     sodiumLabel.textColor = [UIColor whiteColor];
     sodiumLabel.text = @"SODIUM";
     [sodiumLabel sizeToFit];
-    [sodiumLabel setFrame:CGRectMake((nutritionView.frame.size.width/3) + 10, cholesterolLabel.frame.origin.y + cholesterolLabel.frame.size.height + 5, sodiumLabel.frame.size.width, sodiumLabel.frame.size.height)];
+    [sodiumLabel setFrame:CGRectMake((nutritionView.frame.size.width/3) + 10 - 19, cholesterolLabel.frame.origin.y + cholesterolLabel.frame.size.height + 5, sodiumLabel.frame.size.width, sodiumLabel.frame.size.height)];
     
     UILabel *carbsLabel = [[UILabel alloc] init];
     carbsLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
@@ -160,7 +160,7 @@
     UILabel *sugarsLabel = [[UILabel alloc] init];
     sugarsLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
     sugarsLabel.textColor = [UIColor grayColor];
-    sugarsLabel.text = @"SUGARS";
+    sugarsLabel.text = @"SUGAR";
     [sugarsLabel sizeToFit];
     [sugarsLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) + 20, fiberLabel.frame.origin.y + fiberLabel.frame.size.height + 5, sugarsLabel.frame.size.width, sugarsLabel.frame.size.height)];
     
@@ -171,7 +171,7 @@
     [proteinLabel sizeToFit];
     [proteinLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) + 10, sugarsLabel.frame.origin.y + sugarsLabel.frame.size.height + 5, proteinLabel.frame.size.width, proteinLabel.frame.size.height)];
     
-    UIView *lineSeparatorView1 = [[UIView alloc] initWithFrame:CGRectMake(nutritionView.frame.size.width/3, 20, 1, sodiumLabel.frame.origin.y + sodiumLabel.frame.size.height - 20)];
+    UIView *lineSeparatorView1 = [[UIView alloc] initWithFrame:CGRectMake(nutritionView.frame.size.width/3 - 19, 20, 1, sodiumLabel.frame.origin.y + sodiumLabel.frame.size.height - 20)];
     [lineSeparatorView1 setBackgroundColor:[UIColor whiteColor]];
     
     UIView *lineSeparatorView2 = [[UIView alloc] initWithFrame:CGRectMake((nutritionView.frame.size.width/3) * 2, 20, 1, sodiumLabel.frame.origin.y + sodiumLabel.frame.size.height - 20)];
@@ -195,7 +195,7 @@
     calorieValueLabel.text = @"0";
     [calorieValueLabel sizeToFit];
     calorieValueLabel.textAlignment = NSTextAlignmentCenter;
-    [calorieValueLabel setFrame:CGRectMake(5, calorieLabel.frame.origin.y + calorieLabel.frame.size.height + 5, nutritionView.frame.size.width/3 - 10, lineSeparatorView1.frame.size.height - (calorieLabel.frame.origin.y + calorieLabel.frame.size.height))];
+    [calorieValueLabel setFrame:CGRectMake(5 - 19, calorieLabel.frame.origin.y + calorieLabel.frame.size.height + 5, nutritionView.frame.size.width/3 - 10, lineSeparatorView1.frame.size.height - (calorieLabel.frame.origin.y + calorieLabel.frame.size.height))];
     
     totalFatValueLabel = [[UILabel alloc] init];
     totalFatValueLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
@@ -203,7 +203,7 @@
     totalFatValueLabel.text = @"0";
     [totalFatValueLabel sizeToFit];
     totalFatValueLabel.textAlignment = NSTextAlignmentCenter;
-    [totalFatValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) - 32, 20, 25, totalFatLabel.frame.size.height)];
+    [totalFatValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) - 32 - 19, 20, 25 + 19, totalFatLabel.frame.size.height)];
     
     satFatValueLabel = [[UILabel alloc] init];
     satFatValueLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
@@ -211,7 +211,7 @@
     satFatValueLabel.text = @"0";
     [satFatValueLabel sizeToFit];
     satFatValueLabel.textAlignment = NSTextAlignmentCenter;
-    [satFatValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) - 32, satFatLabel.frame.origin.y, 25, totalFatLabel.frame.size.height)];
+    [satFatValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) - 32 - 19, satFatLabel.frame.origin.y, 25 + 19, totalFatLabel.frame.size.height)];
     
     cholesterolValueLabel = [[UILabel alloc] init];
     cholesterolValueLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
@@ -219,7 +219,7 @@
     cholesterolValueLabel.text = @"0";
     [cholesterolValueLabel sizeToFit];
     cholesterolValueLabel.textAlignment = NSTextAlignmentCenter;
-    [cholesterolValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) - 32, cholesterolLabel.frame.origin.y, 25, cholesterolValueLabel.frame.size.height)];
+    [cholesterolValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) - 32 - 19, cholesterolLabel.frame.origin.y, 25 + 19, cholesterolValueLabel.frame.size.height)];
     
     sodiumValueLabel = [[UILabel alloc] init];
     sodiumValueLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
@@ -227,7 +227,7 @@
     sodiumValueLabel.text = @"0";
     [sodiumValueLabel sizeToFit];
     sodiumValueLabel.textAlignment = NSTextAlignmentCenter;
-    [sodiumValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) - 32, sodiumLabel.frame.origin.y, 25, sodiumValueLabel.frame.size.height)];
+    [sodiumValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) - 32 - 19, sodiumLabel.frame.origin.y, 25 + 19, sodiumValueLabel.frame.size.height)];
     
     carbsValueLabel = [[UILabel alloc] init];
     carbsValueLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
@@ -235,7 +235,7 @@
     carbsValueLabel.text = @"0";
     [carbsValueLabel sizeToFit];
     carbsValueLabel.textAlignment = NSTextAlignmentCenter;
-    [carbsValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 3) - 27, 20, 25, carbsLabel.frame.size.height)];
+    [carbsValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 3) - 27 - 5, 20, 25 + 19, carbsLabel.frame.size.height)];
     
     fiberValueLabel = [[UILabel alloc] init];
     fiberValueLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
@@ -243,7 +243,7 @@
     fiberValueLabel.text = @"0";
     [fiberValueLabel sizeToFit];
     fiberValueLabel.textAlignment = NSTextAlignmentCenter;
-    [fiberValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 3) - 27, fiberLabel.frame.origin.y, 25, fiberValueLabel.frame.size.height)];
+    [fiberValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 3) - 27 - 5, fiberLabel.frame.origin.y, 25 + 19, fiberValueLabel.frame.size.height)];
     
     sugarsValueLabel = [[UILabel alloc] init];
     sugarsValueLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
@@ -251,7 +251,7 @@
     sugarsValueLabel.text = @"0";
     [sugarsValueLabel sizeToFit];
     sugarsValueLabel.textAlignment = NSTextAlignmentCenter;
-    [sugarsValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 3) - 27, sugarsLabel.frame.origin.y, 25, sugarsValueLabel.frame.size.height)];
+    [sugarsValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 3) - 27 - 5, sugarsLabel.frame.origin.y, 25 + 19, sugarsValueLabel.frame.size.height)];
     
     proteinValueLabel = [[UILabel alloc] init];
     proteinValueLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
@@ -259,7 +259,7 @@
     proteinValueLabel.text = @"0";
     [proteinValueLabel sizeToFit];
     proteinValueLabel.textAlignment = NSTextAlignmentCenter;
-    [proteinValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 3) - 27, proteinLabel.frame.origin.y, 25, proteinValueLabel.frame.size.height)];
+    [proteinValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 3) - 27 - 5, proteinLabel.frame.origin.y, 25 + 19, proteinValueLabel.frame.size.height)];
     
     [nutritionView addSubview:calorieValueLabel];
     [nutritionView addSubview:totalFatValueLabel];
@@ -283,75 +283,8 @@
     foodServingsInfoArray = [[NSMutableArray alloc] initWithArray:myFood.servings];
     
     for (int i = 0; i < [[myFood servings] count]; i++) {
-        
         FSServing *tempFoodServing = [foodServingsInfoArray objectAtIndex:i];
-        
-        if ([tempFoodServing.metricServingUnit isEqual:@"g"]) {
-            [isUnitPresentArray setObject:@1 atIndexedSubscript:0];
-            [foodServingsInfoArray addObject:tempFoodServing];
-        }
-        
-        if ([tempFoodServing.metricServingUnit isEqual:@"ml"]) {
-            [isUnitPresentArray setObject:@1 atIndexedSubscript:1];
-            [foodServingsInfoArray addObject:tempFoodServing];
-        }
-        
-        if ([tempFoodServing.metricServingUnit isEqual:@"oz"]) {
-            [isUnitPresentArray setObject:@1 atIndexedSubscript:2];
-            [foodServingsInfoArray addObject:tempFoodServing];
-        }
-        
-        for (int i = 0; i < [isUnitPresentArray count]; i++) {
-            if ([isUnitPresentArray[i] integerValue] == 1) {
-                NSString *tempUnitName = [[NSString alloc] init];
-                switch (i) {
-                    case 0:
-                        tempUnitName = @"gram";
-                        break;
-                    case 1:
-                        tempUnitName = @"milliliter";
-                        break;
-                    case 2:
-                        tempUnitName = @"ounce";
-                        break;
-                    default:
-                        break;
-                }
-                
-                [unitsArray addObject:tempUnitName];
-            }
-        }
-    }
-    
-    [myPickerView reloadComponent:2];
-    [self figureOutUnitRatioIndex];
-}
-
-- (void) figureOutUnitRatioIndex {
-    gDone = NO;
-    mlDone = NO;
-    ozDone = NO;
-    
-    FSServing *tempFoodServing = [[FSServing alloc] init];
-    
-    for (int i = 0; i < [foodServingsInfoArray count]; i++) {
-        tempFoodServing = foodServingsInfoArray[i];
-        NSLog(@"metric serving unit = %@", tempFoodServing.metricServingUnit);
-        
-        if ([tempFoodServing.metricServingUnit isEqualToString:@"g"] && (gDone == NO)) {
-            indexForGRatio = i;
-            gDone = YES;
-        }
-        
-        if ([tempFoodServing.metricServingUnit isEqualToString:@"ml"] && (mlDone == NO)) {
-            indexForMlRatio = i;
-            mlDone = YES;
-        }
-        
-        if ([tempFoodServing.metricServingUnit isEqualToString:@"oz"] && (ozDone == NO)) {
-            indexForOzRatio = i;
-            ozDone = YES;
-        }
+        [unitsArray addObject:tempFoodServing.measurementDescription];
     }
     
     [myPickerView reloadComponent:2];
@@ -362,8 +295,6 @@
 }
 
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    int i = 0;
-    
     switch (component) {
         case 0:
             return [integerArray count];
@@ -372,11 +303,7 @@
             return [fractionArray count];
             break;
         case 2:
-            if (gDone) i++;
-            if (mlDone) i++;
-            if (ozDone) i++;
-            
-            return i;
+            return [unitsArray count];
             break;
         default:
             break;
@@ -394,11 +321,7 @@
             return fractionArray[row];
             break;
         case 2:
-            if ([myPickerView selectedRowInComponent:0] == 0) {
-                return updatedUnitsArray[row];
-            } else {
-                return [NSString stringWithFormat:@"%@s", updatedUnitsArray[row]];
-            }
+            return unitsArray[row];
             break;
         default:
             break;
@@ -411,11 +334,30 @@
     return 20;
 }
 
+-(CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
+    switch (component) {
+        case 0:
+            return 25.0f;
+            break;
+        case 1:
+            return 25.0f;
+            break;
+        case 2:
+            return 238.0f;
+            break;
+        default:
+            break;
+    }
+    
+    return 105.0f;
+}
+
 -(UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view {
     UILabel *label = [[UILabel alloc] init];
     label.textColor = [UIColor whiteColor];
     label.font = [UIFont fontWithName:@"Oswald-Light" size:18];
     label.textAlignment = NSTextAlignmentCenter;
+    [label setAdjustsFontSizeToFitWidth:YES];
     
     switch (component) {
         case 0:
@@ -427,13 +369,9 @@
             return label;
             break;
         case 2:
-            if ([myPickerView selectedRowInComponent:0] == 0) {
-                label.text = unitsArray[row];
-                return label;
-            } else {
-                label.text = [NSString stringWithFormat:@"%@s", unitsArray[row]];
-                return label;
-            }
+            label.font = [UIFont fontWithName:@"Oswald-Light" size:16];
+            label.text = unitsArray[row];
+            return label;
             break;
         default:
             break;
@@ -443,6 +381,19 @@
 }
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    if (component == 2) {
+        FSServing *tempFoodServing = foodServingsInfoArray[[myPickerView selectedRowInComponent:2]];
+        float componentZero = (int)tempFoodServing.numberOfUnitsValue;
+        
+        if (componentZero == 0) {
+            [myPickerView selectRow:4 inComponent:1 animated:YES];
+            [myPickerView selectRow:0 inComponent:0 animated:YES];
+        } else {
+            [myPickerView selectRow:(int)componentZero inComponent:0 animated:YES];
+            [myPickerView selectRow:0 inComponent:1 animated:YES];
+        }
+    }
+    
     [self interpretPickerView];
 }
 
@@ -475,51 +426,40 @@
     }
     
     FSServing *tempFoodServing = [[FSServing alloc] init];
+    tempFoodServing = foodServingsInfoArray[[myPickerView selectedRowInComponent:2]];
     
-    if ([unitsArray[[myPickerView selectedRowInComponent:2]] isEqualToString:@"gram"] || [unitsArray[[myPickerView selectedRowInComponent:2]] isEqualToString:@"grams"]) {
-        tempFoodServing = foodServingsInfoArray[indexForGRatio];
-    }
-    
-    if ([unitsArray[[myPickerView selectedRowInComponent:2]] isEqualToString:@"milliliter"] || [unitsArray[[myPickerView selectedRowInComponent:2]] isEqualToString:@"milliliters"]) {
-        tempFoodServing = foodServingsInfoArray[indexForMlRatio];
-    }
-    
-    if ([unitsArray[[myPickerView selectedRowInComponent:2]] isEqualToString:@"ounce"] || [unitsArray[[myPickerView selectedRowInComponent:2]] isEqualToString:@"ounces"]) {
-        tempFoodServing = foodServingsInfoArray[indexForOzRatio];
-    }
-    
-    calories = [NSNumber numberWithFloat:(tempFoodServing.caloriesValue / tempFoodServing.metricServingAmountValue) * numberOfServings];
-    fats = [NSNumber numberWithFloat:(tempFoodServing.fatValue / tempFoodServing.metricServingAmountValue) * numberOfServings];
-    saturatedFats = [NSNumber numberWithFloat:(tempFoodServing.saturatedFatValue / tempFoodServing.metricServingAmountValue) * numberOfServings];
-    cholesterol = [NSNumber numberWithFloat:(tempFoodServing.cholesterolValue / tempFoodServing.metricServingAmountValue) * numberOfServings];
-    sodium = [NSNumber numberWithFloat:(tempFoodServing.sodiumValue / tempFoodServing.metricServingAmountValue) * numberOfServings];
-    carbs = [NSNumber numberWithFloat:(tempFoodServing.carbohydrateValue / tempFoodServing.metricServingAmountValue) * numberOfServings];
-    fiber = [NSNumber numberWithFloat:(tempFoodServing.fiberValue / tempFoodServing.metricServingAmountValue) * numberOfServings];
-    sugars = [NSNumber numberWithFloat:(tempFoodServing.sugarValue / tempFoodServing.metricServingAmountValue) * numberOfServings];
-    protein = [NSNumber numberWithFloat:(tempFoodServing.proteinValue / tempFoodServing.metricServingAmountValue) * numberOfServings];
+    calories = [NSNumber numberWithFloat:tempFoodServing.caloriesValue * (numberOfServings/tempFoodServing.numberOfUnitsValue)];
+    fats = [NSNumber numberWithFloat:tempFoodServing.fatValue * (numberOfServings/tempFoodServing.numberOfUnitsValue)];
+    saturatedFats = [NSNumber numberWithFloat:tempFoodServing.saturatedFatValue * (numberOfServings/tempFoodServing.numberOfUnitsValue)];
+    cholesterol = [NSNumber numberWithFloat:tempFoodServing.cholesterolValue * (numberOfServings/tempFoodServing.numberOfUnitsValue)];
+    sodium = [NSNumber numberWithFloat:tempFoodServing.sodiumValue * (numberOfServings/tempFoodServing.numberOfUnitsValue)];
+    carbs = [NSNumber numberWithFloat:tempFoodServing.carbohydrateValue * (numberOfServings/tempFoodServing.numberOfUnitsValue)];
+    fiber = [NSNumber numberWithFloat:tempFoodServing.fiberValue * (numberOfServings/tempFoodServing.numberOfUnitsValue)];
+    sugars = [NSNumber numberWithFloat:tempFoodServing.sugarValue * (numberOfServings/tempFoodServing.numberOfUnitsValue)];
+    protein = [NSNumber numberWithFloat:tempFoodServing.proteinValue * (numberOfServings/tempFoodServing.numberOfUnitsValue)];
     
     [self updateNutritionLabels];
 }
 
 - (void) updateNutritionLabels {
-    calorieValueLabel.text = [NSString stringWithFormat:@"%.1f", [calories floatValue]];
-    totalFatValueLabel.text = [NSString stringWithFormat:@"%.1fg", [fats floatValue]];
-    satFatValueLabel.text = [NSString stringWithFormat:@"%.1fg", [saturatedFats floatValue]];
-    cholesterolValueLabel.text = [NSString stringWithFormat:@"%.1fmg", [cholesterol floatValue]];
-    sodiumValueLabel.text = [NSString stringWithFormat:@"%.1fmg", [sodium floatValue]];
-    carbsValueLabel.text = [NSString stringWithFormat:@"%.1fg", [carbs floatValue]];
-    fiberValueLabel.text = [NSString stringWithFormat:@"%.1fg", [fiber floatValue]];
-    sugarsValueLabel.text = [NSString stringWithFormat:@"%.1fg", [sugars floatValue]];
-    proteinValueLabel.text = [NSString stringWithFormat:@"%.1fg", [protein floatValue]];
+    calorieValueLabel.text = [NSString stringWithFormat:@"%.0f", [calories floatValue]];
+    totalFatValueLabel.text = [NSString stringWithFormat:@"%.0fg", [fats floatValue]];
+    satFatValueLabel.text = [NSString stringWithFormat:@"%.0fg", [saturatedFats floatValue]];
+    cholesterolValueLabel.text = [NSString stringWithFormat:@"%.0fmg", [cholesterol floatValue]];
+    sodiumValueLabel.text = [NSString stringWithFormat:@"%.0fmg", [sodium floatValue]];
+    carbsValueLabel.text = [NSString stringWithFormat:@"%.0fg", [carbs floatValue]];
+    fiberValueLabel.text = [NSString stringWithFormat:@"%.0fg", [fiber floatValue]];
+    sugarsValueLabel.text = [NSString stringWithFormat:@"%.0fg", [sugars floatValue]];
+    proteinValueLabel.text = [NSString stringWithFormat:@"%.0fg", [protein floatValue]];
     
-    [totalFatValueLabel sizeToFit];
-    [satFatValueLabel sizeToFit];
-    [cholesterolValueLabel sizeToFit];
-    [sodiumValueLabel sizeToFit];
-    [carbsValueLabel sizeToFit];
-    [fiberValueLabel sizeToFit];
-    [sugarsValueLabel sizeToFit];
-    [proteinValueLabel sizeToFit];
+    [totalFatValueLabel setAdjustsFontSizeToFitWidth:YES];
+    [satFatValueLabel setAdjustsFontSizeToFitWidth:YES];
+    [cholesterolValueLabel setAdjustsFontSizeToFitWidth:YES];
+    [sodiumValueLabel setAdjustsFontSizeToFitWidth:YES];
+    [carbsValueLabel setAdjustsFontSizeToFitWidth:YES];
+    [fiberValueLabel setAdjustsFontSizeToFitWidth:YES];
+    [sugarsValueLabel setAdjustsFontSizeToFitWidth:YES];
+    [proteinValueLabel setAdjustsFontSizeToFitWidth:YES];
 }
 
 - (IBAction)backButtonTouched:(id)sender {
@@ -527,21 +467,38 @@
 }
 
 - (IBAction)addFoodButtonTouched:(id)sender {
-    CoreDataStack *coreDataStack = [CoreDataStack defaultStack];
-    FoodTrackerItem *foodTrackerItem = [NSEntityDescription insertNewObjectForEntityForName:@"FoodTrackerItem" inManagedObjectContext:coreDataStack.managedObjectContext];
-    FSServing *tempServing = myFood.servings[0];
+    FSServing *tempServing = myFood.servings[[myPickerView selectedRowInComponent:2]];
     
-    foodTrackerItem.servingSize = tempServing.servingDescription;
-    foodTrackerItem.numberOfServings = [NSNumber numberWithFloat:numberOfServings];
-    foodTrackerItem.caloriesPerServing = [NSNumber numberWithFloat:[tempServing caloriesValue]];
-    foodTrackerItem.proteinsPerServing = [NSNumber numberWithFloat:[tempServing proteinValue]];
-    foodTrackerItem.fatsPerServing = [NSNumber numberWithFloat:[tempServing fatValue]];
-    foodTrackerItem.carbsPerServing = [NSNumber numberWithFloat:[tempServing carbohydrateValue]];
-    foodTrackerItem.name = myFood.name;
-    foodTrackerItem.identifier = [NSNumber numberWithLong:myFood.identifier];
-    foodTrackerItem.date = trackerDate;
-    
-    [coreDataStack saveContext];
+    if (tempServing.metricServingUnit == nil) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Item not added, database missing information" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alert show];
+    } else {
+        CoreDataStack *coreDataStack = [CoreDataStack defaultStack];
+        FoodTrackerItem *foodTrackerItem = [NSEntityDescription insertNewObjectForEntityForName:@"FoodTrackerItem" inManagedObjectContext:coreDataStack.managedObjectContext];
+        
+        foodTrackerItem.servingUnit = tempServing.metricServingUnit;
+        
+        if ([tempServing.metricServingUnit isEqualToString:@"g"]) {
+            foodTrackerItem.servingUnit = @"gram";
+        }
+        if ([tempServing.metricServingUnit isEqualToString:@"ml"]) {
+            foodTrackerItem.servingUnit = @"millilitre";
+        }
+        if ([tempServing.metricServingUnit isEqualToString:@"oz"]) {
+            foodTrackerItem.servingUnit = @"ounce";
+        }
+        
+        foodTrackerItem.numberOfServings = [NSNumber numberWithFloat:((numberOfServings * tempServing.metricServingAmountValue)/tempServing.numberOfUnitsValue)];
+        foodTrackerItem.caloriesPerServing = [NSNumber numberWithFloat:([tempServing caloriesValue]/tempServing.metricServingAmountValue)];
+        foodTrackerItem.proteinsPerServing = [NSNumber numberWithFloat:([tempServing proteinValue]/tempServing.metricServingAmountValue)];
+        foodTrackerItem.fatsPerServing = [NSNumber numberWithFloat:([tempServing fatValue]/tempServing.metricServingAmountValue)];
+        foodTrackerItem.carbsPerServing = [NSNumber numberWithFloat:([tempServing carbohydrateValue]/tempServing.metricServingAmountValue)];
+        foodTrackerItem.name = myFood.name;
+        foodTrackerItem.identifier = [NSNumber numberWithLong:myFood.identifier];
+        foodTrackerItem.date = trackerDate;
+        
+        [coreDataStack saveContext];
+    }
     
     NSArray *array = [self.navigationController viewControllers];
     [self.navigationController popToViewController:[array objectAtIndex:1] animated:YES];

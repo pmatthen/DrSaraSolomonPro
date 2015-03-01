@@ -39,11 +39,12 @@
 @property CoreDataStack *coreDataStack;
 @property NSArray *recordedMacroCalculatorDetails;
 @property NSArray *recordedWeights;
+@property BOOL isADF;
 
 @end
 
 @implementation DailyTrackerViewController
-@synthesize addFoodButton, rightArrowImageView, dateLabel, dateInterval, foodTrackerItems, dataSource, selectedDate, caloriesConsumed, proteinsConsumed, fatsConsumed, carbsConsumed, caloriesConsumedLabel, proteinsConsumedLabel, fatsConsumedLabel, carbsConsumedLabel, caloriesAllowedLabel, proteinsAllowedLabel, fatsAllowedLabel, carbsAllowedLabel, myScrollView, user, coreDataStack, recordedMacroCalculatorDetails, calculateMacrosButton, recordedWeights;
+@synthesize addFoodButton, rightArrowImageView, dateLabel, dateInterval, foodTrackerItems, dataSource, selectedDate, caloriesConsumed, proteinsConsumed, fatsConsumed, carbsConsumed, caloriesConsumedLabel, proteinsConsumedLabel, fatsConsumedLabel, carbsConsumedLabel, caloriesAllowedLabel, proteinsAllowedLabel, fatsAllowedLabel, carbsAllowedLabel, myScrollView, user, coreDataStack, recordedMacroCalculatorDetails, calculateMacrosButton, recordedWeights, isADF;
 
 - (void)viewDidLoad
 {
@@ -52,6 +53,7 @@
     [self fetchUser];
     
     selectedDate = [NSDate date];
+    isADF = FALSE;
     
     rightArrowImageView.layer.affineTransform = CGAffineTransformMakeRotation(M_PI);
     dateInterval = 0;
@@ -66,28 +68,28 @@
     UILabel *calorieLabel = [[UILabel alloc] init];
     calorieLabel.font = [UIFont fontWithName:@"Oswald" size:14];
     calorieLabel.textColor = [UIColor whiteColor];
-    calorieLabel.text = @"CALORIES";
+    calorieLabel.text = @"PROTEIN (g)";
     [calorieLabel sizeToFit];
     calorieLabel.frame = CGRectMake(10, 185, calorieLabel.frame.size.width, calorieLabel.frame.size.height);
     
     UILabel *proteinLabel = [[UILabel alloc] init];
     proteinLabel.font = [UIFont fontWithName:@"Oswald" size:14];
     proteinLabel.textColor = [UIColor whiteColor];
-    proteinLabel.text = @"PROTEIN";
+    proteinLabel.text = @"FAT (g)";
     [proteinLabel sizeToFit];
     proteinLabel.frame = CGRectMake(90, 185, proteinLabel.frame.size.width, proteinLabel.frame.size.height);
 
     UILabel *fatLabel = [[UILabel alloc] init];
     fatLabel.font = [UIFont fontWithName:@"Oswald" size:14];
     fatLabel.textColor = [UIColor whiteColor];
-    fatLabel.text = @"FAT";
+    fatLabel.text = @"CARBS (g)";
     [fatLabel sizeToFit];
     fatLabel.frame = CGRectMake(170, 185, fatLabel.frame.size.width, fatLabel.frame.size.height);
     
     UILabel *carbsLabel = [[UILabel alloc] init];
     carbsLabel.font = [UIFont fontWithName:@"Oswald" size:14];
     carbsLabel.textColor = [UIColor whiteColor];
-    carbsLabel.text = @"CARBS";
+    carbsLabel.text = @"CALORIES";
     [carbsLabel sizeToFit];
     carbsLabel.frame = CGRectMake(250, 185, carbsLabel.frame.size.width, carbsLabel.frame.size.height);
     
@@ -206,6 +208,7 @@
     fatsConsumedLabel.hidden = NO;
     carbsConsumedLabel.hidden = NO;
     
+    isADF = FALSE;
     [self calculateMacros];
     
     caloriesAllowedLabel.hidden = NO;
@@ -258,20 +261,6 @@
 }
 
 - (void) calculateMacros {
-    [self fillRecordedWeightsArray];
-    
-    NSMutableArray *initialRecordedWeightsMutableArray = [[NSMutableArray alloc] initWithArray:recordedWeights];
-    
-    RecordedWeight *latestRecordedWeight = [[RecordedWeight alloc] initWithEntity:[NSEntityDescription entityForName:@"RecordedWeight" inManagedObjectContext:coreDataStack.managedObjectContext] insertIntoManagedObjectContext:coreDataStack.managedObjectContext];
-    [latestRecordedWeight setDate:user.dateCreated];
-    [latestRecordedWeight setWeight:user.initialWeight];
-    
-    for (RecordedWeight *tempRecordedWeight in initialRecordedWeightsMutableArray) {
-        if ([latestRecordedWeight.date compare:tempRecordedWeight.date] == NSOrderedAscending) {
-            latestRecordedWeight = tempRecordedWeight;
-        }
-    }
-    
     [self fillMacroCalculatorDetailsArray];
     
     MacroCalculatorDetails *latestMacrosCalculatorDetails = [[MacroCalculatorDetails alloc] initWithEntity:[NSEntityDescription entityForName:@"MacroCalculatorDetails" inManagedObjectContext:coreDataStack.managedObjectContext] insertIntoManagedObjectContext:coreDataStack.managedObjectContext];
@@ -296,7 +285,7 @@
         }
     }
     
-    float maintenanceLevelCalories = [self maintenanceLevelCalories:[latestRecordedWeight.weight intValue] heightInInches:[user.height intValue] age:[user.age intValue] gender:[user.gender intValue] neat:[latestMacrosCalculatorDetails.activityLevel intValue]];
+    float maintenanceLevelCalories = [self maintenanceLevelCalories:[latestMacrosCalculatorDetails.latestWeight intValue] heightInInches:[user.height intValue] age:[user.age intValue] gender:[user.gender intValue] neat:[latestMacrosCalculatorDetails.activityLevel intValue]];
     
     float resultsFactor = 0.0;
     switch ([latestMacrosCalculatorDetails.results intValue]) {
@@ -305,24 +294,31 @@
             break;
         case 1:
             resultsFactor = 0.2;
+            isADF = TRUE;
             break;
         case 2:
             resultsFactor = 0.25;
+            isADF = TRUE;
             break;
         case 3:
             resultsFactor = 0.3;
+            isADF = TRUE;
             break;
         case 4:
             resultsFactor = 0.35;
+            isADF = TRUE;
             break;
         case 5:
             resultsFactor = 0.4;
+            isADF = TRUE;
             break;
         case 6:
             resultsFactor = 0.45;
+            isADF = TRUE;
             break;
         case 7:
             resultsFactor = 0.5;
+            isADF = TRUE;
             break;
         case 8:
             resultsFactor = 0.9;
@@ -385,16 +381,19 @@
     
     caloriesAllowedLabel.text = [NSString stringWithFormat:@"%.0f", caloriesAllowed];
     [caloriesAllowedLabel sizeToFit];
-    caloriesAllowedLabel.frame = CGRectMake(10, 135, caloriesAllowedLabel.frame.size.width, caloriesAllowedLabel.frame.size.height);
+    caloriesAllowedLabel.frame = CGRectMake(250, 135, caloriesAllowedLabel.frame.size.width, caloriesAllowedLabel.frame.size.height);
     [self.view addSubview:caloriesAllowedLabel];
     
-    float proteinsAllowed = [latestRecordedWeight.weight floatValue] * proteinFactor;
+    float proteinsAllowed = [latestMacrosCalculatorDetails.latestWeight floatValue] * proteinFactor;
     
     [proteinsAllowedLabel removeFromSuperview];
     
     proteinsAllowedLabel.text = [NSString stringWithFormat:@"%.0f", proteinsAllowed];
+    if (isADF) {
+        proteinsAllowedLabel.text = @"-";
+    }
     [proteinsAllowedLabel sizeToFit];
-    proteinsAllowedLabel.frame = CGRectMake(90, 135, proteinsAllowedLabel.frame.size.width, proteinsAllowedLabel.frame.size.height);
+    proteinsAllowedLabel.frame = CGRectMake(10, 135, proteinsAllowedLabel.frame.size.width, proteinsAllowedLabel.frame.size.height);
     [self.view addSubview:proteinsAllowedLabel];
     
     float fatsAllowed = (caloriesAllowed * fatsFactor)/9;
@@ -402,27 +401,22 @@
     [fatsAllowedLabel removeFromSuperview];
     
     fatsAllowedLabel.text = [NSString stringWithFormat:@"%.0f", fatsAllowed];
+    if (isADF) {
+        fatsAllowedLabel.text = @"-";
+    }
     [fatsAllowedLabel sizeToFit];
-    fatsAllowedLabel.frame = CGRectMake(170, 135, fatsAllowedLabel.frame.size.width, fatsAllowedLabel.frame.size.height);
+    fatsAllowedLabel.frame = CGRectMake(90, 135, fatsAllowedLabel.frame.size.width, fatsAllowedLabel.frame.size.height);
     [self.view addSubview:fatsAllowedLabel];
     
     float carbsAllowed = (caloriesAllowed - (proteinsAllowed * 4) - (caloriesAllowed * fatsFactor))/4;
     
     carbsAllowedLabel.text = [NSString stringWithFormat:@"%.0f", carbsAllowed];
+    if (isADF) {
+        carbsAllowedLabel.text = @"-";
+    }
     [carbsAllowedLabel sizeToFit];
-    carbsAllowedLabel.frame = CGRectMake(250, 135, carbsAllowedLabel.frame.size.width, carbsAllowedLabel.frame.size.height);
+    carbsAllowedLabel.frame = CGRectMake(170, 135, carbsAllowedLabel.frame.size.width, carbsAllowedLabel.frame.size.height);
     [self.view addSubview:carbsAllowedLabel];
-}
-
-- (void) fillRecordedWeightsArray {
-    recordedWeights = [coreDataStack.managedObjectContext executeFetchRequest:[self recordedWeightsRequest] error:nil];
-}
-
-- (NSFetchRequest *)recordedWeightsRequest {
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"RecordedWeight"];
-    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO]];
-    
-    return fetchRequest;
 }
 
 - (float)maintenanceLevelCalories:(int)weight heightInInches:(int)height age:(int)age gender:(int)gender neat:(int)neat {
@@ -474,6 +468,7 @@
     if (gender == 0) {
         return (655 + (4.35 * weight) + (4.7 * height) - (4.7 * age)) * neatValue;
     } else {
+        NSLog(@"maintenance level calories = %.0f", ((66 + (6.23 * weight) + (12.7 * height) - (6.8 * age)) * neatValue));
         return (66 + (6.23 * weight) + (12.7 * height) - (6.8 * age)) * neatValue;
     }
 }
@@ -540,7 +535,7 @@
     
     caloriesConsumedLabel.text = [NSString stringWithFormat:@"%.0f", caloriesConsumed];
     [caloriesConsumedLabel sizeToFit];
-    caloriesConsumedLabel.frame = CGRectMake(10, 100, caloriesConsumedLabel.frame.size.width, caloriesConsumedLabel.frame.size.height);
+    caloriesConsumedLabel.frame = CGRectMake(250, 100, caloriesConsumedLabel.frame.size.width, caloriesConsumedLabel.frame.size.height);
     [self.view addSubview:caloriesConsumedLabel];
 }
 
@@ -562,7 +557,7 @@
     
     proteinsConsumedLabel.text = [NSString stringWithFormat:@"%.0f", proteinsConsumed];
     [proteinsConsumedLabel sizeToFit];
-    proteinsConsumedLabel.frame = CGRectMake(90, 100, proteinsConsumedLabel.frame.size.width, proteinsConsumedLabel.frame.size.height);
+    proteinsConsumedLabel.frame = CGRectMake(10, 100, proteinsConsumedLabel.frame.size.width, proteinsConsumedLabel.frame.size.height);
     [self.view addSubview:proteinsConsumedLabel];
 }
 
@@ -584,7 +579,7 @@
     
     fatsConsumedLabel.text = [NSString stringWithFormat:@"%.0f", fatsConsumed];
     [fatsConsumedLabel sizeToFit];
-    fatsConsumedLabel.frame = CGRectMake(170, 100, fatsConsumedLabel.frame.size.width, fatsConsumedLabel.frame.size.height);
+    fatsConsumedLabel.frame = CGRectMake(90, 100, fatsConsumedLabel.frame.size.width, fatsConsumedLabel.frame.size.height);
     [self.view addSubview:fatsConsumedLabel];
 }
 
@@ -606,7 +601,7 @@
     
     carbsConsumedLabel.text = [NSString stringWithFormat:@"%.0f", carbsConsumed];
     [carbsConsumedLabel sizeToFit];
-    carbsConsumedLabel.frame = CGRectMake(250, 100, carbsConsumedLabel.frame.size.width, carbsConsumedLabel.frame.size.height);
+    carbsConsumedLabel.frame = CGRectMake(170, 100, carbsConsumedLabel.frame.size.width, carbsConsumedLabel.frame.size.height);
     [self.view addSubview:carbsConsumedLabel];
 }
 
@@ -688,48 +683,51 @@
             UIImageView *dividerImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 11)];
             [dividerImageView setImage:[UIImage imageNamed:@"divider@2x.png"]];
             
-            UILabel *numberOfServingsLabel = [[UILabel alloc] initWithFrame:CGRectMake(28, 12, 30, 38)];
+            UILabel *numberOfServingsLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 12, 30, 38)];
             numberOfServingsLabel.font = [UIFont fontWithName:@"Oswald-Light" size:18];
             numberOfServingsLabel.textColor = [UIColor whiteColor];
+            numberOfServingsLabel.textAlignment = NSTextAlignmentCenter;
             numberOfServingsLabel.text = [NSString stringWithFormat:@"%@", foodTrackerItem.numberOfServings];
             
-            UILabel *xLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, 12, 8, 38)];
-            xLabel.font = [UIFont fontWithName:@"Oswald-Light" size:18];
-            xLabel.textColor = [UIColor whiteColor];
-            xLabel.text = @"x";
+            UILabel *servingUnitLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 36, 35, 20)];
+            servingUnitLabel.font = [UIFont fontWithName:@"Oswald-Light" size:12];
+            servingUnitLabel.textColor = [UIColor whiteColor];
+            servingUnitLabel.textAlignment = NSTextAlignmentCenter;
+            servingUnitLabel.text = [NSString stringWithFormat:@"%@", foodTrackerItem.servingUnit];
             
-            UILabel *foodTrackerItemDetailLabel = [[UILabel alloc] initWithFrame:CGRectMake(75, 12, 235, 38)];
+            UILabel *foodTrackerItemDetailLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, 12, 220, 38)];
+            [foodTrackerItemDetailLabel setAdjustsFontSizeToFitWidth:YES];
+            foodTrackerItemDetailLabel.textAlignment = NSTextAlignmentCenter;
             foodTrackerItemDetailLabel.font = [UIFont fontWithName:@"Oswald-Light" size:18];
             foodTrackerItemDetailLabel.textColor = [UIColor whiteColor];
-            foodTrackerItemDetailLabel.text = [NSString stringWithFormat:@"%@",foodTrackerItem.name];
-            NSLog(@"Name = %@", foodTrackerItem.name);
+            foodTrackerItemDetailLabel.text = [NSString stringWithFormat:@"%@",[foodTrackerItem.name lowercaseString]];
             
-            UILabel *calorieLabel = [[UILabel alloc] initWithFrame:CGRectMake(272, 12, 48, 38)];
+            UILabel *calorieLabel = [[UILabel alloc] initWithFrame:CGRectMake(272, 17, 48, 38)];
             calorieLabel.font = [UIFont fontWithName:@"Oswald" size:18];
             calorieLabel.textColor = [UIColor whiteColor];
-            calorieLabel.text = [NSString stringWithFormat:@"%.1f", ([foodTrackerItem.caloriesPerServing floatValue] * [foodTrackerItem.numberOfServings intValue])];
+            calorieLabel.text = [NSString stringWithFormat:@"%.0f", ([foodTrackerItem.caloriesPerServing floatValue] * [foodTrackerItem.numberOfServings intValue])];
             [calorieLabel sizeToFit];
             
             UILabel *proteinLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 42, 70, 10)];
             proteinLabel.font = [UIFont fontWithName:@"Oswald" size:10];
             proteinLabel.textColor = [UIColor whiteColor];
-            proteinLabel.text = [NSString stringWithFormat:@"P:%.1f", ([foodTrackerItem.proteinsPerServing floatValue] * [foodTrackerItem.numberOfServings intValue])];
+            proteinLabel.text = [NSString stringWithFormat:@"P:%.0f", ([foodTrackerItem.proteinsPerServing floatValue] * [foodTrackerItem.numberOfServings intValue])];
             
             UILabel *fatLabel = [[UILabel alloc] initWithFrame:CGRectMake(160, 42, 70, 10)];
             fatLabel.font = [UIFont fontWithName:@"Oswald" size:10];
             fatLabel.textColor = [UIColor whiteColor];
-            fatLabel.text = [NSString stringWithFormat:@"F:%.1f", ([foodTrackerItem.fatsPerServing floatValue] * [foodTrackerItem.numberOfServings intValue])];
+            fatLabel.text = [NSString stringWithFormat:@"F:%.0f", ([foodTrackerItem.fatsPerServing floatValue] * [foodTrackerItem.numberOfServings intValue])];
             
             UILabel *carbsLabel = [[UILabel alloc] initWithFrame:CGRectMake(240, 42, 70, 10)];
             carbsLabel.font = [UIFont fontWithName:@"Oswald" size:10];
             carbsLabel.textColor = [UIColor whiteColor];
-            carbsLabel.text = [NSString stringWithFormat:@"C:%.1f", ([foodTrackerItem.carbsPerServing floatValue] * [foodTrackerItem.numberOfServings intValue])];
+            carbsLabel.text = [NSString stringWithFormat:@"C:%.0f", ([foodTrackerItem.carbsPerServing floatValue] * [foodTrackerItem.numberOfServings intValue])];
             
             UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(0, heightOfScrollView - 50, 320, 50)];
             
             [containerView addSubview:dividerImageView];
             [containerView addSubview:numberOfServingsLabel];
-            [containerView addSubview:xLabel];
+            [containerView addSubview:servingUnitLabel];
             [containerView addSubview:foodTrackerItemDetailLabel];
             [containerView addSubview:calorieLabel];
             [containerView addSubview:proteinLabel];

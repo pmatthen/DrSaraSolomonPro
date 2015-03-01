@@ -151,35 +151,35 @@
             calorieLabel.textColor = [UIColor whiteColor];
             calorieLabel.text = @"CALORIES";
             [calorieLabel sizeToFit];
-            [calorieLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) - (calorieLabel.frame.size.width))/2, 20, calorieLabel.frame.size.width, calorieLabel.frame.size.height)];
+            [calorieLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) - (calorieLabel.frame.size.width))/2 - 19, 20, calorieLabel.frame.size.width, calorieLabel.frame.size.height)];
             
             UILabel *totalFatLabel = [[UILabel alloc] init];
             totalFatLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
             totalFatLabel.textColor = [UIColor whiteColor];
             totalFatLabel.text = @"TOTAL FAT";
             [totalFatLabel sizeToFit];
-            [totalFatLabel setFrame:CGRectMake((nutritionView.frame.size.width/3) + 10, 20, totalFatLabel.frame.size.width, totalFatLabel.frame.size.height)];
+            [totalFatLabel setFrame:CGRectMake((nutritionView.frame.size.width/3) + 10 - 19, 20, totalFatLabel.frame.size.width, totalFatLabel.frame.size.height)];
             
             UILabel *satFatLabel = [[UILabel alloc] init];
             satFatLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
             satFatLabel.textColor = [UIColor grayColor];
             satFatLabel.text = @"SAT FAT";
             [satFatLabel sizeToFit];
-            [satFatLabel setFrame:CGRectMake((nutritionView.frame.size.width/3) + 20, totalFatLabel.frame.origin.y + totalFatLabel.frame.size.height + 5, satFatLabel.frame.size.width, satFatLabel.frame.size.height)];
+            [satFatLabel setFrame:CGRectMake((nutritionView.frame.size.width/3) + 20 - 19, totalFatLabel.frame.origin.y + totalFatLabel.frame.size.height + 5, satFatLabel.frame.size.width, satFatLabel.frame.size.height)];
             
             UILabel *cholesterolLabel = [[UILabel alloc] init];
             cholesterolLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
             cholesterolLabel.textColor = [UIColor whiteColor];
             cholesterolLabel.text = @"CHOLEST";
             [cholesterolLabel sizeToFit];
-            [cholesterolLabel setFrame:CGRectMake((nutritionView.frame.size.width/3) + 10, satFatLabel.frame.origin.y + satFatLabel.frame.size.height + 5, cholesterolLabel.frame.size.width, cholesterolLabel.frame.size.height)];
+            [cholesterolLabel setFrame:CGRectMake((nutritionView.frame.size.width/3) + 10 - 19, satFatLabel.frame.origin.y + satFatLabel.frame.size.height + 5, cholesterolLabel.frame.size.width, cholesterolLabel.frame.size.height)];
             
             UILabel *sodiumLabel = [[UILabel alloc] init];
             sodiumLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
             sodiumLabel.textColor = [UIColor whiteColor];
             sodiumLabel.text = @"SODIUM";
             [sodiumLabel sizeToFit];
-            [sodiumLabel setFrame:CGRectMake((nutritionView.frame.size.width/3) + 10, cholesterolLabel.frame.origin.y + cholesterolLabel.frame.size.height + 5, sodiumLabel.frame.size.width, sodiumLabel.frame.size.height)];
+            [sodiumLabel setFrame:CGRectMake((nutritionView.frame.size.width/3) + 10 - 19, cholesterolLabel.frame.origin.y + cholesterolLabel.frame.size.height + 5, sodiumLabel.frame.size.width, sodiumLabel.frame.size.height)];
             
             UILabel *carbsLabel = [[UILabel alloc] init];
             carbsLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
@@ -198,7 +198,7 @@
             UILabel *sugarsLabel = [[UILabel alloc] init];
             sugarsLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
             sugarsLabel.textColor = [UIColor grayColor];
-            sugarsLabel.text = @"SUGARS";
+            sugarsLabel.text = @"SUGAR";
             [sugarsLabel sizeToFit];
             [sugarsLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) + 20, fiberLabel.frame.origin.y + fiberLabel.frame.size.height + 5, sugarsLabel.frame.size.width, sugarsLabel.frame.size.height)];
             
@@ -209,7 +209,7 @@
             [proteinLabel sizeToFit];
             [proteinLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) + 10, sugarsLabel.frame.origin.y + sugarsLabel.frame.size.height + 5, proteinLabel.frame.size.width, proteinLabel.frame.size.height)];
             
-            UIView *lineSeparatorView1 = [[UIView alloc] initWithFrame:CGRectMake(nutritionView.frame.size.width/3, 20, 1, sodiumLabel.frame.origin.y + sodiumLabel.frame.size.height - 20)];
+            UIView *lineSeparatorView1 = [[UIView alloc] initWithFrame:CGRectMake(nutritionView.frame.size.width/3 - 19, 20, 1, sodiumLabel.frame.origin.y + sodiumLabel.frame.size.height - 20)];
             [lineSeparatorView1 setBackgroundColor:[UIColor whiteColor]];
             
             UIView *lineSeparatorView2 = [[UIView alloc] initWithFrame:CGRectMake((nutritionView.frame.size.width/3) * 2, 20, 1, sodiumLabel.frame.origin.y + sodiumLabel.frame.size.height - 20)];
@@ -292,83 +292,83 @@
                     calorieValueLabel = [[UILabel alloc] init];
                     calorieValueLabel.font = [UIFont fontWithName:@"Oswald-Light" size:25];
                     calorieValueLabel.textColor = [UIColor whiteColor];
-                    calorieValueLabel.text = [NSString stringWithFormat:@"%.1f", recipeServings.caloriesValue];
+                    calorieValueLabel.text = [NSString stringWithFormat:@"%.0f", recipeServings.caloriesValue];
                     [calorieValueLabel sizeToFit];
                     calorieValueLabel.textAlignment = NSTextAlignmentCenter;
-                    [calorieValueLabel setFrame:CGRectMake(25, calorieLabel.frame.origin.y + calorieLabel.frame.size.height + 5, nutritionView.frame.size.width/3 - 10, lineSeparatorView1.frame.size.height - (calorieLabel.frame.origin.y + calorieLabel.frame.size.height))];
-                    [calorieValueLabel sizeToFit];
+                    [calorieValueLabel setFrame:CGRectMake(5 - 19, calorieLabel.frame.origin.y + calorieLabel.frame.size.height + 5, nutritionView.frame.size.width/3 - 10, lineSeparatorView1.frame.size.height - (calorieLabel.frame.origin.y + calorieLabel.frame.size.height))];
+                    [calorieValueLabel setAdjustsFontSizeToFitWidth:YES];
                     
                     totalFatValueLabel = [[UILabel alloc] init];
                     totalFatValueLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
                     totalFatValueLabel.textColor = [UIColor whiteColor];
-                    totalFatValueLabel.text = [NSString stringWithFormat:@"%.1f", recipeServings.fatValue];
+                    totalFatValueLabel.text = [NSString stringWithFormat:@"%.0fg", recipeServings.fatValue];
                     [totalFatValueLabel sizeToFit];
                     totalFatValueLabel.textAlignment = NSTextAlignmentCenter;
-                    [totalFatValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) - 32, 20, 25, totalFatLabel.frame.size.height)];
-                    [totalFatValueLabel sizeToFit];
+                    [totalFatValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) - 32 - 19, 20, 25 + 19, totalFatLabel.frame.size.height)];
+                    [totalFatValueLabel setAdjustsFontSizeToFitWidth:YES];
                     
                     satFatValueLabel = [[UILabel alloc] init];
                     satFatValueLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
                     satFatValueLabel.textColor = [UIColor whiteColor];
-                    satFatValueLabel.text = [NSString stringWithFormat:@"%.1f", recipeServings.saturatedFatValue];
+                    satFatValueLabel.text = [NSString stringWithFormat:@"%.0fg", recipeServings.saturatedFatValue];
                     [satFatValueLabel sizeToFit];
                     satFatValueLabel.textAlignment = NSTextAlignmentCenter;
-                    [satFatValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) - 32, satFatLabel.frame.origin.y, 25, totalFatLabel.frame.size.height)];
-                    [satFatValueLabel sizeToFit];
+                    [satFatValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) - 32 - 19, satFatLabel.frame.origin.y, 25 + 19, totalFatLabel.frame.size.height)];
+                    [satFatValueLabel setAdjustsFontSizeToFitWidth:YES];
                     
                     cholesterolValueLabel = [[UILabel alloc] init];
                     cholesterolValueLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
                     cholesterolValueLabel.textColor = [UIColor whiteColor];
-                    cholesterolValueLabel.text = [NSString stringWithFormat:@"%.1f", recipeServings.cholesterolValue];
+                    cholesterolValueLabel.text = [NSString stringWithFormat:@"%.0fmg", recipeServings.cholesterolValue];
                     [cholesterolValueLabel sizeToFit];
                     cholesterolValueLabel.textAlignment = NSTextAlignmentCenter;
-                    [cholesterolValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) - 32, cholesterolLabel.frame.origin.y, 25, cholesterolValueLabel.frame.size.height)];
-                    [cholesterolValueLabel sizeToFit];
+                    [cholesterolValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) - 32 - 19, cholesterolLabel.frame.origin.y, 25 + 19, cholesterolValueLabel.frame.size.height)];
+                    [cholesterolValueLabel setAdjustsFontSizeToFitWidth:YES];
                     
                     sodiumValueLabel = [[UILabel alloc] init];
                     sodiumValueLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
                     sodiumValueLabel.textColor = [UIColor whiteColor];
-                    sodiumValueLabel.text = [NSString stringWithFormat:@"%.1f", recipeServings.sodiumValue];
+                    sodiumValueLabel.text = [NSString stringWithFormat:@"%.0fmg", recipeServings.sodiumValue];
                     [sodiumValueLabel sizeToFit];
                     sodiumValueLabel.textAlignment = NSTextAlignmentCenter;
-                    [sodiumValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) - 32, sodiumLabel.frame.origin.y, 25, sodiumValueLabel.frame.size.height)];
-                    [sodiumValueLabel sizeToFit];
+                    [sodiumValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) - 32 - 19, sodiumLabel.frame.origin.y, 25 + 19, sodiumValueLabel.frame.size.height)];
+                    [sodiumValueLabel setAdjustsFontSizeToFitWidth:YES];
                     
                     carbsValueLabel = [[UILabel alloc] init];
                     carbsValueLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
                     carbsValueLabel.textColor = [UIColor whiteColor];
-                    carbsValueLabel.text = [NSString stringWithFormat:@"%.1f", recipeServings.carbohydrateValue];
+                    carbsValueLabel.text = [NSString stringWithFormat:@"%.0fg", recipeServings.carbohydrateValue];
                     [carbsValueLabel sizeToFit];
                     carbsValueLabel.textAlignment = NSTextAlignmentCenter;
-                    [carbsValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 3) - 27, 20, 25, carbsLabel.frame.size.height)];
-                    [carbsValueLabel sizeToFit];
+                    [carbsValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 3) - 27 - 5, 20, 25 + 19, carbsLabel.frame.size.height)];
+                    [carbsValueLabel setAdjustsFontSizeToFitWidth:YES];
                     
                     fiberValueLabel = [[UILabel alloc] init];
                     fiberValueLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
                     fiberValueLabel.textColor = [UIColor whiteColor];
-                    fiberValueLabel.text = [NSString stringWithFormat:@"%.1f", recipeServings.fiberValue];
+                    fiberValueLabel.text = [NSString stringWithFormat:@"%.0fg", recipeServings.fiberValue];
                     [fiberValueLabel sizeToFit];
                     fiberValueLabel.textAlignment = NSTextAlignmentCenter;
-                    [fiberValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 3) - 27, fiberLabel.frame.origin.y, 25, fiberValueLabel.frame.size.height)];
-                    [fiberValueLabel sizeToFit];
+                    [fiberValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 3) - 27 - 5, fiberLabel.frame.origin.y, 25 + 19, fiberValueLabel.frame.size.height)];
+                    [fiberValueLabel setAdjustsFontSizeToFitWidth:YES];
                     
                     sugarsValueLabel = [[UILabel alloc] init];
                     sugarsValueLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
                     sugarsValueLabel.textColor = [UIColor whiteColor];
-                    sugarsValueLabel.text = [NSString stringWithFormat:@"%.1f", recipeServings.sugarValue];
+                    sugarsValueLabel.text = [NSString stringWithFormat:@"%.0fg", recipeServings.sugarValue];
                     [sugarsValueLabel sizeToFit];
                     sugarsValueLabel.textAlignment = NSTextAlignmentCenter;
-                    [sugarsValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 3) - 27, sugarsLabel.frame.origin.y, 25, sugarsValueLabel.frame.size.height)];
-                    [sugarsValueLabel sizeToFit];
+                    [sugarsValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 3) - 27 - 5, sugarsLabel.frame.origin.y, 25 + 19, sugarsValueLabel.frame.size.height)];
+                    [sugarsValueLabel setAdjustsFontSizeToFitWidth:YES];
                     
                     proteinValueLabel = [[UILabel alloc] init];
                     proteinValueLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
                     proteinValueLabel.textColor = [UIColor whiteColor];
-                    proteinValueLabel.text = [NSString stringWithFormat:@"%.1f", recipeServings.proteinValue];
+                    proteinValueLabel.text = [NSString stringWithFormat:@"%.0fg", recipeServings.proteinValue];
                     [proteinValueLabel sizeToFit];
                     proteinValueLabel.textAlignment = NSTextAlignmentCenter;
-                    [proteinValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 3) - 27, proteinLabel.frame.origin.y, 25, proteinValueLabel.frame.size.height)];
-                    [proteinValueLabel sizeToFit];
+                    [proteinValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 3) - 27 - 5, proteinLabel.frame.origin.y, 25 + 19, proteinValueLabel.frame.size.height)];
+                    [proteinValueLabel setAdjustsFontSizeToFitWidth:YES];
                     
                     [nutritionView addSubview:calorieValueLabel];
                     [nutritionView addSubview:totalFatValueLabel];
@@ -379,66 +379,6 @@
                     [nutritionView addSubview:fiberValueLabel];
                     [nutritionView addSubview:sugarsValueLabel];
                     [nutritionView addSubview:proteinValueLabel];
-                    
-                    //                    UILabel *caloriesLabel = [[UILabel alloc] init];
-//                    caloriesLabel.font = [UIFont fontWithName:@"Oswald" size:30];
-//                    caloriesLabel.textColor = [UIColor whiteColor];
-//                    caloriesLabel.text = [NSString stringWithFormat:@"%.f", recipeServings.caloriesValue];
-//                    [caloriesLabel sizeToFit];
-//                    caloriesLabel.frame = CGRectMake(40 - (caloriesLabel.frame.size.width/2), 181, caloriesLabel.frame.size.width, caloriesLabel.frame.size.height);
-//                    
-//                    UILabel *proteinsLabel = [[UILabel alloc] init];
-//                    proteinsLabel.font = [UIFont fontWithName:@"Oswald" size:30];
-//                    proteinsLabel.textColor = [UIColor whiteColor];
-//                    proteinsLabel.text = [NSString stringWithFormat:@"%.f", recipeServings.proteinValue];
-//                    [proteinsLabel sizeToFit];
-//                    
-//                    UILabel *proteinsLabelLabel = [[UILabel alloc] init];
-//                    proteinsLabelLabel.font = [UIFont fontWithName:@"Oswald" size:14];
-//                    proteinsLabelLabel.textColor = [UIColor whiteColor];
-//                    proteinsLabelLabel.text = @" g";
-//                    [proteinsLabelLabel sizeToFit];
-//                    
-//                    proteinsLabel.frame = CGRectMake(120 - ((proteinsLabel.frame.size.width + proteinsLabelLabel.frame.size.width)/2), 181, proteinsLabel.frame.size.width, proteinsLabel.frame.size.height);
-//                    proteinsLabelLabel.frame = CGRectMake(proteinsLabel.frame.origin.x + proteinsLabel.frame.size.width, 200, proteinsLabelLabel.frame.size.width, proteinsLabelLabel.frame.size.height);
-//                    
-//                    UILabel *carbsLabel = [[UILabel alloc] init];
-//                    carbsLabel.font = [UIFont fontWithName:@"Oswald" size:30];
-//                    carbsLabel.textColor = [UIColor whiteColor];
-//                    carbsLabel.text = [NSString stringWithFormat:@"%.f", recipeServings.carbohydrateValue];
-//                    [carbsLabel sizeToFit];
-//                    
-//                    UILabel *carbsLabelLabel = [[UILabel alloc] init];
-//                    carbsLabelLabel.font = [UIFont fontWithName:@"Oswald" size:14];
-//                    carbsLabelLabel.textColor = [UIColor whiteColor];
-//                    carbsLabelLabel.text = @" g";
-//                    [carbsLabelLabel sizeToFit];
-//                    
-//                    carbsLabel.frame = CGRectMake(200 - ((carbsLabel.frame.size.width + carbsLabelLabel.frame.size.width)/2), 181, carbsLabel.frame.size.width, carbsLabel.frame.size.height);
-//                    carbsLabelLabel.frame = CGRectMake(carbsLabel.frame.origin.x + carbsLabel.frame.size.width, 200, carbsLabelLabel.frame.size.width, carbsLabelLabel.frame.size.height);
-//                    
-//                    UILabel *fatsLabel = [[UILabel alloc] init];
-//                    fatsLabel.font = [UIFont fontWithName:@"Oswald" size:30];
-//                    fatsLabel.textColor = [UIColor whiteColor];
-//                    fatsLabel.text = [NSString stringWithFormat:@"%.f", recipeServings.fatValue];
-//                    [fatsLabel sizeToFit];
-//                    
-//                    UILabel *fatsLabelLabel = [[UILabel alloc] init];
-//                    fatsLabelLabel.font = [UIFont fontWithName:@"Oswald" size:14];
-//                    fatsLabelLabel.textColor = [UIColor whiteColor];
-//                    fatsLabelLabel.text = @" g";
-//                    [fatsLabelLabel sizeToFit];
-//                    
-//                    fatsLabel.frame = CGRectMake(280 - ((fatsLabel.frame.size.width + fatsLabelLabel.frame.size.width)/2), 181, fatsLabel.frame.size.width, fatsLabel.frame.size.height);
-//                    fatsLabelLabel.frame = CGRectMake(fatsLabel.frame.origin.x + fatsLabel.frame.size.width, 200, fatsLabelLabel.frame.size.width, fatsLabelLabel.frame.size.height);
-                    
-//                    [cell.contentView addSubview:caloriesLabel];
-//                    [cell.contentView addSubview:proteinsLabel];
-//                    [cell.contentView addSubview:proteinsLabelLabel];
-//                    [cell.contentView addSubview:carbsLabel];
-//                    [cell.contentView addSubview:carbsLabelLabel];
-//                    [cell.contentView addSubview:fatsLabel];
-//                    [cell.contentView addSubview:fatsLabelLabel];
                 }
             }];
             

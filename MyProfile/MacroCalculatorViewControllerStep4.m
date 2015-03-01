@@ -9,21 +9,27 @@
 #import "MacroCalculatorViewControllerStep4.h"
 #import "MacroCalculatorDetails.h"
 #import "CoreDataStack.h"
+#import "User.h"
+#import "RecordedWeight.h"
+#import "Parse/Parse.h"
 
 @interface MacroCalculatorViewControllerStep4 ()
 
 @property NSArray *fatsArray;
 @property CoreDataStack *coreDataStack;
+@property NSArray *recordedWeights;
+@property User *user;
 
 @end
 
 @implementation MacroCalculatorViewControllerStep4
-@synthesize myPickerView, fatsArray, neat, bodyfatPercentage, results, proteinCalculations, coreDataStack, date;
+@synthesize myPickerView, fatsArray, neat, bodyfatPercentage, results, proteinCalculations, coreDataStack, date, recordedWeights, user;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];    
     coreDataStack = [CoreDataStack defaultStack];
+    [self fetchUser];
 
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 9, 100, 40)];
     titleLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
@@ -90,13 +96,51 @@
     return label;
 }
 
+- (void) fillRecordedWeightsArray {
+    recordedWeights = [coreDataStack.managedObjectContext executeFetchRequest:[self recordedWeightsRequest] error:nil];
+}
+
+- (NSFetchRequest *)recordedWeightsRequest {
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"RecordedWeight"];
+    fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO]];
+    
+    return fetchRequest;
+}
+
+- (void) fetchUser {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSPredicate *userNamePredicate = [NSPredicate predicateWithFormat:@"(objectId == %@)", [[PFUser currentUser] objectId]];
+    [fetchRequest setPredicate:userNamePredicate];
+    NSEntityDescription *userEntityDescription = [NSEntityDescription entityForName:@"User" inManagedObjectContext:coreDataStack.managedObjectContext];
+    [fetchRequest setEntity:userEntityDescription];
+    NSError *error;
+    NSArray *fetchRequestArray = [coreDataStack.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    
+    user = [fetchRequestArray firstObject];
+}
+
 - (IBAction)calculateMacroButtonTouched:(id)sender {
+    [self fillRecordedWeightsArray];
+    
+    NSMutableArray *initialRecordedWeightsMutableArray = [[NSMutableArray alloc] initWithArray:recordedWeights];
+    
+    RecordedWeight *latestRecordedWeight = [[RecordedWeight alloc] initWithEntity:[NSEntityDescription entityForName:@"RecordedWeight" inManagedObjectContext:coreDataStack.managedObjectContext] insertIntoManagedObjectContext:coreDataStack.managedObjectContext];
+    [latestRecordedWeight setDate:user.dateCreated];
+    [latestRecordedWeight setWeight:user.initialWeight];
+    
+    for (RecordedWeight *tempRecordedWeight in initialRecordedWeightsMutableArray) {
+        if ([latestRecordedWeight.date compare:tempRecordedWeight.date] == NSOrderedAscending) {
+            latestRecordedWeight = tempRecordedWeight;
+        }
+    }
+    
     MacroCalculatorDetails *details = [NSEntityDescription insertNewObjectForEntityForName:@"MacroCalculatorDetails" inManagedObjectContext:coreDataStack.managedObjectContext];
     details.activityLevel = [NSNumber numberWithInt:neat];
     details.bodyfat = [NSNumber numberWithInt:bodyfatPercentage];
     details.results = [NSNumber numberWithInt:results];
     details.proteinCalculation = [NSNumber numberWithFloat:proteinCalculations];
     details.fats = [NSNumber numberWithInt:(int) [myPickerView selectedRowInComponent:0]];
+    details.latestWeight = latestRecordedWeight.weight;
     details.date = date;
     
     [coreDataStack saveContext];

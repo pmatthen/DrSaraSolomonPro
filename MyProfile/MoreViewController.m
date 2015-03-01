@@ -23,7 +23,7 @@
 {
     [super viewDidLoad];
     
-    categoryArray = @[@"WORKOUTS", @"SHOP", @"ABOUT", @"NEWSLETTER", @"PRIVACY POLICY", @"TERMS OF SERVICE"];
+    categoryArray = @[@"WORKOUTS", @"SHOP", @"ABOUT", @"PRIVACY POLICY", @"TERMS OF SERVICE"];
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 9, 100, 40)];
     titleLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
@@ -82,12 +82,9 @@
         [self performSegueWithIdentifier:@"AboutSegue" sender:self];
     }
     if (indexPath.row == 3) {
-        [self performSegueWithIdentifier:@"NewsletterSegue" sender:self];
-    }
-    if (indexPath.row == 4) {
         [self performSegueWithIdentifier:@"PrivacySegue" sender:self];
     }
-    if (indexPath.row == 5) {
+    if (indexPath.row == 4) {
         [self performSegueWithIdentifier:@"TermsSegue" sender:self];
     }
 }

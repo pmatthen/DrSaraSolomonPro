@@ -139,7 +139,7 @@
 - (IBAction)loginButtonTouched:(id)sender {
     [usernameTextField resignFirstResponder];
     [passwordTextField resignFirstResponder];
-    [PFUser logInWithUsernameInBackground:usernameTextField.text password:passwordTextField.text block:^(PFUser *user, NSError *error) {
+    [PFUser logInWithUsernameInBackground:[usernameTextField.text lowercaseString] password:passwordTextField.text block:^(PFUser *user, NSError *error) {
         if (user) {
             UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
             MenuViewController *myMenuViewController = [MenuViewController new];

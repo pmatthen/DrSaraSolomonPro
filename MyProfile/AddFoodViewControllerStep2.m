@@ -29,11 +29,12 @@
 @property (nonatomic, strong) FSRecipe *recipeToSend;
 @property (nonatomic, strong) FSFood *foodToSend;
 @property (nonatomic, strong) PFObject *saraRecipeToSend;
+@property (nonatomic, strong) NSIndexPath *textFieldIndexPath;
 
 @end
 
 @implementation AddFoodViewControllerStep2
-@synthesize searchTextField, searchText, myTableView, mySegmentedControl, resultsArray, query, isSelectedArray, numberOfServingsArray, recipeToSend, foodToSend, saraRecipeToSend, trackerDate;
+@synthesize searchTextField, searchText, myTableView, mySegmentedControl, resultsArray, query, isSelectedArray, numberOfServingsArray, recipeToSend, foodToSend, saraRecipeToSend, trackerDate, textFieldIndexPath;
 
 - (void)viewDidLoad
 {
@@ -50,6 +51,10 @@
                 NSLog(@"metric_serving_unit = %@", tempServing.metricServingUnit);
                 NSLog(@"number_of_units = %f", tempServing.numberOfUnitsValue);
                 NSLog(@"meausurement_description = %@", tempServing.measurementDescription);
+                NSLog(@"calories = %.1f", tempServing.caloriesValue);
+                NSLog(@"carbs = %.1f", tempServing.carbohydrateValue);
+                NSLog(@"fats = %.1f", tempServing.fatValue);
+                NSLog(@"protein = %.1f", tempServing.proteinValue);
                 NSLog(@"*************************");
             }
         }];
@@ -67,12 +72,16 @@
     searchTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"SEARCH" attributes:@{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:@"Oswald" size:23]}];
 
     searchTextField.text = searchText;
+    [mySegmentedControl setSelectedSegmentIndex:2];
+    [self searchButtonTouched:self];
+    
     query = [PFQuery queryWithClassName:@"Recipe"];
     [query whereKey:@"name" hasPrefix:[searchTextField.text lowercaseString]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error && self.mySegmentedControl.selectedSegmentIndex == 0) {
             resultsArray = objects;
             [self deselectAllCells];
+            [self ifNoResultsAlertUser];
             [myTableView reloadData];
         }
         if (error) {
@@ -104,6 +113,30 @@
     }
     
     return YES;
+}
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField {
+    if (textField.tag != 0) {
+        textFieldIndexPath = [NSIndexPath indexPathForRow:(textField.tag - 1) inSection:0];
+    }
+    textField.text = @"";
+}
+
+-(void)textFieldDidEndEditing:(UITextField *)textField {
+    [textField resignFirstResponder];
+}
+
+-(void)cancelNumberPad {
+    AddFoodStep2TableViewCell *cell = (AddFoodStep2TableViewCell *)[(UITableView *)myTableView cellForRowAtIndexPath:textFieldIndexPath];
+    [cell.servingsTextField resignFirstResponder];
+    cell.servingsTextField.text = @"1";
+    numberOfServingsArray[cell.servingsTextField.tag - 1] = [NSNumber numberWithInt:1];
+}
+
+-(void)doneWithNumberPad {
+    AddFoodStep2TableViewCell *cell = (AddFoodStep2TableViewCell *)[(UITableView *)myTableView cellForRowAtIndexPath:textFieldIndexPath];
+    numberOfServingsArray[cell.servingsTextField.tag - 1] = [NSNumber numberWithInt:[cell.servingsTextField.text intValue]];
+    [cell.servingsTextField resignFirstResponder];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -152,11 +185,23 @@
     servingsLabel.font = [UIFont fontWithName:@"Oswald-Light" size:14];
     [servingsLabel sizeToFit];
     
+    UIToolbar* numberToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, 320, 50)];
+    numberToolbar.barStyle = UIBarStyleBlackTranslucent;
+    numberToolbar.items = [NSArray arrayWithObjects:
+                           [[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelNumberPad)],
+                           [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+                           [[UIBarButtonItem alloc]initWithTitle:@"Apply" style:UIBarButtonItemStyleDone target:self action:@selector(doneWithNumberPad)],
+                           nil];
+    [numberToolbar sizeToFit];
+    
     cell.servingsTextField.text = [numberOfServingsArray[indexPath.row] description];
+    [cell.servingsTextField setReturnKeyType:UIReturnKeyDone];
+    cell.servingsTextField.delegate = self;
     cell.servingsTextField.textColor = [UIColor whiteColor];
     cell.servingsTextField.font = [UIFont fontWithName:@"Oswald-Light" size:14];
     [cell.servingsTextField sizeToFit];
     cell.servingsTextField.tag = indexPath.row + 1;
+    cell.servingsTextField.inputAccessoryView = numberToolbar;
     
     [cell.contentView addSubview:servingsLabel];
     
@@ -191,28 +236,35 @@
     for (int i = 0; i < [resultsArray count]; i++) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:0];
         if (isSelectedArray[indexPath.row] == [NSNumber numberWithBool:YES]) {
-            FoodTrackerItem *foodTrackerItem = [NSEntityDescription insertNewObjectForEntityForName:@"FoodTrackerItem" inManagedObjectContext:coreDataStack.managedObjectContext];
             
             if (mySegmentedControl.selectedSegmentIndex == 2) {
                 FSFood *tempFood = resultsArray[indexPath.row];
-                foodTrackerItem.numberOfServings = numberOfServingsArray[indexPath.row];
                 [[FSClient sharedClient] getFood:tempFood.identifier completion:^(FSFood *food) {
                     if ([food.servings count] > 0) {
                         FSServing *tempServing = food.servings[0];
-                        foodTrackerItem.servingSize = tempServing.servingDescription;
-                        foodTrackerItem.caloriesPerServing = [NSNumber numberWithFloat:[tempServing caloriesValue]];
-                        foodTrackerItem.proteinsPerServing = [NSNumber numberWithFloat:[tempServing proteinValue]];
-                        foodTrackerItem.fatsPerServing = [NSNumber numberWithFloat:[tempServing fatValue]];
-                        foodTrackerItem.carbsPerServing = [NSNumber numberWithFloat:[tempServing carbohydrateValue]];
-                    }
-                        foodTrackerItem.name = tempFood.name;
-                        foodTrackerItem.identifier = [NSNumber numberWithLong:tempFood.identifier];
-                        foodTrackerItem.date = trackerDate;
-                        [coreDataStack saveContext];
+                        if (tempServing.metricServingUnit == nil) {
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Item not added, database missing information" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+                            [alert show];
+                        } else {
+                            FoodTrackerItem *foodTrackerItem = [NSEntityDescription insertNewObjectForEntityForName:@"FoodTrackerItem" inManagedObjectContext:coreDataStack.managedObjectContext];
+                            foodTrackerItem.servingUnit = tempServing.metricServingUnit;
+                            foodTrackerItem.caloriesPerServing = [NSNumber numberWithFloat:[tempServing caloriesValue]];
+                            foodTrackerItem.proteinsPerServing = [NSNumber numberWithFloat:[tempServing proteinValue]];
+                            foodTrackerItem.fatsPerServing = [NSNumber numberWithFloat:[tempServing fatValue]];
+                            foodTrackerItem.carbsPerServing = [NSNumber numberWithFloat:[tempServing carbohydrateValue]];
+                            foodTrackerItem.numberOfServings = [NSNumber numberWithFloat:(([numberOfServingsArray[indexPath.row] floatValue] * tempServing.metricServingAmountValue)/tempServing.numberOfUnitsValue)];
+                            NSLog(@"numberOfServingsArray[indexPath.row = %@", numberOfServingsArray[indexPath.row]);
+                            foodTrackerItem.name = tempFood.name;
+                            foodTrackerItem.identifier = [NSNumber numberWithLong:tempFood.identifier];
+                            foodTrackerItem.date = trackerDate;
+                            [coreDataStack saveContext];
+                        }
                         [self goToDailyTrackerViewController];
+                    }
                 }];
             } else if (mySegmentedControl.selectedSegmentIndex == 1) {
                 FSRecipe *tempRecipe = resultsArray[indexPath.row];
+                FoodTrackerItem *foodTrackerItem = [NSEntityDescription insertNewObjectForEntityForName:@"FoodTrackerItem" inManagedObjectContext:coreDataStack.managedObjectContext];
                 foodTrackerItem.numberOfServings = numberOfServingsArray[indexPath.row];
                 [[FSClient sharedClient] getRecipe:tempRecipe.identifier completion:^(FSRecipe *recipe) {
                     if ([recipe.servings count] > 0) {
@@ -224,7 +276,7 @@
                         foodTrackerItem.proteinsPerServing = [NSNumber numberWithFloat:[tempRecipeServings proteinValue]];
                         foodTrackerItem.fatsPerServing = [NSNumber numberWithFloat:[tempRecipeServings fatValue]];
                     }
-                    foodTrackerItem.servingSize = @"1";
+                    foodTrackerItem.servingUnit = @"serving";
                     foodTrackerItem.name = tempRecipe.name;
                     foodTrackerItem.identifier = [NSNumber numberWithLong:tempRecipe.identifier];
                     foodTrackerItem.date = trackerDate;
@@ -233,7 +285,8 @@
                 }];
             } else if (mySegmentedControl.selectedSegmentIndex == 0) {
                 PFObject *PFTempRecipe = resultsArray[indexPath.row];
-                foodTrackerItem.servingSize = @"1";
+                FoodTrackerItem *foodTrackerItem = [NSEntityDescription insertNewObjectForEntityForName:@"FoodTrackerItem" inManagedObjectContext:coreDataStack.managedObjectContext];
+                foodTrackerItem.servingUnit = @"serving";
                 foodTrackerItem.caloriesPerServing = PFTempRecipe[@"calories"];
                 foodTrackerItem.proteinsPerServing = PFTempRecipe[@"protein"];
                 foodTrackerItem.fatsPerServing = PFTempRecipe[@"fat"];
@@ -247,7 +300,6 @@
             }
         }
     }
-    [self deselectAllCells];
 }
 
 - (void) goToDailyTrackerViewController {
@@ -273,6 +325,7 @@
                 if (!error) {
                     resultsArray = objects;
                     [self deselectAllCells];
+                    [self ifNoResultsAlertUser];
                     [myTableView reloadData];
                 } else {
                     NSString *errorString = [error userInfo][@"error"];
@@ -285,6 +338,7 @@
             [[FSClient sharedClient] searchRecipes:searchTextField.text recipeType:@"" pageNumber:0 maxResults:20 completion:^(NSArray *recipes, NSString *recipeType, NSInteger maxResults, NSInteger totalResults, NSInteger pageNumber) {
                 resultsArray = recipes;
                 [self deselectAllCells];
+                [self ifNoResultsAlertUser];
                 [myTableView reloadData];
             }];
             break;}
@@ -292,6 +346,7 @@
             [[FSClient sharedClient] searchFoods:searchTextField.text completion:^(NSArray *foods, NSInteger maxResults, NSInteger totalResults, NSInteger pageNumber) {
                 resultsArray = foods;
                 [self deselectAllCells];
+                [self ifNoResultsAlertUser];
                 [myTableView reloadData];
             }];
             break;}
@@ -309,8 +364,8 @@
                 if (!error && self.mySegmentedControl.selectedSegmentIndex == 0) {
                     resultsArray = objects;
                     [self deselectAllCells];
+                    [self ifNoResultsAlertUser];
                     [myTableView reloadData];
-                    NSLog(@"Shouldn't be here");
                 }
                 if (error) {
                     NSString *errorString = [error userInfo][@"error"];
@@ -323,6 +378,7 @@
             [[FSClient sharedClient] searchRecipes:searchTextField.text recipeType:@"" pageNumber:0 maxResults:20 completion:^(NSArray *recipes, NSString *recipeType, NSInteger maxResults, NSInteger totalResults, NSInteger pageNumber) {
                 resultsArray = recipes;
                 [self deselectAllCells];
+                [self ifNoResultsAlertUser];
                 [myTableView reloadData];
             }];
             break;}
@@ -330,6 +386,7 @@
             [[FSClient sharedClient] searchFoods:searchTextField.text completion:^(NSArray *foods, NSInteger maxResults, NSInteger totalResults, NSInteger pageNumber) {
                 resultsArray = foods;
                 [self deselectAllCells];
+                [self ifNoResultsAlertUser];
                 [myTableView reloadData];
              }];
             break;}
@@ -380,6 +437,13 @@
         IngredientDetailViewController *ingredientDetailViewController = (IngredientDetailViewController *) segue.destinationViewController;
         ingredientDetailViewController.myFood = foodToSend;
         ingredientDetailViewController.trackerDate = trackerDate;
+    }
+}
+
+-(void)ifNoResultsAlertUser {
+    if ([resultsArray count] == 0) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"No results found" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alert show];
     }
 }
 

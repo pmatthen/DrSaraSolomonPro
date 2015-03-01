@@ -7,15 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		186253801A56B17200620044 /* FoodTrackerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1862537F1A56B17200620044 /* FoodTrackerItem.m */; };
+		180B844E1A93432F00CFD037 /* MacroCalculatorDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 180B844D1A93432F00CFD037 /* MacroCalculatorDetails.m */; };
 		186E03171A47BBFD00C83B49 /* IngredientDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186E03161A47BBFD00C83B49 /* IngredientDetailViewController.m */; };
 		1896073B1A3AAB180055A57C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 1896073A1A3AAB180055A57C /* User.m */; };
-		1896073E1A3AAB190055A57C /* MacroCalculatorDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 1896073D1A3AAB190055A57C /* MacroCalculatorDetails.m */; };
 		189607411A3AAB190055A57C /* RecordedWeight.m in Sources */ = {isa = PBXBuildFile; fileRef = 189607401A3AAB190055A57C /* RecordedWeight.m */; };
 		189607431A3AB4370055A57C /* calculate_macro_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 189607421A3AB4370055A57C /* calculate_macro_button@2x.png */; };
 		189607461A3ABEDA0055A57C /* MacroCalculatorViewControllerStep1.m in Sources */ = {isa = PBXBuildFile; fileRef = 189607451A3ABEDA0055A57C /* MacroCalculatorViewControllerStep1.m */; };
 		189607491A3ABEF80055A57C /* MacroCalculatorViewControllerStep4.m in Sources */ = {isa = PBXBuildFile; fileRef = 189607481A3ABEF80055A57C /* MacroCalculatorViewControllerStep4.m */; };
 		18A077911A63B5E400E76FE7 /* intermittent@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A077901A63B5E400E76FE7 /* intermittent@2x.png */; };
+		18A09F561A8E36AC00D8391B /* FoodTrackerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A09F551A8E36AC00D8391B /* FoodTrackerItem.m */; };
 		18BF0E391A63D362004F8947 /* Dr Sara Solomon Pro-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18BF0E381A63D362004F8947 /* Dr Sara Solomon Pro-Info.plist */; };
 		18D46C421A5A7BFF0055ED7E /* RecipePFQueryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D46C411A5A7BFF0055ED7E /* RecipePFQueryTableViewController.m */; };
 		18D46C441A5A7C9C0055ED7E /* placeholder.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 18D46C431A5A7C9C0055ED7E /* placeholder.jpg */; };
@@ -313,14 +313,12 @@
 
 /* Begin PBXFileReference section */
 		02B67734BE9973CE71C34699 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		1862537E1A56B17200620044 /* FoodTrackerItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoodTrackerItem.h; sourceTree = "<group>"; };
-		1862537F1A56B17200620044 /* FoodTrackerItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoodTrackerItem.m; sourceTree = "<group>"; };
+		180B844C1A93432F00CFD037 /* MacroCalculatorDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacroCalculatorDetails.h; sourceTree = "<group>"; };
+		180B844D1A93432F00CFD037 /* MacroCalculatorDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacroCalculatorDetails.m; sourceTree = "<group>"; };
 		186E03151A47BBFD00C83B49 /* IngredientDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IngredientDetailViewController.h; sourceTree = "<group>"; };
 		186E03161A47BBFD00C83B49 /* IngredientDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IngredientDetailViewController.m; sourceTree = "<group>"; };
 		189607391A3AAB180055A57C /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		1896073A1A3AAB180055A57C /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
-		1896073C1A3AAB190055A57C /* MacroCalculatorDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacroCalculatorDetails.h; sourceTree = "<group>"; };
-		1896073D1A3AAB190055A57C /* MacroCalculatorDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacroCalculatorDetails.m; sourceTree = "<group>"; };
 		1896073F1A3AAB190055A57C /* RecordedWeight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordedWeight.h; sourceTree = "<group>"; };
 		189607401A3AAB190055A57C /* RecordedWeight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordedWeight.m; sourceTree = "<group>"; };
 		189607421A3AB4370055A57C /* calculate_macro_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calculate_macro_button@2x.png"; sourceTree = "<group>"; };
@@ -329,6 +327,8 @@
 		189607471A3ABEF80055A57C /* MacroCalculatorViewControllerStep4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacroCalculatorViewControllerStep4.h; sourceTree = "<group>"; };
 		189607481A3ABEF80055A57C /* MacroCalculatorViewControllerStep4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacroCalculatorViewControllerStep4.m; sourceTree = "<group>"; };
 		18A077901A63B5E400E76FE7 /* intermittent@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "intermittent@2x.png"; sourceTree = "<group>"; };
+		18A09F541A8E36AC00D8391B /* FoodTrackerItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoodTrackerItem.h; sourceTree = "<group>"; };
+		18A09F551A8E36AC00D8391B /* FoodTrackerItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoodTrackerItem.m; sourceTree = "<group>"; };
 		18BF0E381A63D362004F8947 /* Dr Sara Solomon Pro-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Dr Sara Solomon Pro-Info.plist"; sourceTree = "<group>"; };
 		18D46C401A5A7BFF0055ED7E /* RecipePFQueryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecipePFQueryTableViewController.h; sourceTree = "<group>"; };
 		18D46C411A5A7BFF0055ED7E /* RecipePFQueryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecipePFQueryTableViewController.m; sourceTree = "<group>"; };
@@ -1248,14 +1248,14 @@
 				B169080719D2A67B00DE6C5A /* CoreDataStack.h */,
 				B169080819D2A67B00DE6C5A /* CoreDataStack.m */,
 				B11A07DC19A49FE40006A3FE /* DataModel.xcdatamodeld */,
+				180B844C1A93432F00CFD037 /* MacroCalculatorDetails.h */,
+				180B844D1A93432F00CFD037 /* MacroCalculatorDetails.m */,
 				1896073F1A3AAB190055A57C /* RecordedWeight.h */,
 				189607401A3AAB190055A57C /* RecordedWeight.m */,
-				1896073C1A3AAB190055A57C /* MacroCalculatorDetails.h */,
-				1896073D1A3AAB190055A57C /* MacroCalculatorDetails.m */,
 				189607391A3AAB180055A57C /* User.h */,
 				1896073A1A3AAB180055A57C /* User.m */,
-				1862537E1A56B17200620044 /* FoodTrackerItem.h */,
-				1862537F1A56B17200620044 /* FoodTrackerItem.m */,
+				18A09F541A8E36AC00D8391B /* FoodTrackerItem.h */,
+				18A09F551A8E36AC00D8391B /* FoodTrackerItem.m */,
 			);
 			name = DataModel;
 			sourceTree = "<group>";
@@ -1973,6 +1973,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B1C5A0D219237DD300799705 /* InitialViewController.m in Sources */,
+				180B844E1A93432F00CFD037 /* MacroCalculatorDetails.m in Sources */,
 				B11A07DE19A49FE40006A3FE /* DataModel.xcdatamodeld in Sources */,
 				B13A9CAC1924AE2C009D1FD2 /* ParseLogInViewController.m in Sources */,
 				189607411A3AAB190055A57C /* RecordedWeight.m in Sources */,
@@ -2010,7 +2011,6 @@
 				B16AB98919470E2C002FC2BF /* RecipeSampleViewController.m in Sources */,
 				18D46C4F1A60EA5B0055ED7E /* VideosWebViewController.m in Sources */,
 				B1745F54199BB37900C44221 /* RecipeTableViewCell.m in Sources */,
-				1896073E1A3AAB190055A57C /* MacroCalculatorDetails.m in Sources */,
 				1896073B1A3AAB180055A57C /* User.m in Sources */,
 				B156C3D1195FF43700C1E6AF /* DailyTrackerViewController.m in Sources */,
 				B1BCDF3C19C7097400BD6F29 /* AddFoodStep2TableViewCell.m in Sources */,
@@ -2021,7 +2021,7 @@
 				B11689AE1A2BE201003971A6 /* NewsletterViewController.m in Sources */,
 				B1E3C9E2196E40C800659A15 /* ILTranslucentView.m in Sources */,
 				B198D813199CB69100F39C68 /* RecipeSearchTableViewCell.m in Sources */,
-				186253801A56B17200620044 /* FoodTrackerItem.m in Sources */,
+				18A09F561A8E36AC00D8391B /* FoodTrackerItem.m in Sources */,
 				B13A9CA91924AE1A009D1FD2 /* ParseSignUpViewControllerStep4.m in Sources */,
 				B1681B3D19174DF500923BB3 /* main.m in Sources */,
 				B156C3DB1960398000C1E6AF /* AddFoodViewController.m in Sources */,
@@ -2154,13 +2154,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Gule Sheikh (VAY25AX4YH)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MyProfile/Dr Sara Solomon Pro-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MyProfile/Dr Sara Solomon Pro-Info.plist";
 				PRODUCT_NAME = "Dr Sara Solomon Pro";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "72048e2d-69f1-4f54-9aa1-1b3283e2e176";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2171,13 +2171,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Gule Sheikh (VAY25AX4YH)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MyProfile/Dr Sara Solomon Pro-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MyProfile/Dr Sara Solomon Pro-Info.plist";
 				PRODUCT_NAME = "Dr Sara Solomon Pro";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "72048e2d-69f1-4f54-9aa1-1b3283e2e176";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

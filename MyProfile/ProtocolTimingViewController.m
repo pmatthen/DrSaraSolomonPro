@@ -7,6 +7,7 @@
 //
 
 #import "ProtocolTimingViewController.h"
+#import "MenuViewController.h"
 
 @interface ProtocolTimingViewController () <UIPickerViewDataSource, UIPickerViewDelegate>
 
@@ -198,7 +199,6 @@
     
     NSDate *eatingNotificationDate = eatingDate;
     NSDate *fastingNotificationDate = fastingDate;
-    NSMutableArray *notificationArray = [NSMutableArray new];
     
     for (int i = 0; i < 13; i++) {
         UILocalNotification* localNotification = [[UILocalNotification alloc] init];
@@ -251,6 +251,16 @@
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Notifications Saved" message:[NSString stringWithFormat:@"Your settings have been entered, and you will recieve notifications till %@", dateString] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [alert show];
+    [self goToDailyTrackerViewController];
+}
+
+- (void) goToDailyTrackerViewController {
+    NSMutableArray *allViewControllers = [NSMutableArray arrayWithArray:[self.navigationController viewControllers]];
+    for (UIViewController *aViewController in allViewControllers) {
+        if ([aViewController isKindOfClass:[MenuViewController class]]) {
+            [self.navigationController popToViewController:aViewController animated:NO];
+        }
+    }
 }
 
 @end

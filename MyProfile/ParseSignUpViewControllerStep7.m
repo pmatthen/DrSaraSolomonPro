@@ -45,7 +45,7 @@
 - (IBAction)startGettingSexyButtonTouched:(id)sender {
     PFUser *user = [PFUser user];
     
-    user.username = username;
+    user.username = [username lowercaseString];
     user.password = password;
     user.email = email;
     user[@"name"] = name;
