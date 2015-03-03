@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "DailyTrackerViewController.h"
+#import "AddFoodViewController.h"
 #import "AddFoodViewControllerStep2.h"
 #import "AddFoodStep2TableViewCell.h"
 #import <FatSecretKit/FSClient.h>
@@ -312,8 +313,12 @@
 }
 
 - (IBAction)backButtonTouched:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
-}
+    NSMutableArray *allViewControllers = [NSMutableArray arrayWithArray:[self.navigationController viewControllers]];
+    for (UIViewController *aViewController in allViewControllers) {
+        if ([aViewController isKindOfClass:[AddFoodViewController class]]) {
+            [self.navigationController popToViewController:aViewController animated:NO];
+        }
+    }}
 
 - (IBAction)searchButtonTouched:(id)sender {
     [searchTextField resignFirstResponder];

@@ -15,5 +15,6 @@
 
 - (IBAction)backButtonTouched:(id)sender;
 - (IBAction)searchButtonPressed:(id)sender;
+- (IBAction)scanBarcodeButtonPressed:(id)sender;
 
 @end

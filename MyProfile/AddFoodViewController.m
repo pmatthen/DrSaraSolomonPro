@@ -73,13 +73,19 @@
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    AddFoodViewControllerStep2 *addFoodViewControllerStep2 = (AddFoodViewControllerStep2 *) segue.destinationViewController;
-    addFoodViewControllerStep2.searchText = searchTextField.text;
-    addFoodViewControllerStep2.trackerDate = trackerDate;
+    if ([segue.identifier isEqualToString:@"AddFoodSegue"]) {
+        AddFoodViewControllerStep2 *addFoodViewControllerStep2 = (AddFoodViewControllerStep2 *) segue.destinationViewController;
+        addFoodViewControllerStep2.searchText = searchTextField.text;
+        addFoodViewControllerStep2.trackerDate = trackerDate;
+    }
 }
 
 - (IBAction)searchButtonPressed:(id)sender {
     [self performSegueWithIdentifier:@"AddFoodSegue" sender:self];
+}
+
+- (IBAction)scanBarcodeButtonPressed:(id)sender {
+    [self performSegueWithIdentifier:@"BarcodeSegue" sender:self];
 }
 
 @end

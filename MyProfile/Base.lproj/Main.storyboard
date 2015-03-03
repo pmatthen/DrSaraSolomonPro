@@ -937,6 +937,40 @@
             </objects>
             <point key="canvasLocation" x="2499" y="-364"/>
         </scene>
+        <!--Barcode View Controller-->
+        <scene sceneID="7jz-oW-5zp">
+            <objects>
+                <viewController id="5sJ-NO-ys4" customClass="BarcodeViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="4Gq-qa-TUE"/>
+                        <viewControllerLayoutGuide type="bottom" id="UqC-JG-0TJ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Wv4-Wd-94X">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vPv-9Y-uHi">
+                                <rect key="frame" x="12" y="10" width="33" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <state key="normal" title="BACK">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="backButtonPressed:" destination="5sJ-NO-ys4" eventType="touchUpInside" id="GGb-oC-umq"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="H3O-6D-DQa"/>
+                    <connections>
+                        <segue destination="zJL-ym-O3O" kind="push" identifier="ResultsSegue" id="E7v-6o-4UC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Jeo-cB-oTv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3313" y="-2268"/>
+        </scene>
         <!--Add Food View Controller-->
         <scene sceneID="odx-9C-miW">
             <objects>
@@ -990,6 +1024,16 @@
                                     <outlet property="delegate" destination="9LN-TB-71a" id="FRA-ix-lwA"/>
                                 </connections>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MPU-Ud-j2c">
+                                <rect key="frame" x="112" y="451" width="97" height="30"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Scan Barcode">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="scanBarcodeButtonPressed:" destination="9LN-TB-71a" eventType="touchUpInside" id="kH9-EU-jCs"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -997,6 +1041,7 @@
                     <connections>
                         <outlet property="searchTextField" destination="BQn-ae-VD8" id="G2U-hs-wOZ"/>
                         <segue destination="zJL-ym-O3O" kind="push" identifier="AddFoodSegue" id="f1l-yS-Q2d"/>
+                        <segue destination="5sJ-NO-ys4" kind="push" identifier="BarcodeSegue" id="mwX-VH-zrM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q7Q-K6-oY1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2415,7 +2460,8 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="P9j-38-PNl"/>
+        <segue reference="E7v-6o-4UC"/>
         <segue reference="aRR-zp-ORm"/>
+        <segue reference="P9j-38-PNl"/>
     </inferredMetricsTieBreakers>
 </document>
