@@ -13,19 +13,32 @@
 @interface MoreViewController () <PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) NSArray *categoryArray;
+@property BOOL is35;
 
 @end
 
 @implementation MoreViewController
-@synthesize myTableView, categoryArray;
+@synthesize myTableView, categoryArray, is35;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
+    is35 = NO;
+    
+    CGRect bounds = self.view.bounds;
+    CGFloat height = bounds.size.height;
+    
+    if (height == 480) {
+        is35 = YES;
+    }
+    
     categoryArray = @[@"WORKOUTS", @"SHOP", @"ABOUT", @"PRIVACY POLICY", @"TERMS OF SERVICE"];
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 9, 100, 40)];
+    if (is35) {
+        titleLabel.frame = CGRectMake(40, 8, 100, 34);
+    }
     titleLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
     titleLabel.textColor = [UIColor whiteColor];
     titleLabel.text = @"MORE";
@@ -108,8 +121,14 @@
 
 - (IBAction)logoutButtonTouched:(id)sender {
     [PFUser logOut];
+    
+    NSString *storyBoardName = @"iPhone4";
+    if (is35) {
+        storyBoardName = @"iPhone35";
+    }
+    
     UINavigationController *myInitialNavigationController = [UINavigationController new];
-    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:storyBoardName bundle: nil];
     myInitialNavigationController = [mainStoryboard instantiateViewControllerWithIdentifier:@"InitialNavigationController"];
     
     [self presentViewController:myInitialNavigationController animated:NO completion:nil];

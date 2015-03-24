@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Pods-AFNetworking.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-BEMSimpleLineGraph.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -24,12 +29,37 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-OMGHTTPURLRQ.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Parse.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-RestKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-SOCKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-SVHTTPRequest.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-TDOAuth.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-TransitionKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -42,37 +72,67 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>60722CF5C69942D79190BE7A</key>
+		<key>0FCE18340E2AA3AA116E1FE8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>70EA233FC8A14A4DA80C6AB6</key>
+		<key>103FFF323639FB2ADD23C845</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A6388AA85DE54FD0B1DA9296</key>
+		<key>3460F4C6BF4125DCCD8BB752</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A87B7574CA944C28817167A8</key>
+		<key>356D2C79AFC600B963205E5E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B0088D18781E4A70A6163932</key>
+		<key>3F0E3F9E24E5A8FEE5DA2A8B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>BE23704364424EDFB46D9337</key>
+		<key>459EB3150A87F54B18E8125B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>ED97ED02709A4A7689B90726</key>
+		<key>4EBCEF15E6F89305C7A3E215</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5C60D41167413B3C4E575B7A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9B2F33401910CEF156E5B7DD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B81BDA27329CF5A67F6B0499</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BC8036606DD252410EE2F662</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C161EE301D240AA90D64894C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CB3AFF3C92985E2BA6DFB701</key>
 		<dict>
 			<key>primary</key>
 			<true/>

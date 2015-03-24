@@ -43,9 +43,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B1681B2C19174DF500923BB3"
-            BuildableName = "MyProfile.app"
-            BlueprintName = "MyProfile"
-            ReferencedContainer = "container:MyProfile.xcodeproj">
+            BuildableName = "Dr Sara Solomon Pro.app"
+            BlueprintName = "Dr Sara Solomon Pro"
+            ReferencedContainer = "container:Dr Sara Solomon Pro.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B1681B2C19174DF500923BB3"
-            BuildableName = "MyProfile.app"
-            BlueprintName = "MyProfile"
-            ReferencedContainer = "container:MyProfile.xcodeproj">
+            BuildableName = "Dr Sara Solomon Pro.app"
+            BlueprintName = "Dr Sara Solomon Pro"
+            ReferencedContainer = "container:Dr Sara Solomon Pro.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>

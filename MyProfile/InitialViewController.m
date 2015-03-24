@@ -13,6 +13,9 @@
 #define DURATION_BEFORE_SLIDE_TRANSITION 2.0
 
 @interface InitialViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate>
+{
+    BOOL is35;
+}
 
 @end
 
@@ -22,6 +25,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    is35 = NO;
+    
+    CGRect bounds = self.view.bounds;
+    CGFloat height = bounds.size.height;
+    
+    if (height == 480) {
+        is35 = YES;
+    }
     
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     
@@ -35,9 +47,16 @@
     for (UIImageView *tempImageView in myImageViewArray) {
         tempImageView.frame = CGRectMake(width, 0, self.view.frame.size.width, self.view.frame.size.height);
         [tempImageView setBackgroundColor:[UIColor clearColor]];
+        
         UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(77, 97, 169, 176)];
         UILabel *iconTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 279, 80, 40)];
         UILabel *iconSubTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 321, 80, 40)];
+        
+        if (is35) {
+            iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(77, 82, 169, 149)];
+            iconTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 236, 80, 34)];
+            iconSubTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 271, 80, 34)];
+        }
         
         switch (i) {
             case 0:
@@ -55,11 +74,17 @@
                 iconImageView.image = [UIImage imageNamed:@"track_calories_icon.png"];
                 iconTitleLabel.font = [UIFont fontWithName:@"Norican-Regular" size:28];
                 iconTitleLabel.frame = CGRectMake(62, 283, 80, 40);
+                if (is35) {
+                    iconTitleLabel.frame = CGRectMake(62, 239, 80, 34);
+                }
                 iconTitleLabel.textColor = [UIColor whiteColor];
                 iconTitleLabel.text = @"Track your calories";
                 [iconTitleLabel sizeToFit];
                 iconSubTitleLabel.font = [UIFont fontWithName:@"Oswald" size:12];
                 iconSubTitleLabel.frame = CGRectMake(80, 321, 80, 40);
+                if (is35) {
+                    iconSubTitleLabel.frame = CGRectMake(80, 271, 80, 34);
+                }
                 iconSubTitleLabel.textColor = [UIColor whiteColor];
                 iconSubTitleLabel.text = @"VIA SARA'S RECIPES OR YOUR OWN";
                 [iconSubTitleLabel sizeToFit];
@@ -68,11 +93,17 @@
                 iconImageView.image = [UIImage imageNamed:@"reachgoals_icon.png"];
                 iconTitleLabel.font = [UIFont fontWithName:@"Norican-Regular" size:28];
                 iconTitleLabel.frame = CGRectMake(72, 283, 80, 40);
+                if (is35) {
+                    iconTitleLabel.frame = CGRectMake(72, 239, 80, 34);
+                }
                 iconTitleLabel.textColor = [UIColor whiteColor];
                 iconTitleLabel.text = @"Reach your goals";
                 [iconTitleLabel sizeToFit];
                 iconSubTitleLabel.font = [UIFont fontWithName:@"Oswald" size:12];
                 iconSubTitleLabel.frame = CGRectMake(93, 321, 80, 40);
+                if (is35) {
+                    iconSubTitleLabel.frame = CGRectMake(93, 271, 80, 34);
+                }
                 iconSubTitleLabel.textColor = [UIColor whiteColor];
                 iconSubTitleLabel.text = @"WHETHER WEIGHT OR HEALTH";
                 [iconSubTitleLabel sizeToFit];
@@ -121,6 +152,9 @@
     cell.accessoryType = UITableViewCellAccessoryNone;
     
     UIImageView *arrowImageView = [[UIImageView alloc] initWithFrame:CGRectMake(285, 17, 20, 20)];
+    if (is35) {
+        arrowImageView.frame = CGRectMake(285, 14, 20, 17);
+    }
     arrowImageView.image = [UIImage imageNamed:@"arrow_small_right@2x.png"];
     [cell addSubview:arrowImageView];
     

@@ -10,6 +10,9 @@
 #import "ParseSignUpViewControllerStep3.h"
 
 @interface ParseSignUpViewControllerStep2 ()
+{
+    BOOL is35;
+}
 
 @end
 
@@ -18,6 +21,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    is35 = NO;
+    
+    CGRect bounds = self.view.bounds;
+    CGFloat height = bounds.size.height;
+    
+    if (height == 480) {
+        is35 = YES;
+    }
 
     ageArray = [NSMutableArray new];
     for (int i = 0; i < 110; i++) {
@@ -55,6 +67,19 @@
     instructionsLabel.textColor = [UIColor whiteColor];
     instructionsLabel.text = @"ENTER CURRENT AGE";
     [instructionsLabel sizeToFit];
+    
+    if (is35) {
+        stepsCountLabelA.frame = CGRectMake(60, 47, 140, 30);
+        [stepsCountLabelA sizeToFit];
+        stepsCountLabelB.frame = CGRectMake(193, 42, 40, 30);
+        [stepsCountLabelB sizeToFit];
+        stepsCountLabelC.frame = CGRectMake(243, 47, 30, 30);
+        [stepsCountLabelC sizeToFit];
+        stepLabel.frame = CGRectMake(55, 126, 60, 34);
+        [stepLabel sizeToFit];
+        instructionsLabel.frame = CGRectMake(132, 138, 60, 34);
+        [instructionsLabel sizeToFit];
+    }
     
     [self.view addSubview:stepsCountLabelA];
     [self.view addSubview:stepsCountLabelB];

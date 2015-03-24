@@ -1,1 +1,1 @@
-../../../../../../Desktop/FatSecretKit-master/FatSecretKit/FatSecret/FSRecipeImages.h
+../../../../../FatSecretKit/FatSecretKit/FatSecret/FSRecipeImages.h

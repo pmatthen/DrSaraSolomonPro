@@ -14,6 +14,7 @@
     ILTranslucentView *translucentView;
     UIButton *closePopUpViewButton;
     UIColor *myFontColor;
+    BOOL is35;
 }
 
 @end
@@ -26,6 +27,15 @@
     myFontColor = [UIColor colorWithRed:255 green:255 blue:255 alpha:1];
     
     [super viewDidLoad];
+    
+    is35 = NO;
+    
+    CGRect bounds = self.view.bounds;
+    CGFloat height = bounds.size.height;
+    
+    if (height == 480) {
+        is35 = YES;
+    }
     
     neatArray = [NSArray new];
     neatArray = @[@"sedentary", @"lightly active", @"moderately active", @"very active", @"extremely active"];
@@ -59,6 +69,19 @@
     instructionsLabel.textColor = myFontColor;
     instructionsLabel.text = @"ENTER FITNESS LEVEL";
     [instructionsLabel sizeToFit];
+    
+    if (is35) {
+        stepsCountLabelA.frame = CGRectMake(89, 47, 140, 30);
+        [stepsCountLabelA sizeToFit];
+        stepsCountLabelB.frame = CGRectMake(174, 42, 40, 30);
+        [stepsCountLabelB sizeToFit];
+        stepsCountLabelC.frame = CGRectMake(224, 47, 30, 30);
+        [stepsCountLabelC sizeToFit];
+        stepLabel.frame = CGRectMake(55, 126, 60, 34);
+        [stepLabel sizeToFit];
+        instructionsLabel.frame = CGRectMake(134, 138, 60, 34);
+        [instructionsLabel sizeToFit];
+    }
     
     [self.view addSubview:stepsCountLabelA];
     [self.view addSubview:stepsCountLabelB];
@@ -209,6 +232,42 @@
     
     UIImageView *extremelyActiveImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fifthlevel_icon@2x.png"]];
     extremelyActiveImageView.frame = CGRectMake(62, 474, 50, 52);
+    
+    if (is35) {
+        translucentView.frame = CGRectMake(0, 0, 320, 480);
+        closePopUpViewButton.frame = CGRectMake(15, 15, 39, 32);
+        popUpTitleLabel.frame = CGRectMake(80, 41, 150, 68);
+        [popUpTitleLabel sizeToFit];
+        sedentaryLabel.frame = CGRectMake(127, 102, 80, 68);
+        [sedentaryLabel sizeToFit];
+        sedentaryDescriptionLabel.frame = CGRectMake(127, 124, 80, 68);
+        [sedentaryDescriptionLabel sizeToFit];
+        sedentaryImageView.frame = CGRectMake(62, 109, 52, 44);
+        separatorView1.frame = CGRectMake(67, 161, 194 , 2);
+        lightlyActiveLabel.frame = CGRectMake(127, 178, 80, 68);
+        [lightlyActiveLabel sizeToFit];
+        lightlyActiveDescriptionLabel.frame = CGRectMake(127, 200, 80, 68);
+        [lightlyActiveDescriptionLabel sizeToFit];
+        lightlyActiveImageView.frame = CGRectMake(62, 177, 55, 41);
+        separatorView2.frame = CGRectMake(67, 237, 194 , 2);
+        moderatelyActiveLabel.frame = CGRectMake(127, 253, 80, 68);
+        [moderatelyActiveLabel sizeToFit];
+        moderatelyActiveDescriptionLabel.frame = CGRectMake(127, 275, 80, 68);
+        [moderatelyActiveDescriptionLabel sizeToFit];
+        moderatelyActiveImageView.frame = CGRectMake(62, 251, 50, 44);
+        separatorView3.frame = CGRectMake(67, 311, 194 , 2);
+        veryActiveLabel.frame = CGRectMake(127, 327, 80, 68);
+        [veryActiveLabel sizeToFit];
+        veryActiveDescriptionLabel.frame = CGRectMake(127, 349, 80, 68);
+        [veryActiveDescriptionLabel sizeToFit];
+        veryActiveImageView.frame = CGRectMake(62, 325, 50, 44);
+        separatorView4.frame = CGRectMake(67, 385, 194 , 2);
+        extremelyActiveLabel.frame = CGRectMake(127, 401, 80, 68);
+        [extremelyActiveLabel sizeToFit];
+        extremelyActiveDescriptionLabel.frame = CGRectMake(127, 423, 80, 68);
+        [extremelyActiveDescriptionLabel sizeToFit];
+        extremelyActiveImageView.frame = CGRectMake(62, 401, 50, 44);
+    }
     
     [self.view addSubview:translucentView];
     [translucentView addSubview:closePopUpViewButton];

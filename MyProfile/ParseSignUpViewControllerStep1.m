@@ -10,8 +10,12 @@
 #import "ParseSignUpViewControllerStep2.h"
 
 #define kOFFSET_FOR_KEYBOARD 216.0
+#define KOFFSET_FOR_KEYBOARD_35 216.0
 
 @interface ParseSignUpViewControllerStep1 () <UITextFieldDelegate>
+{
+    BOOL is35;
+}
 
 @end
 
@@ -22,6 +26,15 @@
 {
     [super viewDidLoad];
     
+    is35 = NO;
+    
+    CGRect bounds = self.view.bounds;
+    CGFloat height = bounds.size.height;
+    
+    if (height == 480) {
+        is35 = YES;
+    }
+    
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
                                    initWithTarget:self
                                    action:@selector(dismissKeyboard)];
@@ -29,30 +42,45 @@
     [self.view addGestureRecognizer:tap];
     
     UILabel *stepsCountLabelA = [[UILabel alloc] initWithFrame:CGRectMake(60, 56, 140, 35)];
+    if (is35) {
+        stepsCountLabelA.frame = CGRectMake(60, 47, 140, 30);
+    }
     stepsCountLabelA.font = [UIFont fontWithName:@"Oswald-Light" size:18];
     stepsCountLabelA.textColor = [UIColor whiteColor];
     stepsCountLabelA.text = @"Just 5 more steps to a ";
     [stepsCountLabelA sizeToFit];
     
     UILabel *stepsCountLabelB = [[UILabel alloc] initWithFrame:CGRectMake(193, 50, 40, 35)];
+    if (is35) {
+        stepsCountLabelB.frame = CGRectMake(193, 42, 40, 30);
+    }
     stepsCountLabelB.font = [UIFont fontWithName:@"Norican-Regular" size:25];
     stepsCountLabelB.textColor = [UIColor whiteColor];
     stepsCountLabelB.text = @"sexier";
     [stepsCountLabelB sizeToFit];
     
     UILabel *stepsCountLabelC = [[UILabel alloc] initWithFrame:CGRectMake(243, 56, 30, 35)];
+    if (is35) {
+        stepsCountLabelC.frame = CGRectMake(243, 47, 30, 30);
+    }
     stepsCountLabelC.font = [UIFont fontWithName:@"Oswald-Light" size:18];
     stepsCountLabelC.textColor = [UIColor whiteColor];
     stepsCountLabelC.text = @" you.";
     [stepsCountLabelC sizeToFit];
     
     UILabel *stepLabel = [[UILabel alloc] initWithFrame:CGRectMake(55, 149, 60, 40)];
+    if (is35) {
+        stepLabel.frame = CGRectMake(55, 126, 60, 34);
+    }
     stepLabel.font = [UIFont fontWithName:@"Norican-Regular" size:31];
     stepLabel.textColor = [UIColor whiteColor];
     stepLabel.text = @"Step 1";
     [stepLabel sizeToFit];
     
     UILabel *instructionsLabel = [[UILabel alloc] initWithFrame:CGRectMake(128, 163, 60, 40)];
+    if (is35) {
+        instructionsLabel.frame = CGRectMake(128, 138, 60, 34);
+    }
     instructionsLabel.font = [UIFont fontWithName:@"Oswald-Light" size:16];
     instructionsLabel.textColor = [UIColor whiteColor];
     instructionsLabel.text = @"CREATE AN ACCOUNT";

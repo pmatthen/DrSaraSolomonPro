@@ -1,1 +1,1 @@
-../../../../../../Desktop/FatSecretKit-master/FatSecretKit/FatSecret/OAuth+Additions.h
+../../../../../FatSecretKit/FatSecretKit/FatSecret/OAuth+Additions.h

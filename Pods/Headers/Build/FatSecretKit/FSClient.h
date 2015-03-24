@@ -1,1 +1,1 @@
-../../../../../../Desktop/FatSecretKit-master/FatSecretKit/FatSecret/FSClient.h
+../../../../../FatSecretKit/FatSecretKit/FatSecret/FSClient.h

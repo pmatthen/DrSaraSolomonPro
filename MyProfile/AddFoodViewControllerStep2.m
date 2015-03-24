@@ -31,34 +31,51 @@
 @property (nonatomic, strong) FSFood *foodToSend;
 @property (nonatomic, strong) PFObject *saraRecipeToSend;
 @property (nonatomic, strong) NSIndexPath *textFieldIndexPath;
+@property BOOL is35;
 
 @end
 
 @implementation AddFoodViewControllerStep2
-@synthesize searchTextField, searchText, myTableView, mySegmentedControl, resultsArray, query, isSelectedArray, numberOfServingsArray, recipeToSend, foodToSend, saraRecipeToSend, trackerDate, textFieldIndexPath;
+@synthesize searchTextField, searchText, myTableView, mySegmentedControl, resultsArray, query, isSelectedArray, numberOfServingsArray, recipeToSend, foodToSend, saraRecipeToSend, trackerDate, textFieldIndexPath, is35;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
+    is35 = NO;
+    
+    CGRect bounds = self.view.bounds;
+    CGFloat height = bounds.size.height;
+    
+    if (height == 480) {
+        is35 = YES;
+    }
+    
     [[FSClient sharedClient] searchFoods:searchText completion:^(NSArray *foods, NSInteger maxResults, NSInteger totalResults, NSInteger pageNumber) {
         resultsArray = foods;
-        FSFood *tempFood = resultsArray[0];
-        [[FSClient sharedClient] getFood:tempFood.identifier completion:^(FSFood *food) {
-            for (int i = 0; i < [food.servings count]; i++) {
-                FSServing *tempServing = food.servings[i];
-                NSLog(@"serving_description = %@", tempServing.servingDescription);
-                NSLog(@"metric_serving_amount = %.0f", tempServing.metricServingAmountValue);
-                NSLog(@"metric_serving_unit = %@", tempServing.metricServingUnit);
-                NSLog(@"number_of_units = %f", tempServing.numberOfUnitsValue);
-                NSLog(@"meausurement_description = %@", tempServing.measurementDescription);
-                NSLog(@"calories = %.1f", tempServing.caloriesValue);
-                NSLog(@"carbs = %.1f", tempServing.carbohydrateValue);
-                NSLog(@"fats = %.1f", tempServing.fatValue);
-                NSLog(@"protein = %.1f", tempServing.proteinValue);
-                NSLog(@"*************************");
-            }
-        }];
+        if ([resultsArray count] > 0) {
+            FSFood *tempFood = resultsArray[0];
+            [[FSClient sharedClient] getFood:tempFood.identifier completion:^(FSFood *food) {
+                for (int i = 0; i < [food.servings count]; i++) {
+                    FSServing *tempServing = food.servings[i];
+                    NSLog(@"serving_description = %@", tempServing.servingDescription);
+                    NSLog(@"metric_serving_amount = %.0f", tempServing.metricServingAmountValue);
+                    NSLog(@"metric_serving_unit = %@", tempServing.metricServingUnit);
+                    NSLog(@"number_of_units = %f", tempServing.numberOfUnitsValue);
+                    NSLog(@"meausurement_description = %@", tempServing.measurementDescription);
+                    NSLog(@"calories = %.1f", tempServing.caloriesValue);
+                    NSLog(@"carbs = %.1f", tempServing.carbohydrateValue);
+                    NSLog(@"fats = %.1f", tempServing.fatValue);
+                    NSLog(@"protein = %.1f", tempServing.proteinValue);
+                    NSLog(@"*************************");
+                }
+            }];
+        }
+        else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"No results found" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+            [alert show];
+        }
+
     }];
     
     [mySegmentedControl setTintColor:[UIColor whiteColor]];
@@ -180,6 +197,9 @@
     }
     
     UILabel *servingsLabel = [[UILabel alloc] initWithFrame:CGRectMake(270, 10, 40, 20)];
+    if (is35) {
+        servingsLabel.frame = CGRectMake(270, 8, 40, 17);
+    }
     servingsLabel.tag = 1000;
     servingsLabel.text = @"servings";
     servingsLabel.textColor = [UIColor whiteColor];
@@ -249,11 +269,14 @@
                         } else {
                             FoodTrackerItem *foodTrackerItem = [NSEntityDescription insertNewObjectForEntityForName:@"FoodTrackerItem" inManagedObjectContext:coreDataStack.managedObjectContext];
                             foodTrackerItem.servingUnit = tempServing.metricServingUnit;
+                            NSString *tempString = [tempServing metricServingAmount];
+                            NSNumber *tempNumber = [NSNumber numberWithFloat:[tempString floatValue]];
+                            [foodTrackerItem setServingAmount:tempNumber];
                             foodTrackerItem.caloriesPerServing = [NSNumber numberWithFloat:[tempServing caloriesValue]];
                             foodTrackerItem.proteinsPerServing = [NSNumber numberWithFloat:[tempServing proteinValue]];
                             foodTrackerItem.fatsPerServing = [NSNumber numberWithFloat:[tempServing fatValue]];
                             foodTrackerItem.carbsPerServing = [NSNumber numberWithFloat:[tempServing carbohydrateValue]];
-                            foodTrackerItem.numberOfServings = [NSNumber numberWithFloat:(([numberOfServingsArray[indexPath.row] floatValue] * tempServing.metricServingAmountValue)/tempServing.numberOfUnitsValue)];
+                            foodTrackerItem.numberOfServings = [NSNumber numberWithFloat:([numberOfServingsArray[indexPath.row] floatValue]/tempServing.numberOfUnitsValue)];
                             NSLog(@"numberOfServingsArray[indexPath.row = %@", numberOfServingsArray[indexPath.row]);
                             foodTrackerItem.name = tempFood.name;
                             foodTrackerItem.identifier = [NSNumber numberWithLong:tempFood.identifier];

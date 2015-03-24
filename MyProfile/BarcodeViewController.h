@@ -10,6 +10,8 @@
 
 @interface BarcodeViewController : UIViewController
 
-- (IBAction)backButtonPressed:(id)sender;
+@property (strong, nonatomic) IBOutlet UIView *previewView;
+@property (strong, nonatomic) NSMutableArray * allowedBarcodeTypes;
+@property (strong, nonatomic) NSMutableArray * foundBarcodes;
 
 @end

@@ -33,14 +33,14 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (= 1.3.4)
   - BEMSimpleLineGraph
-  - FatSecretKit (from `~/Desktop/FatSecretKit-master`)
+  - FatSecretKit (from `~/Documents/FatSecretKit`)
   - Parse (~> 1.2)
   - RestKit (~> 0.20.0)
   - TDOAuth
 
 EXTERNAL SOURCES:
   FatSecretKit:
-    :path: ~/Desktop/FatSecretKit-master
+    :path: ~/Documents/FatSecretKit
 
 SPEC CHECKSUMS:
   AFNetworking: 80c4e0652b08eb34e25b9c0ff3c82556fe5967b4

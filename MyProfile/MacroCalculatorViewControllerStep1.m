@@ -17,17 +17,30 @@
 @property NSArray *neatArray;
 @property ILTranslucentView *translucentView;
 @property UIButton *closePopUpViewButton;
+@property BOOL is35;
 
 @end
 
 @implementation MacroCalculatorViewControllerStep1
-@synthesize neatArray, bodyFatTextField, myPickerView, translucentView, closePopUpViewButton, date;
+@synthesize neatArray, bodyFatTextField, myPickerView, translucentView, closePopUpViewButton, date, is35;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    is35 = NO;
+    
+    CGRect bounds = self.view.bounds;
+    CGFloat height = bounds.size.height;
+    
+    if (height == 480) {
+        is35 = YES;
+    }
 
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 9, 100, 40)];
+    if (is35) {
+        titleLabel.frame = CGRectMake(40, 8, 100, 34);
+    }
     titleLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
     titleLabel.textColor = [UIColor whiteColor];
     titleLabel.text = @"MACRO CALCULATOR";
@@ -46,12 +59,18 @@
     bodyFatTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"bodyfat % (optional)" attributes:@{NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName : [UIFont fontWithName:@"Oswald-Light" size:16]}];
     
     UILabel *stepLabel = [[UILabel alloc] initWithFrame:CGRectMake(55, 149, 60, 40)];
+    if (is35) {
+        stepLabel.frame = CGRectMake(55, 126, 60, 34);
+    }
     stepLabel.font = [UIFont fontWithName:@"Norican-Regular" size:31];
     stepLabel.textColor = [UIColor whiteColor];
     stepLabel.text = @"Step 1";
     [stepLabel sizeToFit];
     
     UILabel *instructionsLabel = [[UILabel alloc] initWithFrame:CGRectMake(132, 163, 60, 40)];
+    if (is35) {
+        instructionsLabel.frame = CGRectMake(132, 138, 60, 34);
+    }
     instructionsLabel.font = [UIFont fontWithName:@"Oswald-Light" size:16];
     instructionsLabel.textColor = [UIColor whiteColor];
     instructionsLabel.text = @"ENTER FITNESS LEVEL";
@@ -174,28 +193,43 @@
 
 - (IBAction)popupButtonTouched:(id)sender {
     translucentView = [[ILTranslucentView alloc] initWithFrame:CGRectMake(0, 0, 320, 568)];
+    if (is35) {
+        [translucentView setFrame:CGRectMake(0, 0, 320, 480)];
+    }
     translucentView.translucentAlpha = 1;
     translucentView.translucentStyle = UIBarStyleBlack;
     translucentView.translucentTintColor = [UIColor clearColor];
     translucentView.backgroundColor = [UIColor clearColor];
     
     closePopUpViewButton = [[UIButton alloc] initWithFrame:CGRectMake(15, 18, 39, 38)];
+    if (is35) {
+        [closePopUpViewButton setFrame:CGRectMake(15, 15, 39, 32)];
+    }
     [closePopUpViewButton setImage:[UIImage imageNamed:@"x_icon@2x.png"] forState:UIControlStateNormal];
     [closePopUpViewButton addTarget:self action:@selector(closePopUpViewButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
     UILabel *popUpTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 48, 150, 80)];
+    if (is35) {
+        popUpTitleLabel.frame = CGRectMake(80, 41, 150, 68);
+    }
     popUpTitleLabel.font = [UIFont fontWithName:@"Oswald" size:26];
     popUpTitleLabel.textColor = [UIColor whiteColor];
     popUpTitleLabel.text = @"FITNESS LEVELS";
     [popUpTitleLabel sizeToFit];
     
     UILabel *sedentaryLabel = [[UILabel alloc] initWithFrame:CGRectMake(127, 121, 80, 80)];
+    if (is35) {
+        sedentaryLabel.frame = CGRectMake(127, 102, 80, 68);
+    }
     sedentaryLabel.font = [UIFont fontWithName:@"Norican-Regular" size:20];
     sedentaryLabel.textColor = [UIColor whiteColor];
     sedentaryLabel.text = @"Sedentary";
     [sedentaryLabel sizeToFit];
     
     UILabel *sedentaryDescriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(127, 147, 80, 80)];
+    if (is35) {
+        sedentaryDescriptionLabel.frame = CGRectMake(127, 124, 80, 68);
+    }
     sedentaryDescriptionLabel.font = [UIFont fontWithName:@"Oswald-Light" size:11];
     sedentaryDescriptionLabel.textColor = [UIColor whiteColor];
     sedentaryDescriptionLabel.text = @"little or no exercise";
@@ -203,17 +237,29 @@
     
     UIImageView *sedentaryImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"beginner_icon@2x.png"]];
     sedentaryImageView.frame = CGRectMake(62, 129, 52, 52);
+    if (is35) {
+        [sedentaryImageView setFrame:CGRectMake(70, 109, 44, 44)];
+    }
     
     UIView *separatorView1 = [[UIView alloc] initWithFrame:CGRectMake(67, 190, 194 , 2)];
+    if (is35) {
+        separatorView1.frame = CGRectMake(67, 161, 194 , 2);
+    }
     separatorView1.backgroundColor = [UIColor whiteColor];
     
     UILabel *lightlyActiveLabel = [[UILabel alloc] initWithFrame:CGRectMake(127, 211, 80, 80)];
+    if (is35) {
+        lightlyActiveLabel.frame = CGRectMake(127, 178, 80, 68);
+    }
     lightlyActiveLabel.font = [UIFont fontWithName:@"Norican-Regular" size:20];
     lightlyActiveLabel.textColor = [UIColor whiteColor];
     lightlyActiveLabel.text = @"Lightly Active";
     [lightlyActiveLabel sizeToFit];
     
     UILabel *lightlyActiveDescriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(127, 237, 80, 80)];
+    if (is35) {
+        lightlyActiveDescriptionLabel.frame = CGRectMake(127, 200, 80, 68);
+    }
     lightlyActiveDescriptionLabel.font = [UIFont fontWithName:@"Oswald-Light" size:11];
     lightlyActiveDescriptionLabel.textColor = [UIColor whiteColor];
     lightlyActiveDescriptionLabel.text = @"easy exercise/sports 1-3 days/week";
@@ -221,17 +267,29 @@
     
     UIImageView *lightlyActiveImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"advanced_icon@2x.png"]];
     lightlyActiveImageView.frame = CGRectMake(62, 209, 55, 49);
+    if (is35) {
+        [lightlyActiveImageView setFrame:CGRectMake(70, 177, 44, 44)];
+    }
     
     UIView *separatorView2 = [[UIView alloc] initWithFrame:CGRectMake(67, 280, 194 , 2)];
+    if (is35) {
+        separatorView2.frame = CGRectMake(67, 237, 194 , 2);
+    }
     separatorView2.backgroundColor = [UIColor whiteColor];
     
     UILabel *moderatelyActiveLabel = [[UILabel alloc] initWithFrame:CGRectMake(127, 299, 80, 80)];
+    if (is35) {
+        moderatelyActiveLabel.frame = CGRectMake(127, 253, 80, 68);
+    }
     moderatelyActiveLabel.font = [UIFont fontWithName:@"Norican-Regular" size:20];
     moderatelyActiveLabel.textColor = [UIColor whiteColor];
     moderatelyActiveLabel.text = @"Moderately Active";
     [moderatelyActiveLabel sizeToFit];
     
     UILabel *moderatelyActiveDescriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(127, 325, 80, 80)];
+    if (is35) {
+        moderatelyActiveDescriptionLabel.frame = CGRectMake(127, 275, 80, 68);
+    }
     moderatelyActiveDescriptionLabel.font = [UIFont fontWithName:@"Oswald-Light" size:11];
     moderatelyActiveDescriptionLabel.textColor = [UIColor whiteColor];
     moderatelyActiveDescriptionLabel.text = @"moderate exercise/sports 3-5 days/week";
@@ -239,17 +297,29 @@
     
     UIImageView *moderatelyActiveImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hardcore_icon@2x.png"]];
     moderatelyActiveImageView.frame = CGRectMake(62, 297, 50, 52);
+    if (is35) {
+        [moderatelyActiveImageView setFrame:CGRectMake(70, 251, 44, 44)];
+    }
     
     UIView *separatorView3 = [[UIView alloc] initWithFrame:CGRectMake(67, 368, 194 , 2)];
+    if (is35) {
+        separatorView3.frame = CGRectMake(67, 311, 194 , 2);
+    }
     separatorView3.backgroundColor = [UIColor whiteColor];
     
     UILabel *veryActiveLabel = [[UILabel alloc] initWithFrame:CGRectMake(127, 387, 80, 80)];
+    if (is35) {
+        veryActiveLabel.frame = CGRectMake(127, 327, 80, 68);
+    }
     veryActiveLabel.font = [UIFont fontWithName:@"Norican-Regular" size:20];
     veryActiveLabel.textColor = [UIColor whiteColor];
     veryActiveLabel.text = @"Very Active";
     [veryActiveLabel sizeToFit];
     
     UILabel *veryActiveDescriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(127, 413, 80, 80)];
+    if (is35) {
+        veryActiveDescriptionLabel.frame = CGRectMake(127, 349, 80, 68);
+    }
     veryActiveDescriptionLabel.font = [UIFont fontWithName:@"Oswald-Light" size:11];
     veryActiveDescriptionLabel.textColor = [UIColor whiteColor];
     veryActiveDescriptionLabel.text = @"hard exercise/sports 6-7 days/week";
@@ -257,17 +327,29 @@
     
     UIImageView *veryActiveImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fourthlevel_icon@2x.png"]];
     veryActiveImageView.frame = CGRectMake(62, 385, 50, 52);
+    if (is35) {
+        [veryActiveImageView setFrame:CGRectMake(70, 325, 44, 44)];
+    }
     
     UIView *separatorView4 = [[UIView alloc] initWithFrame:CGRectMake(67, 456, 194 , 2)];
+    if (is35) {
+        separatorView4.frame = CGRectMake(67, 385, 194 , 2);
+    }
     separatorView4.backgroundColor = [UIColor whiteColor];
     
     UILabel *extremelyActiveLabel = [[UILabel alloc] initWithFrame:CGRectMake(127, 475, 80, 80)];
+    if (is35) {
+        extremelyActiveLabel.frame = CGRectMake(127, 401, 80, 68);
+    }
     extremelyActiveLabel.font = [UIFont fontWithName:@"Norican-Regular" size:20];
     extremelyActiveLabel.textColor = [UIColor whiteColor];
     extremelyActiveLabel.text = @"Extremely Active";
     [extremelyActiveLabel sizeToFit];
     
     UILabel *extremelyActiveDescriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(127, 501, 80, 80)];
+    if (is35) {
+        extremelyActiveDescriptionLabel.frame = CGRectMake(127, 423, 80, 68);
+    }
     extremelyActiveDescriptionLabel.font = [UIFont fontWithName:@"Oswald-Light" size:11];
     extremelyActiveDescriptionLabel.textColor = [UIColor whiteColor];
     extremelyActiveDescriptionLabel.text = @"very hard exercise/sports and physical job";
@@ -275,6 +357,9 @@
     
     UIImageView *extremelyActiveImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"fifthlevel_icon@2x.png"]];
     extremelyActiveImageView.frame = CGRectMake(62, 474, 50, 52);
+    if (is35) {
+        [extremelyActiveImageView setFrame:CGRectMake(70, 401, 44, 44)];
+    }
     
     [self.view addSubview:translucentView];
     [translucentView addSubview:closePopUpViewButton];

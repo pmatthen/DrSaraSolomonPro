@@ -37,16 +37,26 @@
 @property (strong, nonatomic) NSMutableArray *arrayOfValues;
 @property (strong, nonatomic) NSMutableArray *arrayOfDates;
 @property UIView *pickerViewView;
+@property BOOL is35;
 
 @end
 
 @implementation MyProfileViewController
-@synthesize categoryArray, currentSelection, myTableView, isFirstTime, isFirstClick, myPickerView, weightArray, fetchedResultsController, myCameraButton, cameraIconImageView, imageInstructionLabel, coreDataUserImage, coreDataStack, user, recordedWeights, gainedOrLostLabel, motivationLabel, amountLabel, lbsLabel, messageView, myGraph, arrayOfValues, arrayOfDates, pickerViewView;
+@synthesize categoryArray, currentSelection, myTableView, isFirstTime, isFirstClick, myPickerView, weightArray, fetchedResultsController, myCameraButton, cameraIconImageView, imageInstructionLabel, coreDataUserImage, coreDataStack, user, recordedWeights, gainedOrLostLabel, motivationLabel, amountLabel, lbsLabel, messageView, myGraph, arrayOfValues, arrayOfDates, pickerViewView, is35;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-        
+    
+    is35 = NO;
+    
+    CGRect bounds = self.view.bounds;
+    CGFloat height = bounds.size.height;
+    
+    if (height == 480) {
+        is35 = YES;
+    }
+    
     recordedWeights = [NSArray new];
     coreDataStack = [CoreDataStack defaultStack];
     [self fetchUser];
@@ -72,6 +82,12 @@
     
     pickerViewView = [[UIView alloc] initWithFrame:CGRectMake(0, 62, 320, 102)];
     pickerViewView.clipsToBounds = YES;
+    
+    if (is35) {
+        [myPickerView setFrame:CGRectMake(-15, -33, 320, 182)];
+        [pickerViewView setFrame:CGRectMake(0, 52, 320, 86)];
+    }
+    
     [pickerViewView addSubview:myPickerView];
 
     [self fillRecordedWeightsArray];
@@ -102,6 +118,10 @@
     myGraph = [[BEMSimpleLineGraphView alloc] initWithFrame:CGRectMake(10, 78, 290, 180)];
     myGraph.dataSource = self;
     myGraph.delegate = self;
+    
+    if (is35) {
+        [myGraph setFrame:CGRectMake(10, 66, 290, 152)];
+    }
     
     myGraph.colorTop = [UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:0.0];
     myGraph.colorBottom = [UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:0.0];
@@ -144,6 +164,13 @@
         imageInstructionLabel.hidden = YES;
     } else {
         [myCameraButton setImage:[UIImage imageNamed:@"deafult_profilepic.png"] forState:UIControlStateNormal];
+    }
+    
+    if (is35) {
+        titleLabel.frame = CGRectMake(40, 8, 100, 34);
+        imageInstructionLabel.frame = CGRectMake(112, 111, 39, 25);
+        [imageInstructionLabel sizeToFit];
+        [cameraIconImageView setFrame:CGRectMake(144, 79, 33, 25)];
     }
     
     [self.view addSubview:titleLabel];
@@ -232,27 +259,42 @@
             gainedOrLostLabel.font = [UIFont fontWithName:@"Oswald" size:30];
             gainedOrLostLabel.textColor = [UIColor whiteColor];
             gainedOrLostLabel.frame = CGRectMake(0, 103, 100, 100);
+            if (is35) {
+                gainedOrLostLabel.frame = CGRectMake(0, 87, 100, 85);
+            }
             [gainedOrLostLabel sizeToFit];
             
             motivationLabel.font = [UIFont fontWithName:@"Norican-Regular" size:22];
             motivationLabel.textColor = [UIColor whiteColor];
             motivationLabel.frame = CGRectMake(0, 150, 100, 100);
+            if (is35) {
+                motivationLabel.frame = CGRectMake(0, 127, 100, 85);
+            }
             [motivationLabel sizeToFit];
             motivationLabel.frame = CGRectMake(160 - motivationLabel.frame.size.width/2, motivationLabel.frame.origin.y, motivationLabel.frame.size.width, motivationLabel.frame.size.height);
             
             amountLabel = [[UILabel alloc] initWithFrame:CGRectMake(gainedOrLostLabel.frame.origin.x + gainedOrLostLabel.frame.size.width, gainedOrLostLabel.frame.origin.y - 3, 50, 50)];
+            if (is35) {
+                amountLabel.frame = CGRectMake(gainedOrLostLabel.frame.origin.x + gainedOrLostLabel.frame.size.width, gainedOrLostLabel.frame.origin.y - 3, 50, 42);
+            }
             amountLabel.font = [UIFont fontWithName:@"Norican-Regular" size:38];
             amountLabel.textColor = [UIColor whiteColor];
             amountLabel.text = [NSString stringWithFormat:@"%i", abs(weightDifference)];
             [amountLabel sizeToFit];
             
             lbsLabel = [[UILabel alloc] initWithFrame:CGRectMake(amountLabel.frame.origin.x + amountLabel.frame.size.width, amountLabel.frame.origin.y + 3, 50, 50)];
+            if (is35) {
+                lbsLabel.frame = CGRectMake(amountLabel.frame.origin.x + amountLabel.frame.size.width, amountLabel.frame.origin.y + 3, 50, 42);
+            }
             lbsLabel.font = [UIFont fontWithName:@"Oswald-Light" size:26];
             lbsLabel.textColor = [UIColor whiteColor];
             lbsLabel.text = @"lbs";
             [amountLabel sizeToFit];
             
             messageView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, gainedOrLostLabel.frame.size.width + amountLabel.frame.size.width + lbsLabel.frame.size.width, 50)];
+            if (is35) {
+                messageView.frame = CGRectMake(0, 0, gainedOrLostLabel.frame.size.width + amountLabel.frame.size.width + lbsLabel.frame.size.width, 42);
+            }
             [messageView addSubview:gainedOrLostLabel];
             [messageView addSubview:amountLabel];
             [messageView addSubview:lbsLabel];
@@ -297,11 +339,17 @@
             UIButton *updateButton = [[UIButton alloc] init];
             [updateButton setImage:[UIImage imageNamed:@"update_button.png"] forState:UIControlStateNormal];
             [updateButton setFrame:CGRectMake(66, 168, 190, 85)];
+            if (is35) {
+                [updateButton setFrame:CGRectMake(66, 142, 190, 72)];
+            }
             [updateButton addTarget:self
                        action:@selector(updateButtonTouched:)
              forControlEvents:UIControlEventTouchUpInside];
             
             lbsLabel = [[UILabel alloc] initWithFrame:CGRectMake(212, 118, 50, 50)];
+            if (is35) {
+                lbsLabel.frame = CGRectMake(212, 100, 50, 42);
+            }
             lbsLabel.font = [UIFont fontWithName:@"Oswald-Light" size:25];
             lbsLabel.textColor = [UIColor whiteColor];
             lbsLabel.text = @"lbs";
@@ -359,10 +407,18 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([indexPath row] == currentSelection) {
-        return 269;
+        if (is35) {
+            return 227;
+        } else {
+            return 269;
+        }
     }
     else {
-        return 55;
+        if (is35) {
+            return 46;
+        } else {
+            return 55;
+        }
     }
 }
 

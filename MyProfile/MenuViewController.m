@@ -16,20 +16,35 @@
 
 @property (nonatomic, strong) NSArray *categoryArray;
 @property (nonatomic, strong) NSArray *iconImagepathArray;
+@property BOOL is35;
 
 @end
 
 @implementation MenuViewController
-@synthesize myTableView, categoryArray, iconImagepathArray;
+@synthesize myTableView, categoryArray, iconImagepathArray, is35;
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    is35 = NO;
+    
+    CGRect bounds = self.view.bounds;
+    CGFloat height = bounds.size.height;
+    
+    if (height == 480) {
+        is35 = YES;
+    }
+    
     [self.navigationController setNavigationBarHidden:YES animated:animated];
+    
+    NSString *storyBoardName = @"iPhone4";
+    if (is35) {
+        storyBoardName = @"iPhone35";
+    }
     
     if (![PFUser currentUser]) {
         UINavigationController *myInitialNavigationController = [UINavigationController new];
-        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:storyBoardName bundle: nil];
         myInitialNavigationController = [mainStoryboard instantiateViewControllerWithIdentifier:@"InitialNavigationController"];
         
         [self presentViewController:myInitialNavigationController animated:animated completion:nil];
@@ -117,6 +132,9 @@
     cell.accessoryType = UITableViewCellAccessoryNone;
     
     UIImageView *arrowImageView = [[UIImageView alloc] initWithFrame:CGRectMake(255, 41, 43, 48)];
+    if (is35) {
+        arrowImageView.frame = CGRectMake(262, 35, 36, 41);
+    }
     arrowImageView.image = [UIImage imageNamed:@"MainMenu - arrow@2x.png"];
     [cell addSubview:arrowImageView];
     

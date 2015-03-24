@@ -2,7 +2,7 @@
 //  FoodTrackerItem.h
 //  Dr Sara Solomon Pro
 //
-//  Created by Apple on 13/02/15.
+//  Created by Poulose Matthen on 21/03/15.
 //  Copyright (c) 2015 Dr. Sara Solomon Fitness. All rights reserved.
 //
 
@@ -22,5 +22,6 @@
 @property (nonatomic, retain) NSNumber * numberOfServings;
 @property (nonatomic, retain) NSNumber * proteinsPerServing;
 @property (nonatomic, retain) NSString * servingUnit;
+@property (nonatomic, retain) NSNumber * servingAmount;
 
 @end

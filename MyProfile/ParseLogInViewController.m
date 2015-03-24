@@ -12,6 +12,9 @@
 #define kOFFSET_FOR_KEYBOARD 216.0
 
 @interface ParseLogInViewController () <UITextFieldDelegate>
+{
+    BOOL is35;
+}
 
 @end
 
@@ -21,6 +24,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    is35 = NO;
+    
+    CGRect bounds = self.view.bounds;
+    CGFloat height = bounds.size.height;
+    
+    if (height == 480) {
+        is35 = YES;
+    }
     
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     
@@ -65,6 +77,18 @@
     UIImageView *arrowImageView = [[UIImageView alloc] initWithFrame:CGRectMake(285, 15, 25, 24)];
     arrowImageView.image = [UIImage imageNamed:@"arrow_small_right@2x.png"];
     [loginButton addSubview:arrowImageView];
+    
+    if (is35) {
+        stepsCountLabelA.frame = CGRectMake(86, 54, 140, 30);
+        [stepsCountLabelA sizeToFit];
+        stepsCountLabelB.frame = CGRectMake(155, 49, 40, 30);
+        [stepsCountLabelB sizeToFit];
+        stepsCountLabelC.frame = CGRectMake(207, 54, 30, 30);
+        [stepsCountLabelC sizeToFit];
+        avatarImageView.frame = CGRectMake(94, 117, 162, 172);
+        [forgotPasswordButton setFrame:CGRectMake(62, 385, 80, 17)];
+        arrowImageView.frame = CGRectMake(289, 13, 21, 20);
+    }
     
     [self.view addSubview:stepsCountLabelA];
     [self.view addSubview:stepsCountLabelB];
@@ -140,8 +164,14 @@
     [usernameTextField resignFirstResponder];
     [passwordTextField resignFirstResponder];
     [PFUser logInWithUsernameInBackground:[usernameTextField.text lowercaseString] password:passwordTextField.text block:^(PFUser *user, NSError *error) {
+        
+        NSString *storyBoardName = @"iPhone4";
+        if (is35) {
+            storyBoardName = @"iPhone35";
+        }
+        
         if (user) {
-            UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+            UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:storyBoardName bundle: nil];
             MenuViewController *myMenuViewController = [MenuViewController new];
             myMenuViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"MenuViewNavigationController"];
             [self presentViewController:myMenuViewController animated:NO completion:nil];

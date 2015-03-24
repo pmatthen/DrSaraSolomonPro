@@ -2,7 +2,7 @@
 //  MacroCalculatorDetails.m
 //  Dr Sara Solomon Pro
 //
-//  Created by Apple on 17/02/15.
+//  Created by Poulose Matthen on 21/03/15.
 //  Copyright (c) 2015 Dr. Sara Solomon Fitness. All rights reserved.
 //
 
@@ -15,8 +15,8 @@
 @dynamic bodyfat;
 @dynamic date;
 @dynamic fats;
+@dynamic latestWeight;
 @dynamic proteinCalculation;
 @dynamic results;
-@dynamic latestWeight;
 
 @end

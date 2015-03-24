@@ -10,6 +10,9 @@
 #import "MenuViewController.h"
 
 @interface ParseSignUpViewControllerStep7 ()
+{
+    BOOL is35;
+}
 
 @end
 
@@ -19,6 +22,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    is35 = NO;
+    
+    CGRect bounds = self.view.bounds;
+    CGFloat height = bounds.size.height;
+    
+    if (height == 480) {
+        is35 = YES;
+    }
 
     UILabel *congratsLabel = [[UILabel alloc] initWithFrame:CGRectMake(49, 190, 150, 150)];
     congratsLabel.font = [UIFont fontWithName:@"Norican-Regular" size:37];
@@ -33,6 +45,12 @@
     getReadyLabel.lineBreakMode = NSLineBreakByWordWrapping;
     getReadyLabel.numberOfLines = 0;
     getReadyLabel.text = @"You are now a member of the Sara Solomon Intermittent Fasting and Calorie Tracking app! Get ready to look and feel sexier than you ever have before!";
+    
+    if (is35) {
+        congratsLabel.frame = CGRectMake(49, 161, 150, 127);
+        [congratsLabel sizeToFit];
+        getReadyLabel.frame = CGRectMake(35, 121, 250, 254);
+    }
     
     [self.view addSubview:congratsLabel];
     [self.view addSubview:getReadyLabel];

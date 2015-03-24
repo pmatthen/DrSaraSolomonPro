@@ -12,17 +12,30 @@
 @interface MacroCalculatorViewControllerStep3 () <UIPickerViewDelegate, UIPickerViewDataSource>
 
 @property NSArray *proteinArray;
+@property BOOL is35;
 
 @end
 
 @implementation MacroCalculatorViewControllerStep3
-@synthesize myPickerView, proteinArray, neat, bodyfatPercentage, results, date;
+@synthesize myPickerView, proteinArray, neat, bodyfatPercentage, results, date, is35;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
+    is35 = NO;
+    
+    CGRect bounds = self.view.bounds;
+    CGFloat height = bounds.size.height;
+    
+    if (height == 480) {
+        is35 = YES;
+    }
+    
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 9, 100, 40)];
+    if (is35) {
+        titleLabel.frame = CGRectMake(40, 8, 100, 34);
+    }
     titleLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
     titleLabel.textColor = [UIColor whiteColor];
     titleLabel.text = @"MACRO CALCULATOR";
@@ -33,12 +46,18 @@
     proteinArray = @[@1, @1.1, @1.2, @1.3, @1.4];
 
     UILabel *stepLabel = [[UILabel alloc] initWithFrame:CGRectMake(55, 149, 60, 40)];
+    if (is35) {
+        stepLabel.frame = CGRectMake(55, 126, 60, 34);
+    }
     stepLabel.font = [UIFont fontWithName:@"Norican-Regular" size:31];
     stepLabel.textColor = [UIColor whiteColor];
     stepLabel.text = @"Step 3";
     [stepLabel sizeToFit];
     
     UILabel *instructionsLabel = [[UILabel alloc] initWithFrame:CGRectMake(132, 163, 60, 40)];
+    if (is35) {
+        instructionsLabel.frame = CGRectMake(132, 138, 60, 34);
+    }
     instructionsLabel.font = [UIFont fontWithName:@"Oswald-Light" size:16];
     instructionsLabel.textColor = [UIColor whiteColor];
     instructionsLabel.text = @"ENTER PROTEIN CALCULATION";

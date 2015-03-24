@@ -12,17 +12,30 @@
 @interface MacroCalculatorViewControllerStep2 () <UIPickerViewDelegate, UIPickerViewDataSource>
 
 @property NSArray *resultsArray;
+@property BOOL is35;
 
 @end
 
 @implementation MacroCalculatorViewControllerStep2
-@synthesize resultsArray, myPickerView, neat, bodyfatPercentage, date;
+@synthesize resultsArray, myPickerView, neat, bodyfatPercentage, date, is35;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
+    is35 = NO;
+    
+    CGRect bounds = self.view.bounds;
+    CGFloat height = bounds.size.height;
+    
+    if (height == 480) {
+        is35 = YES;
+    }
+    
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 9, 100, 40)];
+    if (is35) {
+        titleLabel.frame = CGRectMake(40, 8, 100, 34);
+    }
     titleLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
     titleLabel.textColor = [UIColor whiteColor];
     titleLabel.text = @"MACRO CALCULATOR";
@@ -33,12 +46,18 @@
     resultsArray = @[@"TDEE (Maintenance level of calories)", @"20% of TDEE (for ADF)", @"25% of TDEE (for ADF)", @"30% of TDEE (for ADF)", @"35% of TDEE (for ADF)", @"40% of TDEE (for ADF)", @"45% of TDEE (for ADF)", @"50% of TDEE (for ADF)", @"TDEE -10% (Fat Loss for Daily Fasting)", @"TDEE -15% (Fat Loss for Daily Fasting)"];
     
     UILabel *stepLabel = [[UILabel alloc] initWithFrame:CGRectMake(55, 149, 60, 40)];
+    if (is35) {
+        stepLabel.frame = CGRectMake(55, 126, 60, 34);
+    }
     stepLabel.font = [UIFont fontWithName:@"Norican-Regular" size:31];
     stepLabel.textColor = [UIColor whiteColor];
     stepLabel.text = @"Step 2";
     [stepLabel sizeToFit];
     
     UILabel *instructionsLabel = [[UILabel alloc] initWithFrame:CGRectMake(132, 163, 60, 40)];
+    if (is35) {
+        instructionsLabel.frame = CGRectMake(132, 138, 60, 34);
+    }
     instructionsLabel.font = [UIFont fontWithName:@"Oswald-Light" size:16];
     instructionsLabel.textColor = [UIColor whiteColor];
     instructionsLabel.text = @"ENTER RESULTS FORMAT";

@@ -31,6 +31,13 @@
         // Set icon badge number to zero
         application.applicationIconBadgeNumber = 0;
     }
+    ter
+    UIStoryboard *storyboard = [self grabStoryboard];
+    
+    // show the storyboard
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController = [storyboard instantiateInitialViewController];
+    [self.window makeKeyAndVisible];
 
     return YES;
 }
@@ -78,6 +85,24 @@
     
     // Set icon badge number to zero
     application.applicationIconBadgeNumber = 0;
+}
+
+- (UIStoryboard *)grabStoryboard {
+    
+    UIStoryboard *storyboard;
+    
+    // detect the height of our screen
+    int height = [UIScreen mainScreen].bounds.size.height;
+    
+    if (height == 480) {
+        storyboard = [UIStoryboard storyboardWithName:@"iPhone35" bundle:nil];
+        NSLog(@"Device has a 3.5inch Display.");
+    } else {
+        storyboard = [UIStoryboard storyboardWithName:@"iPhone4" bundle:nil];
+        NSLog(@"Device has a 4inch Display.");
+    }
+    
+    return storyboard;
 }
 
 @end

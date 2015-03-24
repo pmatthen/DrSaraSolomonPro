@@ -12,6 +12,8 @@
 	<dict>
 		<key>5875EF99B453971119D53FEF358A44135818DD6C</key>
 		<string>https://github.com/pmatthen/DrSaraSolomonPro.git</string>
+		<key>8FD6D1164CD75959AF27F95BF95BA09BE572D66B</key>
+		<string>https://github.com/pmatthen/FatSecretKit.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Dr Sara Solomon Pro.xcworkspace</string>
@@ -19,6 +21,8 @@
 	<dict>
 		<key>5875EF99B453971119D53FEF358A44135818DD6C</key>
 		<string>..</string>
+		<key>8FD6D1164CD75959AF27F95BF95BA09BE572D66B</key>
+		<string>../../FatSecretKit</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/pmatthen/DrSaraSolomonPro.git</string>
@@ -35,6 +39,14 @@
 			<string>5875EF99B453971119D53FEF358A44135818DD6C</string>
 			<key>IDESourceControlWCCName</key>
 			<string>DrSaraSolomonPro</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>8FD6D1164CD75959AF27F95BF95BA09BE572D66B</string>
+			<key>IDESourceControlWCCName</key>
+			<string>FatSecretKit</string>
 		</dict>
 	</array>
 </dict>

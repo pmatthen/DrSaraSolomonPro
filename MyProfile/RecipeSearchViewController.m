@@ -16,19 +16,32 @@
 
 @property (nonatomic, strong) NSArray *resultsArray;
 @property (nonatomic, strong) FSRecipe *recipeToSend;
+@property BOOL is35;
 
 @end
 
 @implementation RecipeSearchViewController
-@synthesize myTableView, resultsArray, recipeToSend;
+@synthesize myTableView, resultsArray, recipeToSend, is35;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
+    is35 = NO;
+    
+    CGRect bounds = self.view.bounds;
+    CGFloat height = bounds.size.height;
+    
+    if (height == 480) {
+        is35 = YES;
+    }
+    
     resultsArray = [NSArray new];
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 9, 100, 40)];
+    if (is35) {
+        titleLabel.frame = CGRectMake(40, 8, 100, 34);
+    }
     titleLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
     titleLabel.textColor = [UIColor whiteColor];
     titleLabel.text = @"RECIPES";
@@ -71,6 +84,11 @@
     
     PFFile *thumbnail = [tempObject objectForKey:@"image"];
     cell.thumbnailImageView.image = [UIImage imageNamed:@"placeholder.jpg"];
+    cell.thumbnailImageView.autoresizingMask = (UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleWidth);
+    cell.thumbnailImageView.layer.cornerRadius = cell.thumbnailImageView.frame.size.height/2;
+    cell.thumbnailImageView.clipsToBounds = YES;
+    [cell.thumbnailImageView.layer setBorderColor:[[UIColor whiteColor] CGColor]];
+    [cell.thumbnailImageView.layer setBorderWidth:1.0];
     cell.thumbnailImageView.file = thumbnail;
     [cell.thumbnailImageView loadInBackground];
     

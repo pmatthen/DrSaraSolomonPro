@@ -2,7 +2,7 @@
 //  FoodTrackerItem.m
 //  Dr Sara Solomon Pro
 //
-//  Created by Apple on 13/02/15.
+//  Created by Poulose Matthen on 21/03/15.
 //  Copyright (c) 2015 Dr. Sara Solomon Fitness. All rights reserved.
 //
 
@@ -21,5 +21,6 @@
 @dynamic numberOfServings;
 @dynamic proteinsPerServing;
 @dynamic servingUnit;
+@dynamic servingAmount;
 
 @end

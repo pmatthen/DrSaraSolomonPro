@@ -29,15 +29,25 @@
 @property UILabel *fiberValueLabel;
 @property UILabel *sugarsValueLabel;
 @property UILabel *proteinValueLabel;
+@property BOOL is35;
 
 @end
 
 @implementation RecipeSampleViewController
-@synthesize categoryArray, currentSelection, myTableView, isFirstTime, isFirstClick, myRecipe, myImageView, calorieValueLabel, totalFatValueLabel, satFatValueLabel, cholesterolValueLabel, sodiumValueLabel, carbsValueLabel, fiberValueLabel, sugarsValueLabel, proteinValueLabel;
+@synthesize categoryArray, currentSelection, myTableView, isFirstTime, isFirstClick, myRecipe, myImageView, calorieValueLabel, totalFatValueLabel, satFatValueLabel, cholesterolValueLabel, sodiumValueLabel, carbsValueLabel, fiberValueLabel, sugarsValueLabel, proteinValueLabel, is35;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    is35 = NO;
+    
+    CGRect bounds = self.view.bounds;
+    CGFloat height = bounds.size.height;
+    
+    if (height == 480) {
+        is35 = YES;
+    }
 
     categoryArray = @[@"OVERVIEW", @"INGREDIENTS", @"DIRECTIONS"];
     
@@ -45,6 +55,9 @@
     isFirstClick = YES;
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 9, 100, 40)];
+    if (is35) {
+        titleLabel.frame = CGRectMake(40, 8, 100, 34);
+    }
     titleLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
     titleLabel.textColor = [UIColor whiteColor];
     titleLabel.text = @"RECIPES";
@@ -107,43 +120,76 @@
         {case 0:
             NSLog(@"");
             UIImageView *titleBoxImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 55, 320, 38)];
+            if (is35) {
+                [titleBoxImageView setFrame:CGRectMake(0, 46, 320, 32)];
+            }
             titleBoxImageView.image = [UIImage imageNamed:@"title_rectangle@2x.png"];
             
             UILabel *foodNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 8, 100, 40)];
+            if (is35) {
+                foodNameLabel.frame = CGRectMake(0, 7, 100, 34);
+            }
             foodNameLabel.font = [UIFont fontWithName:@"Oswald" size:13];
             foodNameLabel.textColor = [UIColor whiteColor];
             foodNameLabel.text = [myRecipe.name uppercaseString];
             [foodNameLabel sizeToFit];
             foodNameLabel.frame = CGRectMake((320 - foodNameLabel.frame.size.width)/2, 8, foodNameLabel.frame.size.width, foodNameLabel.frame.size.height);
+            if (is35) {
+                foodNameLabel.frame = CGRectMake((320 - foodNameLabel.frame.size.width)/2, 7, foodNameLabel.frame.size.width, foodNameLabel.frame.size.height);
+            }
             
             [cell.contentView addSubview:titleBoxImageView];
             [titleBoxImageView addSubview:foodNameLabel];
             
             UIImageView *dividerImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 128, 320, 10)];
+            if (is35) {
+                [dividerImageView setFrame:CGRectMake(0, 108, 320, 8)];
+            }
             dividerImageView.image = [UIImage imageNamed:@"divider@2x.png"];
             
             UILabel *prepTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(36, 150, 60, 40)];
+            if (is35) {
+                prepTimeLabel.frame = CGRectMake(36, 127, 60, 34);
+            }
             prepTimeLabel.font = [UIFont fontWithName:@"Oswald-Light" size:12];
             prepTimeLabel.textColor = [UIColor whiteColor];
             prepTimeLabel.text = @"PREP TIME";
             [prepTimeLabel sizeToFit];
             prepTimeLabel.frame = CGRectMake( (((320/3)/2) - prepTimeLabel.frame.size.width/2) , 140, prepTimeLabel.frame.size.width, prepTimeLabel.frame.size.height);
+            if (is35) {
+                prepTimeLabel.frame = CGRectMake( (((320/3)/2) - prepTimeLabel.frame.size.width/2) , 118, prepTimeLabel.frame.size.width, prepTimeLabel.frame.size.height);
+            }
             
             UILabel *cookTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(136, 150, 60, 40)];
+            if (is35) {
+                cookTimeLabel.frame = CGRectMake(136, 127, 60, 34);
+            }
             cookTimeLabel.font = [UIFont fontWithName:@"Oswald-Light" size:12];
             cookTimeLabel.textColor = [UIColor whiteColor];
             cookTimeLabel.text = @"COOK TIME";
             [cookTimeLabel sizeToFit];
             cookTimeLabel.frame = CGRectMake( (((320/3)/2) - cookTimeLabel.frame.size.width/2) + ((320/3) * 1) , 140, cookTimeLabel.frame.size.width, cookTimeLabel.frame.size.height);
+            if (is35) {
+                cookTimeLabel.frame = CGRectMake( (((320/3)/2) - cookTimeLabel.frame.size.width/2) + ((320/3) * 1) , 118, cookTimeLabel.frame.size.width, cookTimeLabel.frame.size.height);
+            }
             
             UILabel *totalTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(236, 150, 60, 40)];
+            if (is35) {
+                totalTimeLabel.frame = CGRectMake(236, 127, 60, 34);
+            }
             totalTimeLabel.font = [UIFont fontWithName:@"Oswald-Light" size:12];
             totalTimeLabel.textColor = [UIColor whiteColor];
             totalTimeLabel.text = @"TOTAL TIME";
             [totalTimeLabel sizeToFit];
             totalTimeLabel.frame = CGRectMake( (((320/3)/2) - totalTimeLabel.frame.size.width/2) + ((320/3) * 2) , 140, totalTimeLabel.frame.size.width, totalTimeLabel.frame.size.height);
+            if (is35) {
+                totalTimeLabel.frame = CGRectMake( (((320/3)/2) - totalTimeLabel.frame.size.width/2) + ((320/3) * 2) , 118, totalTimeLabel.frame.size.width, totalTimeLabel.frame.size.height);
+            }
             
             UIView *nutritionView = [[UIView alloc] initWithFrame:CGRectMake(20, 151, 280, 129)];
+            if (is35) {
+                [nutritionView setFrame:CGRectMake(20, 127, 280, 109)];
+            }
             [nutritionView setBackgroundColor:[UIColor clearColor]];
             
             UILabel *calorieLabel = [[UILabel alloc] init];
@@ -152,6 +198,9 @@
             calorieLabel.text = @"CALORIES";
             [calorieLabel sizeToFit];
             [calorieLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) - (calorieLabel.frame.size.width))/2 - 19, 20, calorieLabel.frame.size.width, calorieLabel.frame.size.height)];
+            if (is35) {
+                [calorieLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) - (calorieLabel.frame.size.width))/2 - 19, 17, calorieLabel.frame.size.width, calorieLabel.frame.size.height)];
+            }
             
             UILabel *totalFatLabel = [[UILabel alloc] init];
             totalFatLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
@@ -159,6 +208,9 @@
             totalFatLabel.text = @"TOTAL FAT";
             [totalFatLabel sizeToFit];
             [totalFatLabel setFrame:CGRectMake((nutritionView.frame.size.width/3) + 10 - 19, 20, totalFatLabel.frame.size.width, totalFatLabel.frame.size.height)];
+            if (is35) {
+                [totalFatLabel setFrame:CGRectMake((nutritionView.frame.size.width/3) + 10 - 19, 17, totalFatLabel.frame.size.width, totalFatLabel.frame.size.height)];
+            }
             
             UILabel *satFatLabel = [[UILabel alloc] init];
             satFatLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
@@ -187,6 +239,9 @@
             carbsLabel.text = @"CARBS";
             [carbsLabel sizeToFit];
             [carbsLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) + 10, 20, carbsLabel.frame.size.width, carbsLabel.frame.size.height)];
+            if (is35) {
+                [carbsLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) + 10, 17, carbsLabel.frame.size.width, carbsLabel.frame.size.height)];
+            }
             
             UILabel *fiberLabel = [[UILabel alloc] init];
             fiberLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
@@ -210,9 +265,15 @@
             [proteinLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) + 10, sugarsLabel.frame.origin.y + sugarsLabel.frame.size.height + 5, proteinLabel.frame.size.width, proteinLabel.frame.size.height)];
             
             UIView *lineSeparatorView1 = [[UIView alloc] initWithFrame:CGRectMake(nutritionView.frame.size.width/3 - 19, 20, 1, sodiumLabel.frame.origin.y + sodiumLabel.frame.size.height - 20)];
+            if (is35) {
+                lineSeparatorView1.frame = CGRectMake(nutritionView.frame.size.width/3 - 19, 17, 1, sodiumLabel.frame.origin.y + sodiumLabel.frame.size.height - 20);
+            }
             [lineSeparatorView1 setBackgroundColor:[UIColor whiteColor]];
             
             UIView *lineSeparatorView2 = [[UIView alloc] initWithFrame:CGRectMake((nutritionView.frame.size.width/3) * 2, 20, 1, sodiumLabel.frame.origin.y + sodiumLabel.frame.size.height - 20)];
+            if (is35) {
+                lineSeparatorView2.frame = CGRectMake((nutritionView.frame.size.width/3) * 2, 17, 1, sodiumLabel.frame.origin.y + sodiumLabel.frame.size.height - 20);
+            }
             [lineSeparatorView2 setBackgroundColor:[UIColor whiteColor]];
             
             [nutritionView addSubview:calorieLabel];
@@ -245,6 +306,11 @@
                 prepMinLabel.frame = CGRectMake( ((320/3)/2) - ((prepMinLabel.frame.size.width + prepMinLabelLabel.frame.size.width)/2), 100, prepMinLabel.frame.size.width, prepMinLabel.frame.size.height);
                 prepMinLabelLabel.frame = CGRectMake(prepMinLabel.frame.origin.x
                                                      + prepMinLabel.frame.size.width, 110, prepMinLabelLabel.frame.size.width, prepMinLabelLabel.frame.size.height);
+                if (is35) {
+                    prepMinLabel.frame = CGRectMake( ((320/3)/2) - ((prepMinLabel.frame.size.width + prepMinLabelLabel.frame.size.width)/2), 85, prepMinLabel.frame.size.width, prepMinLabel.frame.size.height);
+                    prepMinLabelLabel.frame = CGRectMake(prepMinLabel.frame.origin.x
+                                                         + prepMinLabel.frame.size.width, 93, prepMinLabelLabel.frame.size.width, prepMinLabelLabel.frame.size.height);
+                }
                 
                 UILabel *cookMinLabel = [[UILabel alloc] init];
                 cookMinLabel.font = [UIFont fontWithName:@"Oswald" size:22];
@@ -262,6 +328,11 @@
                 cookMinLabel.frame = CGRectMake( ((320/3)/2) - ((cookMinLabel.frame.size.width + cookMinLabelLabel.frame.size.width)/2) + ((320/3) * 1), 100, cookMinLabel.frame.size.width, cookMinLabel.frame.size.height);
                 cookMinLabelLabel.frame = CGRectMake(cookMinLabel.frame.origin.x
                                                      + cookMinLabel.frame.size.width, 110, cookMinLabelLabel.frame.size.width, cookMinLabelLabel.frame.size.height);
+                if (is35) {
+                    cookMinLabel.frame = CGRectMake( ((320/3)/2) - ((cookMinLabel.frame.size.width + cookMinLabelLabel.frame.size.width)/2) + ((320/3) * 1), 85, cookMinLabel.frame.size.width, cookMinLabel.frame.size.height);
+                    cookMinLabelLabel.frame = CGRectMake(cookMinLabel.frame.origin.x
+                                                         + cookMinLabel.frame.size.width, 93, cookMinLabelLabel.frame.size.width, cookMinLabelLabel.frame.size.height);
+                }
                 
                 UILabel *totalMinLabel = [[UILabel alloc] init];
                 totalMinLabel.font = [UIFont fontWithName:@"Oswald" size:22];
@@ -278,6 +349,12 @@
                 totalMinLabel.frame = CGRectMake( ((320/3)/2) - ((totalMinLabel.frame.size.width + totalMinLabelLabel.frame.size.width)/2) + ((320/3) * 2), 100, totalMinLabel.frame.size.width, totalMinLabel.frame.size.height);
                 totalMinLabelLabel.frame = CGRectMake(totalMinLabel.frame.origin.x
                                                      + totalMinLabel.frame.size.width, 110, totalMinLabelLabel.frame.size.width, totalMinLabelLabel.frame.size.height);
+                
+                if (is35) {
+                    totalMinLabel.frame = CGRectMake( ((320/3)/2) - ((totalMinLabel.frame.size.width + totalMinLabelLabel.frame.size.width)/2) + ((320/3) * 2), 85, totalMinLabel.frame.size.width, totalMinLabel.frame.size.height);
+                    totalMinLabelLabel.frame = CGRectMake(totalMinLabel.frame.origin.x
+                                                          + totalMinLabel.frame.size.width, 93, totalMinLabelLabel.frame.size.width, totalMinLabelLabel.frame.size.height);
+                }
 
                 [cell.contentView addSubview:prepMinLabel];
                 [cell.contentView addSubview:prepMinLabelLabel];
@@ -305,6 +382,9 @@
                     [totalFatValueLabel sizeToFit];
                     totalFatValueLabel.textAlignment = NSTextAlignmentCenter;
                     [totalFatValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) - 32 - 19, 20, 25 + 19, totalFatLabel.frame.size.height)];
+                    if (is35) {
+                        [totalFatValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) - 32 - 19, 17, 25 + 19, totalFatLabel.frame.size.height)];
+                    }
                     [totalFatValueLabel setAdjustsFontSizeToFitWidth:YES];
                     
                     satFatValueLabel = [[UILabel alloc] init];
@@ -341,6 +421,9 @@
                     [carbsValueLabel sizeToFit];
                     carbsValueLabel.textAlignment = NSTextAlignmentCenter;
                     [carbsValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 3) - 27 - 5, 20, 25 + 19, carbsLabel.frame.size.height)];
+                    if (is35) {
+                        [carbsValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 3) - 27 - 5, 17, 25 + 19, carbsLabel.frame.size.height)];
+                    }
                     [carbsValueLabel setAdjustsFontSizeToFitWidth:YES];
                     
                     fiberValueLabel = [[UILabel alloc] init];
@@ -396,10 +479,16 @@
                 servingsLabel.text = [NSString stringWithFormat:@"Makes %li servings", (long)recipe.numberOfServings];
                 [servingsLabel sizeToFit];
                 servingsLabel.frame = CGRectMake(54, 75, servingsLabel.frame.size.width, servingsLabel.frame.size.height);
+                if (is35) {
+                    servingsLabel.frame = CGRectMake(54, 63, servingsLabel.frame.size.width, servingsLabel.frame.size.height);
+                }
                 
                 UITextView *ingredientsTextView = [[UITextView alloc] init];
                 ingredientsTextView.backgroundColor = [UIColor clearColor];
                 ingredientsTextView.frame = CGRectMake(60, 110, 220, 135);
+                if (is35) {
+                    ingredientsTextView.frame = CGRectMake(60, 93, 220, 114);
+                }
                 ingredientsTextView.scrollEnabled = YES;
                 ingredientsTextView.pagingEnabled = NO;
                 ingredientsTextView.editable = NO;
@@ -427,10 +516,16 @@
                 preparationLabel.text = @"Preparation";
                 [preparationLabel sizeToFit];
                 preparationLabel.frame = CGRectMake(59, 76, preparationLabel.frame.size.width, preparationLabel.frame.size.height);
+                if (is35) {
+                    preparationLabel.frame = CGRectMake(59, 64, preparationLabel.frame.size.width, preparationLabel.frame.size.height);
+                }
                 
                 UITextView *directionsTextView = [[UITextView alloc] init];
                 directionsTextView.backgroundColor = [UIColor clearColor];
                 directionsTextView.frame = CGRectMake(60, 110, 220, 135);
+                if (is35) {
+                    directionsTextView.frame = CGRectMake(60, 93, 220, 114);
+                }
                 directionsTextView.scrollEnabled = YES;
                 directionsTextView.pagingEnabled = NO;
                 directionsTextView.editable = NO;;
@@ -499,10 +594,18 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([indexPath row] == currentSelection) {
-        return 269;
+        if (is35) {
+            return 227;
+        } else {
+            return 269;
+        }
     }
     else {
-        return 55;
+        if (is35) {
+            return 46;
+        } else {
+            return 55;
+        }
     }
 }
 

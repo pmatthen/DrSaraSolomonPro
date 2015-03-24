@@ -12,22 +12,38 @@
 @interface RecipeViewController() <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) NSArray *categoryArray;
+@property BOOL is35;
 
 @end
 
 @implementation RecipeViewController
-@synthesize categoryArray, myTableView;
+@synthesize categoryArray, myTableView, is35;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
+    is35 = NO;
+    
+    CGRect bounds = self.view.bounds;
+    CGFloat height = bounds.size.height;
+    
+    if (height == 480) {
+        is35 = YES;
+    }
+    
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 9, 100, 40)];
+    if (is35) {
+        titleLabel.frame = CGRectMake(40, 8, 100, 34);
+    }
     titleLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
     titleLabel.textColor = [UIColor whiteColor];
     titleLabel.text = @"RECIPES";
     
     UILabel *mainTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(124, 97, 100, 100)];
+    if (is35) {
+        mainTitleLabel.frame = CGRectMake(124, 82, 100, 85);
+    }
     mainTitleLabel.font = [UIFont fontWithName:@"Oswald" size:23];
     mainTitleLabel.textColor = [UIColor whiteColor];
     mainTitleLabel.text = @"RECIPES";
@@ -58,6 +74,9 @@
     cell.myImageView.image = [UIImage imageNamed:@"arrow@2x.png"];
     
     UILabel *cellTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(38, 45, 100, 50)];
+    if (is35) {
+        cellTitleLabel.frame = CGRectMake(38, 38, 100, 42);
+    }
     cellTitleLabel.font = [UIFont fontWithName:@"Oswald" size:18];
     cellTitleLabel.textColor = [UIColor whiteColor];
     cellTitleLabel.text = categoryArray[indexPath.row];

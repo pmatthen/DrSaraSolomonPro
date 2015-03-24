@@ -1,1 +1,1 @@
-../../../../../../Desktop/FatSecretKit-master/FatSecretKit/FatSecret/NSString+Camelize.h
+../../../../../FatSecretKit/FatSecretKit/FatSecret/NSString+Camelize.h

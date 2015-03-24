@@ -10,6 +10,9 @@
 #import "AddFoodViewControllerStep2.h"
 
 @interface AddFoodViewController () <UITextFieldDelegate>
+{
+    BOOL is35;
+}
 
 @end
 
@@ -18,13 +21,28 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    is35 = NO;
+    
+    CGRect bounds = self.view.bounds;
+    CGFloat height = bounds.size.height;
+    
+    if (height == 480) {
+        is35 = YES;
+    }
 
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 9, 100, 40)];
+    if (is35) {
+        titleLabel.frame = CGRectMake(40, 8, 100, 34);
+    }
     titleLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
     titleLabel.textColor = [UIColor whiteColor];
     titleLabel.text = @"DAILY TRACKER";
     
     UILabel *instructionTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(97, 97, 100, 100)];
+    if (is35) {
+        instructionTitleLabel.frame = CGRectMake(97, 82, 100, 85);
+    }
     instructionTitleLabel.font = [UIFont fontWithName:@"Oswald" size:29];
     instructionTitleLabel.textColor = [UIColor whiteColor];
     instructionTitleLabel.text = @"ADD FOOD";
@@ -32,6 +50,9 @@
     instructionTitleLabel.frame = CGRectMake((320 - instructionTitleLabel.frame.size.width)/2, instructionTitleLabel.frame.origin.y, instructionTitleLabel.frame.size.width, instructionTitleLabel.frame.size.height);
     
     UILabel *instructionLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 148, 200, 100)];
+    if (is35) {
+        instructionLabel.frame = CGRectMake(100, 125, 200, 85);
+    }
     instructionLabel.numberOfLines = 0;
     instructionLabel.textAlignment = NSTextAlignmentCenter;
     instructionLabel.font = [UIFont fontWithName:@"Oswald-Light" size:15];

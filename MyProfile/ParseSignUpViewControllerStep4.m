@@ -10,6 +10,9 @@
 #import "ParseSignUpViewControllerStep5.h"
 
 @interface ParseSignUpViewControllerStep4 () <UIPickerViewDelegate, UIPickerViewDataSource>
+{
+    BOOL is35;
+}
 
 @end
 
@@ -19,6 +22,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    is35 = NO;
+    
+    CGRect bounds = self.view.bounds;
+    CGFloat height = bounds.size.height;
+    
+    if (height == 480) {
+        is35 = YES;
+    }
     
     UIColor *myFontColor = [UIColor colorWithRed:255 green:255 blue:255 alpha:1];
     
@@ -76,6 +88,23 @@
     inLabel.textColor = myFontColor;
     inLabel.text = @"in";
     [inLabel sizeToFit];
+    
+    if (is35) {
+        stepsCountLabelA.frame = CGRectMake(60, 47, 140, 30);
+        [stepsCountLabelA sizeToFit];
+        stepsCountLabelB.frame = CGRectMake(193, 42, 40, 30);
+        [stepsCountLabelB sizeToFit];
+        stepsCountLabelC.frame = CGRectMake(243, 47, 30, 30);
+        [stepsCountLabelC sizeToFit];
+        stepLabel.frame = CGRectMake(55, 126, 60, 34);
+        [stepLabel sizeToFit];
+        instructionsLabel.frame = CGRectMake(132, 138, 60, 34);
+        [instructionsLabel sizeToFit];
+        ftLabel.frame = CGRectMake(125, 296, 60, 34);
+        [ftLabel sizeToFit];
+        inLabel.frame = CGRectMake(273, 296, 60, 34);
+        [inLabel sizeToFit];
+    }
     
     [self.view addSubview:stepsCountLabelA];
     [self.view addSubview:stepsCountLabelB];

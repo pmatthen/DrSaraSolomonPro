@@ -46,6 +46,8 @@
     UILabel *fiberValueLabel;
     UILabel *sugarsValueLabel;
     UILabel *proteinValueLabel;
+    
+    BOOL is35;
 }
 
 @end
@@ -56,6 +58,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    is35 = NO;
+    
+    CGRect bounds = self.view.bounds;
+    CGFloat height = bounds.size.height;
+    
+    if (height == 480) {
+        is35 = YES;
+    }
     
     indexForGRatio = -1;
     indexForMlRatio = -1;
@@ -88,6 +99,9 @@
     }];
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 9, 100, 40)];
+    if (is35) {
+        titleLabel.frame = CGRectMake(40, 8, 100, 34);
+    }
     titleLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
     titleLabel.textColor = [UIColor whiteColor];
     titleLabel.text = @"ADD INGREDIENT";
@@ -114,6 +128,9 @@
     calorieLabel.text = @"CALORIES";
     [calorieLabel sizeToFit];
     [calorieLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) - (calorieLabel.frame.size.width))/2 - 19, 20, calorieLabel.frame.size.width, calorieLabel.frame.size.height)];
+    if (is35) {
+        [calorieLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) - (calorieLabel.frame.size.width))/2 - 19, 17, calorieLabel.frame.size.width, calorieLabel.frame.size.height)];
+    }
     
     UILabel *totalFatLabel = [[UILabel alloc] init];
     totalFatLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
@@ -121,6 +138,9 @@
     totalFatLabel.text = @"TOTAL FAT";
     [totalFatLabel sizeToFit];
     [totalFatLabel setFrame:CGRectMake((nutritionView.frame.size.width/3) + 10 - 19, 20, totalFatLabel.frame.size.width, totalFatLabel.frame.size.height)];
+    if (is35) {
+        [totalFatLabel setFrame:CGRectMake((nutritionView.frame.size.width/3) + 10 - 19, 17, totalFatLabel.frame.size.width, totalFatLabel.frame.size.height)];
+    }
     
     UILabel *satFatLabel = [[UILabel alloc] init];
     satFatLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
@@ -149,6 +169,9 @@
     carbsLabel.text = @"CARBS";
     [carbsLabel sizeToFit];
     [carbsLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) + 10, 20, carbsLabel.frame.size.width, carbsLabel.frame.size.height)];
+    if (is35) {
+        [carbsLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) + 10, 17, carbsLabel.frame.size.width, carbsLabel.frame.size.height)];
+    }
     
     UILabel *fiberLabel = [[UILabel alloc] init];
     fiberLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
@@ -172,9 +195,15 @@
     [proteinLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) + 10, sugarsLabel.frame.origin.y + sugarsLabel.frame.size.height + 5, proteinLabel.frame.size.width, proteinLabel.frame.size.height)];
     
     UIView *lineSeparatorView1 = [[UIView alloc] initWithFrame:CGRectMake(nutritionView.frame.size.width/3 - 19, 20, 1, sodiumLabel.frame.origin.y + sodiumLabel.frame.size.height - 20)];
+    if (is35) {
+        [lineSeparatorView1 setFrame:CGRectMake(nutritionView.frame.size.width/3 - 19, 17, 1, sodiumLabel.frame.origin.y + sodiumLabel.frame.size.height - 20)];
+    }
     [lineSeparatorView1 setBackgroundColor:[UIColor whiteColor]];
     
     UIView *lineSeparatorView2 = [[UIView alloc] initWithFrame:CGRectMake((nutritionView.frame.size.width/3) * 2, 20, 1, sodiumLabel.frame.origin.y + sodiumLabel.frame.size.height - 20)];
+    if (is35) {
+        [lineSeparatorView2 setFrame:CGRectMake((nutritionView.frame.size.width/3) * 2, 17, 1, sodiumLabel.frame.origin.y + sodiumLabel.frame.size.height - 20)];
+    }
     [lineSeparatorView2 setBackgroundColor:[UIColor whiteColor]];
     
     [nutritionView addSubview:calorieLabel];
@@ -204,6 +233,9 @@
     [totalFatValueLabel sizeToFit];
     totalFatValueLabel.textAlignment = NSTextAlignmentCenter;
     [totalFatValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) - 32 - 19, 20, 25 + 19, totalFatLabel.frame.size.height)];
+    if (is35) {
+        [totalFatValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 2) - 32 - 19, 17, 25 + 19, totalFatLabel.frame.size.height)];
+    }
     
     satFatValueLabel = [[UILabel alloc] init];
     satFatValueLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
@@ -236,6 +268,9 @@
     [carbsValueLabel sizeToFit];
     carbsValueLabel.textAlignment = NSTextAlignmentCenter;
     [carbsValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 3) - 27 - 5, 20, 25 + 19, carbsLabel.frame.size.height)];
+    if (is35) {
+        [carbsValueLabel setFrame:CGRectMake(((nutritionView.frame.size.width/3) * 3) - 27 - 5, 17, 25 + 19, carbsLabel.frame.size.height)];
+    }
     
     fiberValueLabel = [[UILabel alloc] init];
     fiberValueLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
@@ -331,7 +366,11 @@
 }
 
 -(CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component {
-    return 20;
+    if (is35) {
+        return 17;
+    } else {
+        return 20;
+    }
 }
 
 -(CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
@@ -488,6 +527,7 @@
             foodTrackerItem.servingUnit = @"ounce";
         }
         
+        foodTrackerItem.servingAmount = [NSNumber numberWithInt:1];
         foodTrackerItem.numberOfServings = [NSNumber numberWithFloat:((numberOfServings * tempServing.metricServingAmountValue)/tempServing.numberOfUnitsValue)];
         foodTrackerItem.caloriesPerServing = [NSNumber numberWithFloat:([tempServing caloriesValue]/tempServing.metricServingAmountValue)];
         foodTrackerItem.proteinsPerServing = [NSNumber numberWithFloat:([tempServing proteinValue]/tempServing.metricServingAmountValue)];
