@@ -31,7 +31,7 @@
         // Set icon badge number to zero
         application.applicationIconBadgeNumber = 0;
     }
-    ter
+
     UIStoryboard *storyboard = [self grabStoryboard];
     
     // show the storyboard
