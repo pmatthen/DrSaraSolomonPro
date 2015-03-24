@@ -677,7 +677,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c0P-wS-ryU">
-                                                    <rect key="frame" x="8" y="14" width="271" height="20"/>
+                                                    <rect key="frame" x="58" y="14" width="221" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
@@ -685,10 +685,14 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="arrow_small_right.png" translatesAutoresizingMaskIntoConstraints="NO" id="HvT-gM-SEy">
                                                     <rect key="frame" x="290" y="14" width="19" height="20"/>
                                                 </imageView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gpm-rA-8bj" customClass="PFImageView">
+                                                    <rect key="frame" x="8" y="9" width="30" height="30"/>
+                                                </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="categoryTitleLabel" destination="c0P-wS-ryU" id="UJr-CK-bvq"/>
+                                            <outlet property="myImageView" destination="Gpm-rA-8bj" id="g8V-f3-3ed"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -2304,7 +2308,7 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="wCB-IA-Oeg"/>
+        <segue reference="Num-kB-67X"/>
         <segue reference="0EI-KJ-uek"/>
-        <segue reference="Usn-Xd-Mg7"/>
     </inferredMetricsTieBreakers>
 </document>

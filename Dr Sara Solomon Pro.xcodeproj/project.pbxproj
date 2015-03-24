@@ -47,6 +47,7 @@
 		B14187081A257AA800E9A6D5 /* ParseSignUpViewControllerStep2.m in Sources */ = {isa = PBXBuildFile; fileRef = B14187071A257AA800E9A6D5 /* ParseSignUpViewControllerStep2.m */; };
 		B141870B1A25AC3E00E9A6D5 /* fifthlevel_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B14187091A25AC3E00E9A6D5 /* fifthlevel_icon@2x.png */; };
 		B141870C1A25AC3E00E9A6D5 /* fourthlevel_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B141870A1A25AC3E00E9A6D5 /* fourthlevel_icon@2x.png */; };
+		B14ACF681AC1454300F497AB /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B14ACF671AC1454300F497AB /* EventKit.framework */; };
 		B14C3FB619DBC7A700071DDF /* SaveImageNSValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = B14C3FB519DBC7A700071DDF /* SaveImageNSValueTransformer.m */; };
 		B151EFB81A1CAB64005C7D91 /* MoreTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B151EFB71A1CAB64005C7D91 /* MoreTableViewCell.m */; };
 		B151EFBB1A1DC25F005C7D91 /* ShopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B151EFBA1A1DC25F005C7D91 /* ShopViewController.m */; };
@@ -382,6 +383,7 @@
 		B14187071A257AA800E9A6D5 /* ParseSignUpViewControllerStep2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseSignUpViewControllerStep2.m; sourceTree = "<group>"; };
 		B14187091A25AC3E00E9A6D5 /* fifthlevel_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fifthlevel_icon@2x.png"; sourceTree = "<group>"; };
 		B141870A1A25AC3E00E9A6D5 /* fourthlevel_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fourthlevel_icon@2x.png"; sourceTree = "<group>"; };
+		B14ACF671AC1454300F497AB /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
 		B14C3FB419DBC7A700071DDF /* SaveImageNSValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaveImageNSValueTransformer.h; sourceTree = "<group>"; };
 		B14C3FB519DBC7A700071DDF /* SaveImageNSValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaveImageNSValueTransformer.m; sourceTree = "<group>"; };
 		B151EFB61A1CAB64005C7D91 /* MoreTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreTableViewCell.h; sourceTree = "<group>"; };
@@ -677,6 +679,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B14ACF681AC1454300F497AB /* EventKit.framework in Frameworks */,
 				18DAB5221AA46EBB0098AB4C /* AVFoundation.framework in Frameworks */,
 				B11A07DB19A49FAF0006A3FE /* CoreData.framework in Frameworks */,
 				B1681B3319174DF500923BB3 /* CoreGraphics.framework in Frameworks */,
@@ -843,6 +846,7 @@
 		B1681B2F19174DF500923BB3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B14ACF671AC1454300F497AB /* EventKit.framework */,
 				18DAB5211AA46EBB0098AB4C /* AVFoundation.framework */,
 				B11A07DA19A49FAF0006A3FE /* CoreData.framework */,
 				B1681B3019174DF500923BB3 /* Foundation.framework */,

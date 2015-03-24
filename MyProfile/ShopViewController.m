@@ -86,6 +86,16 @@
     cell.categoryTitleLabel.textColor = [UIColor whiteColor];
     cell.accessoryType = UITableViewCellAccessoryNone;
     
+    PFFile *thumbnail = [tempObject objectForKey:@"image"];
+    cell.myImageView.image = [UIImage imageNamed:@"placeholder.jpg"];
+    cell.myImageView.autoresizingMask = (UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleWidth);
+    cell.myImageView.layer.cornerRadius = cell.myImageView.frame.size.height/2;
+    cell.myImageView.clipsToBounds = YES;
+    [cell.myImageView.layer setBorderColor:[[UIColor whiteColor] CGColor]];
+    [cell.myImageView.layer setBorderWidth:1.0];
+    cell.myImageView.file = thumbnail;
+    [cell.myImageView loadInBackground];
+    
     return cell;
 }
 

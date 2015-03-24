@@ -9,10 +9,20 @@
 #import "ProtocolTimingViewController.h"
 #import "MenuViewController.h"
 
+@import EventKit;
+
 @interface ProtocolTimingViewController () <UIPickerViewDataSource, UIPickerViewDelegate>
 
 @property NSMutableArray *hourArray;
 @property NSMutableArray *minuteArray;
+
+// The database with calendar events and reminders
+@property (strong, nonatomic) EKEventStore *eventStore;
+
+// Indicates whether app has access to event store.
+@property (nonatomic) BOOL isAccessToEventStoreGranted;
+
+@property (strong, nonatomic) EKCalendar *calendar;
 
 @end
 
@@ -21,6 +31,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self updateAuthorizationStatusToAccessEventStore];
     
     hourArray = [NSMutableArray new];
     for (int i = 0; i < 24; i++) {
@@ -161,17 +173,21 @@
 }
 
 - (IBAction)updateSettingsButtonTouched:(id)sender {
-    // Cancel all Notifications
-
-    UIApplication* app = [UIApplication sharedApplication];
-    [app cancelAllLocalNotifications];
+    //
+    if (!self.isAccessToEventStoreGranted)
+        return;
     
     // 1. Save data as NSDate.
+    NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     
-    NSDateComponents *comp = [[NSCalendar currentCalendar] components:NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit fromDate:[NSDate date]];
-    [comp setHour: [myEatingPickerView selectedRowInComponent:0]];
-    [comp setMinute: [myEatingPickerView selectedRowInComponent:1]];    
-    NSDate *eatingDate = [[NSCalendar currentCalendar] dateFromComponents:comp];
+    NSUInteger unitFlags = NSCalendarUnitEra | NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay;
+    NSDateComponents *today = [gregorianCalendar components:unitFlags fromDate:[NSDate date]];
+
+    [today setHour: [myEatingPickerView selectedRowInComponent:0]];
+    [today setMinute: [myEatingPickerView selectedRowInComponent:1]];
+    [today setSecond:0];
+    
+    NSDate *eatingDate = [[NSCalendar currentCalendar] dateFromComponents:today];
     NSLog(@"eating date = %@", eatingDate);
     NSDate *fastingDate = [[NSDate alloc] init];
     
@@ -201,49 +217,66 @@
     NSDate *fastingNotificationDate = fastingDate;
     
     for (int i = 0; i < 13; i++) {
-        UILocalNotification* localNotification = [[UILocalNotification alloc] init];
-        localNotification.fireDate = eatingNotificationDate;
-        localNotification.alertBody = @"Time to start eating";
-        localNotification.alertAction = @"Ok";
-        localNotification.timeZone = [NSTimeZone defaultTimeZone];
-        localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
-        [app scheduleLocalNotification:localNotification];
+        //
+        EKReminder *reminder = [EKReminder reminderWithEventStore:self.eventStore];
+        reminder.title = @"Time to start eating";
+        reminder.calendar = self.calendar;
+        reminder.dueDateComponents = [[NSCalendar currentCalendar] components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit  fromDate:eatingDate];
+        EKAlarm *alarm = [EKAlarm alarmWithAbsoluteDate:eatingNotificationDate];
+        [reminder addAlarm:alarm];
         
-        UILocalNotification* fastingLocalNotification = [[UILocalNotification alloc] init];
-        fastingLocalNotification.fireDate = fastingNotificationDate;
-        fastingLocalNotification.alertBody = @"Time to start fasting";
-        fastingLocalNotification.alertAction = @"Ok";
-        fastingLocalNotification.timeZone = [NSTimeZone defaultTimeZone];
-        fastingLocalNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
-        [app scheduleLocalNotification:fastingLocalNotification];
+        //
+        NSError *error = nil;
+        BOOL success = [self.eventStore saveReminder:reminder commit:YES error:&error];
+        if (!success) {
+            // Handle error.
+        }
+        
+        EKReminder *reminderFasting = [EKReminder reminderWithEventStore:self.eventStore];
+        reminder.title = @"Time to start fasting";
+        reminder.calendar = self.calendar;
+        reminder.dueDateComponents = [[NSCalendar currentCalendar] components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit  fromDate:fastingDate];
+        alarm = [EKAlarm alarmWithAbsoluteDate:fastingNotificationDate];
+        [reminderFasting addAlarm:alarm];
+        
+        //
+        error = nil;
+        success = [self.eventStore saveReminder:reminderFasting commit:YES error:&error];
+        if (!success) {
+            // Handle error.
+        }
         
         eatingNotificationDate = [eatingNotificationDate dateByAddingTimeInterval:window];
         fastingNotificationDate = [fastingNotificationDate dateByAddingTimeInterval:window];
     }
     
-    // 2. END
+    EKReminder *reminder = [EKReminder reminderWithEventStore:self.eventStore];
+    reminder.title = @"Time to start eating";
+    reminder.calendar = self.calendar;
+    reminder.dueDateComponents = [[NSCalendar currentCalendar] components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit  fromDate:eatingDate];
+    EKAlarm *alarm = [EKAlarm alarmWithAbsoluteDate:eatingNotificationDate];
+    [reminder addAlarm:alarm];
     
-    // 3. Create a notification for the 14th day, that also informs the user to re-enter his/her settings
+    //
+    NSError *error = nil;
+    BOOL success = [self.eventStore saveReminder:reminder commit:YES error:&error];
+    if (!success) {
+        // Handle error.
+    }
     
-    UILocalNotification* localNotification = [[UILocalNotification alloc] init];
-    localNotification.fireDate = eatingNotificationDate;
-    localNotification.alertBody = @"Time to start eating, also don't forget to re-enter your intermittent fasting notification settings.";
-    localNotification.alertAction = @"Ok";
-    localNotification.timeZone = [NSTimeZone defaultTimeZone];
-    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
-    [app scheduleLocalNotification:localNotification];
+    EKReminder *reminderFasting = [EKReminder reminderWithEventStore:self.eventStore];
+    reminder.title = @"Time to start fasting";
+    reminder.calendar = self.calendar;
+    reminder.dueDateComponents = [[NSCalendar currentCalendar] components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit  fromDate:fastingDate];
+    alarm = [EKAlarm alarmWithAbsoluteDate:fastingNotificationDate];
+    [reminderFasting addAlarm:alarm];
     
-    UILocalNotification* fastingLocalNotification = [[UILocalNotification alloc] init];
-    fastingLocalNotification.fireDate = fastingNotificationDate;
-    fastingLocalNotification.alertBody = @"Time to start fasting, also don't forget to re-enter your intermittent fasting notification settings.";
-    fastingLocalNotification.alertAction = @"Ok";
-    fastingLocalNotification.timeZone = [NSTimeZone defaultTimeZone];
-    fastingLocalNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber] + 1;
-    [app scheduleLocalNotification:fastingLocalNotification];
-    
-    // 3. END
-    
-    // Show an alert telling the user his settings have been entered and he will recieve notifications till fastingNotificationDate
+    //
+    error = nil;
+    success = [self.eventStore saveReminder:reminderFasting commit:YES error:&error];
+    if (!success) {
+        // Handle error.
+    }
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"MMM d HH:mm"];
@@ -251,6 +284,7 @@
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Notifications Saved" message:[NSString stringWithFormat:@"Your settings have been entered, and you will recieve notifications till %@", dateString] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [alert show];
+    
     [self goToDailyTrackerViewController];
 }
 
@@ -261,6 +295,80 @@
             [self.navigationController popToViewController:aViewController animated:NO];
         }
     }
+}
+
+// 1
+- (EKEventStore *)eventStore {
+    if (!_eventStore) {
+        _eventStore = [[EKEventStore alloc] init];
+    }
+    return _eventStore;
+}
+
+- (void)updateAuthorizationStatusToAccessEventStore {
+    // 2
+    EKAuthorizationStatus authorizationStatus = [EKEventStore authorizationStatusForEntityType:EKEntityTypeReminder];
+    
+    switch (authorizationStatus) {
+            // 3
+        case EKAuthorizationStatusDenied:
+        case EKAuthorizationStatusRestricted: {
+            self.isAccessToEventStoreGranted = NO;
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Access Denied"
+                                                                message:@"This app doesn't have access to your Reminders." delegate:nil
+                                                      cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+            [alertView show];
+            break;
+        }
+            
+            // 4
+        case EKAuthorizationStatusAuthorized:
+            self.isAccessToEventStoreGranted = YES;
+            break;
+            
+            // 5
+        case EKAuthorizationStatusNotDetermined: {
+            __weak ProtocolTimingViewController *weakSelf = self;
+            [self.eventStore requestAccessToEntityType:EKEntityTypeReminder
+                                            completion:^(BOOL granted, NSError *error) {
+                                                dispatch_async(dispatch_get_main_queue(), ^{
+                                                    weakSelf.isAccessToEventStoreGranted = granted;
+                                                });
+                                            }];
+            break;
+        }
+    }
+}
+
+- (EKCalendar *)calendar {
+    if (!_calendar) {
+        
+        // 1
+        NSArray *calendars = [self.eventStore calendarsForEntityType:EKEntityTypeReminder];
+        
+        // 2
+        NSString *calendarTitle = @"IFCalendar";
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"title matches %@", calendarTitle];
+        NSArray *filtered = [calendars filteredArrayUsingPredicate:predicate];
+        
+        if ([filtered count]) {
+            _calendar = [filtered firstObject];
+        } else {
+            
+            // 3
+            _calendar = [EKCalendar calendarForEntityType:EKEntityTypeReminder eventStore:self.eventStore];
+            _calendar.title = @"IFCalendar";
+            _calendar.source = self.eventStore.defaultCalendarForNewReminders.source;
+            
+            // 4
+            NSError *calendarErr = nil;
+            BOOL calendarSuccess = [self.eventStore saveCalendar:_calendar commit:YES error:&calendarErr];
+            if (!calendarSuccess) {
+                // Handle error
+            }
+        }
+    }
+    return _calendar;
 }
 
 @end

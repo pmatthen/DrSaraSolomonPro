@@ -9,6 +9,7 @@
 #import "MoreViewController.h"
 #import "MoreTableViewCell.h"
 #import "ShopWebViewController.h"
+#import "User.h"
 
 @interface MoreViewController () <PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 
@@ -135,43 +136,7 @@
 }
 
 - (IBAction)resetDataButtonTouched:(id)sender {
-    CoreDataStack *coreDataStack = [CoreDataStack defaultStack];
-
-    NSFetchRequest *recordedWeightfetchRequest = [[NSFetchRequest alloc] init];
-    [recordedWeightfetchRequest setEntity:[NSEntityDescription entityForName:@"RecordedWeight" inManagedObjectContext:coreDataStack.managedObjectContext]];
-
-    NSError *error = nil;
-    NSArray *recordedWeightfetchRequestArray = [coreDataStack.managedObjectContext executeFetchRequest:recordedWeightfetchRequest error:&error];
-    
-    for (int i = 0; i < [recordedWeightfetchRequestArray count]; i++) {
-        [coreDataStack.managedObjectContext deleteObject:recordedWeightfetchRequestArray[i]];
-    }
-    
-    [coreDataStack.managedObjectContext save:&error];
-    
-    NSFetchRequest *macroCalculatorfetchRequest = [[NSFetchRequest alloc] init];
-    [macroCalculatorfetchRequest setEntity:[NSEntityDescription entityForName:@"MacroCalculatorDetails" inManagedObjectContext:coreDataStack.managedObjectContext]];
-    
-    NSArray *macroCalculatorfetchRequestArray = [coreDataStack.managedObjectContext executeFetchRequest:macroCalculatorfetchRequest error:&error];
-    
-    for (int i = 0; i < [macroCalculatorfetchRequestArray count]; i++) {
-        [coreDataStack.managedObjectContext deleteObject:macroCalculatorfetchRequestArray[i]];
-    }
-    
-    [coreDataStack.managedObjectContext save:&error];
-    
-    NSFetchRequest *foodTrackerfetchRequest = [[NSFetchRequest alloc] init];
-    [foodTrackerfetchRequest setEntity:[NSEntityDescription entityForName:@"FoodTrackerItem" inManagedObjectContext:coreDataStack.managedObjectContext]];
-    
-    NSArray *foodTrackerfetchRequestArray = [coreDataStack.managedObjectContext executeFetchRequest:foodTrackerfetchRequest error:&error];
-    
-    for (int i = 0; i < [foodTrackerfetchRequestArray count]; i++) {
-        [coreDataStack.managedObjectContext deleteObject:foodTrackerfetchRequestArray[i]];
-    }
-    
-    [coreDataStack.managedObjectContext save:&error];
-    
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Data Reset" message:@"All user data has been deleted" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Are you sure you want to delete existing data?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Delete", nil];
     [alert show];
 }
 
@@ -180,4 +145,62 @@
     [logInController dismissViewControllerAnimated:YES completion:nil];
     [self.navigationController popToRootViewControllerAnimated:NO];
 }
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == [alertView cancelButtonIndex]) {
+        //
+    } else {
+        CoreDataStack *coreDataStack = [CoreDataStack defaultStack];
+        
+        NSFetchRequest *recordedWeightfetchRequest = [[NSFetchRequest alloc] init];
+        [recordedWeightfetchRequest setEntity:[NSEntityDescription entityForName:@"RecordedWeight" inManagedObjectContext:coreDataStack.managedObjectContext]];
+        
+        NSError *error = nil;
+        NSArray *recordedWeightfetchRequestArray = [coreDataStack.managedObjectContext executeFetchRequest:recordedWeightfetchRequest error:&error];
+        
+        for (int i = 0; i < [recordedWeightfetchRequestArray count]; i++) {
+            [coreDataStack.managedObjectContext deleteObject:recordedWeightfetchRequestArray[i]];
+        }
+        
+        [coreDataStack.managedObjectContext save:&error];
+        
+        NSFetchRequest *macroCalculatorfetchRequest = [[NSFetchRequest alloc] init];
+        [macroCalculatorfetchRequest setEntity:[NSEntityDescription entityForName:@"MacroCalculatorDetails" inManagedObjectContext:coreDataStack.managedObjectContext]];
+        
+        NSArray *macroCalculatorfetchRequestArray = [coreDataStack.managedObjectContext executeFetchRequest:macroCalculatorfetchRequest error:&error];
+        
+        for (int i = 0; i < [macroCalculatorfetchRequestArray count]; i++) {
+            [coreDataStack.managedObjectContext deleteObject:macroCalculatorfetchRequestArray[i]];
+        }
+        
+        [coreDataStack.managedObjectContext save:&error];
+        
+        NSFetchRequest *foodTrackerfetchRequest = [[NSFetchRequest alloc] init];
+        [foodTrackerfetchRequest setEntity:[NSEntityDescription entityForName:@"FoodTrackerItem" inManagedObjectContext:coreDataStack.managedObjectContext]];
+        
+        NSArray *foodTrackerfetchRequestArray = [coreDataStack.managedObjectContext executeFetchRequest:foodTrackerfetchRequest error:&error];
+        
+        for (int i = 0; i < [foodTrackerfetchRequestArray count]; i++) {
+            [coreDataStack.managedObjectContext deleteObject:foodTrackerfetchRequestArray[i]];
+        }
+        
+        [coreDataStack.managedObjectContext save:&error];
+        
+        NSFetchRequest *userFetchRequest = [[NSFetchRequest alloc] init];
+        [userFetchRequest setEntity:[NSEntityDescription entityForName:@"User" inManagedObjectContext:coreDataStack.managedObjectContext]];
+        
+        NSArray *userFetchRequestArray = [coreDataStack.managedObjectContext executeFetchRequest:userFetchRequest error:&error];
+        
+        for (int i = 0; i < [userFetchRequestArray count]; i++) {
+            User *user = userFetchRequestArray[i];
+            [user setUserPhoto:nil];
+        }
+        
+        [coreDataStack.managedObjectContext save:&error];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Data Reset" message:@"All user data has been deleted" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alert show];
+    }
+}
+
 @end

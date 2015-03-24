@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
 
 @interface ShopTableViewCell : UITableViewCell
 
 @property (strong, nonatomic) IBOutlet UILabel *categoryTitleLabel;
+@property (strong, nonatomic) IBOutlet PFImageView *myImageView;
 
 @end
