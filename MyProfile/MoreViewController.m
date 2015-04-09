@@ -34,7 +34,7 @@
         is35 = YES;
     }
     
-    categoryArray = @[@"WORKOUTS", @"SHOP", @"ABOUT", @"PRIVACY POLICY", @"TERMS OF SERVICE"];
+    categoryArray = @[@"WORKOUTS", @"GOODIES", @"ABOUT", @"PRIVACY POLICY", @"TERMS OF SERVICE"];
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 9, 100, 40)];
     if (is35) {
@@ -86,6 +86,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"so touched");
     if (indexPath.row == 0) {
         [self performSegueWithIdentifier:@"VideoSegue" sender:self];
     }

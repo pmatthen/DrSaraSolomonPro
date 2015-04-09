@@ -15,6 +15,7 @@
 
 @property NSMutableArray *hourArray;
 @property NSMutableArray *minuteArray;
+@property NSArray *reminders;
 
 // The database with calendar events and reminders
 @property (strong, nonatomic) EKEventStore *eventStore;
@@ -177,6 +178,9 @@
     if (!self.isAccessToEventStoreGranted)
         return;
     
+    // Delete existing reminders
+    [self fetchAndDeleteReminders];
+    
     // 1. Save data as NSDate.
     NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     
@@ -221,7 +225,7 @@
         EKReminder *reminder = [EKReminder reminderWithEventStore:self.eventStore];
         reminder.title = @"Time to start eating";
         reminder.calendar = self.calendar;
-        reminder.dueDateComponents = [[NSCalendar currentCalendar] components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit  fromDate:eatingDate];
+        reminder.dueDateComponents = [[NSCalendar currentCalendar] components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit  fromDate:eatingNotificationDate];
         EKAlarm *alarm = [EKAlarm alarmWithAbsoluteDate:eatingNotificationDate];
         [reminder addAlarm:alarm];
         
@@ -230,12 +234,14 @@
         BOOL success = [self.eventStore saveReminder:reminder commit:YES error:&error];
         if (!success) {
             // Handle error.
+        } else {
+            //
         }
         
         EKReminder *reminderFasting = [EKReminder reminderWithEventStore:self.eventStore];
-        reminder.title = @"Time to start fasting";
-        reminder.calendar = self.calendar;
-        reminder.dueDateComponents = [[NSCalendar currentCalendar] components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit  fromDate:fastingDate];
+        reminderFasting.title = @"Time to start fasting";
+        reminderFasting.calendar = self.calendar;
+        reminderFasting.dueDateComponents = [[NSCalendar currentCalendar] components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit  fromDate:fastingNotificationDate];
         alarm = [EKAlarm alarmWithAbsoluteDate:fastingNotificationDate];
         [reminderFasting addAlarm:alarm];
         
@@ -244,6 +250,8 @@
         success = [self.eventStore saveReminder:reminderFasting commit:YES error:&error];
         if (!success) {
             // Handle error.
+        } else {
+            //
         }
         
         eatingNotificationDate = [eatingNotificationDate dateByAddingTimeInterval:window];
@@ -253,7 +261,7 @@
     EKReminder *reminder = [EKReminder reminderWithEventStore:self.eventStore];
     reminder.title = @"Time to start eating";
     reminder.calendar = self.calendar;
-    reminder.dueDateComponents = [[NSCalendar currentCalendar] components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit  fromDate:eatingDate];
+    reminder.dueDateComponents = [[NSCalendar currentCalendar] components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit  fromDate:eatingNotificationDate];
     EKAlarm *alarm = [EKAlarm alarmWithAbsoluteDate:eatingNotificationDate];
     [reminder addAlarm:alarm];
     
@@ -265,9 +273,9 @@
     }
     
     EKReminder *reminderFasting = [EKReminder reminderWithEventStore:self.eventStore];
-    reminder.title = @"Time to start fasting";
-    reminder.calendar = self.calendar;
-    reminder.dueDateComponents = [[NSCalendar currentCalendar] components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit  fromDate:fastingDate];
+    reminderFasting.title = @"Time to start fasting";
+    reminderFasting.calendar = self.calendar;
+    reminderFasting.dueDateComponents = [[NSCalendar currentCalendar] components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit  fromDate:fastingNotificationDate];
     alarm = [EKAlarm alarmWithAbsoluteDate:fastingNotificationDate];
     [reminderFasting addAlarm:alarm];
     
@@ -369,6 +377,40 @@
         }
     }
     return _calendar;
+}
+
+- (void)fetchAndDeleteReminders {
+    if (self.isAccessToEventStoreGranted) {
+        // 1
+        NSPredicate *predicate =
+        [self.eventStore predicateForRemindersInCalendars:@[self.calendar]];
+        
+        // 2
+        [self.eventStore fetchRemindersMatchingPredicate:predicate completion:^(NSArray *reminders) {
+            // 3
+            self.reminders = reminders;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if ([reminders count]) {
+                    [reminders enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                        NSError *error = nil;
+                        // 3
+                        BOOL success = [self.eventStore removeReminder:obj commit:NO error:&error];
+                        if (!success) {
+                            // Handle delete error
+                        }
+                    }];
+                    
+                    // 4
+                    NSError *commitErr = nil;
+                    BOOL success = [self.eventStore commit:&commitErr];
+                    if (!success) {
+                        // Handle commit error.
+                    }
+                }
+                
+            });
+        }];
+    }
 }
 
 @end

@@ -13,13 +13,16 @@
 @interface DailyTrackerViewController : UIViewController
 
 @property (strong, nonatomic) IBOutlet UIImageView *rightArrowImageView;
-@property (strong, nonatomic) IBOutlet UIScrollView *myScrollView;
+@property (strong, nonatomic) IBOutlet UITableView *myTableView;
 @property (weak, nonatomic) IBOutlet UIButton *calculateMacrosButton;
+@property (strong, nonatomic) IBOutlet UIButton *recalculateMacrosButton;
 
 - (IBAction)dateButtonPrevious:(id)sender;
 - (IBAction)dateButtonNext:(id)sender;
 
 - (IBAction)calculateMacroButtonTouched:(id)sender;
+- (IBAction)recalculateMacrosButton:(id)sender;
 - (IBAction)backButtonTouched:(id)sender;
+
 
 @end

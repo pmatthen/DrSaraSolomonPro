@@ -12,6 +12,7 @@
 @interface IntermittentFastingViewController : UIViewController
 
 @property (strong, nonatomic) IBOutlet UIPickerView *myPickerView;
+@property (strong, nonatomic) IBOutlet UITableView *myTableView;
 
 @property (nonatomic, strong) NSArray *protocolArray;
 

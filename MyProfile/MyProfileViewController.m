@@ -303,32 +303,6 @@
             
             [cell.contentView addSubview:messageView];
             [cell.contentView addSubview:motivationLabel];
-//            
-//            UILabel *recommendedLabel = [[UILabel alloc] initWithFrame:CGRectMake(26, 190, 100, 50)];
-//            recommendedLabel.font = [UIFont fontWithName:@"Norican-Regular" size:22];
-//            recommendedLabel.textColor = [UIColor whiteColor];
-//            recommendedLabel.text = @"Recommended";
-//            [recommendedLabel sizeToFit];
-//            
-//            UILabel *calorieIntakeLabel = [[UILabel alloc] initWithFrame:CGRectMake(38, 214, 100, 50)];
-//            calorieIntakeLabel.font = [UIFont fontWithName:@"Oswald-Light" size:17];
-//            calorieIntakeLabel.textColor = [UIColor whiteColor];
-//            calorieIntakeLabel.text = @"CALORIE INTAKE:";
-//            [calorieIntakeLabel sizeToFit];
-//            
-//            UILabel *rangeLabel = [[UILabel alloc] initWithFrame:CGRectMake(150, 187, 100, 100)];
-//            rangeLabel.font = [UIFont fontWithName:@"Oswald" size:35];
-//            rangeLabel.textColor = [UIColor whiteColor];
-//            rangeLabel.text = [NSString stringWithFormat:@"%.f -%.f", ([self maintenanceLevelCalories:[user.initialWeight intValue] heightInInches:[user.height intValue] age:[user.age intValue] gender:[user.gender intValue] neat:[user.activityFactor intValue]] * .86), ([self maintenanceLevelCalories:[user.initialWeight intValue] heightInInches:[user.height intValue] age:31 gender:[user.gender intValue] neat:[user.activityFactor intValue]] * 1.14)];
-//            [rangeLabel sizeToFit];
-//            
-//            UIView *calorieIntakeLineView = [[UIView alloc] initWithFrame:CGRectMake(150, 231, rangeLabel.frame.size.width + 2, 2)];
-//            [calorieIntakeLineView setBackgroundColor:[UIColor whiteColor]];
-//            
-//            [cell.contentView addSubview:recommendedLabel];
-//            [cell.contentView addSubview:calorieIntakeLabel];
-//            [cell.contentView addSubview:rangeLabel];
-//            [cell.contentView addSubview:calorieIntakeLineView];
             break;}
         {case 1:
             NSLog(@"");
@@ -570,10 +544,8 @@
                 [arrayOfDates setObject:dateString atIndexedSubscript:i];
                 [arrayOfValues setObject:weeklyWeightAverageArray[backwardCount] atIndexedSubscript:i];
                 isSet = YES;
-                backwardCount -= 1;
-            } else {
-                backwardCount -= 1;
             }
+            backwardCount -= 1;
         }
     }
     
@@ -697,7 +669,6 @@
 }
 
 -(IBAction)updateButtonTouched:(id)sender {
-    NSLog(@"Touched");
     // Check whether the users weight has already been recorded that day, and if so it deletes that record. Then it records a new weight and date recorded.
     
     [self fillRecordedWeightsArray];
@@ -735,37 +706,6 @@
     fetchRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO]];
     
     return fetchRequest;
-}
-
--(float)maintenanceLevelCalories:(int)weight heightInInches:(int)height age:(int)age gender:(int)gender neat:(int)neat {
-    
-    float neatValue = 0;
-    switch (neat) {
-        case 0:
-            neatValue = 1.2;
-            break;
-        case 1:
-            neatValue = 1.375;
-            break;
-        case 2:
-            neatValue = 1.55;
-            break;
-        case 3:
-            neatValue = 1.725;
-            break;
-        case 4:
-            neatValue = 1.9;
-            break;
-        default:
-            break;
-    }
-    
-    //Include neat into calculations with array.
-    if (gender == 0) {
-        return (655 + (4.35 * weight) + (4.7 * height) - (4.7 * age)) * neatValue;
-    } else {
-        return (66 + (6.23 * weight) + (12.7 * height) - (6.8 * age)) * neatValue;
-    }
 }
 
 @end

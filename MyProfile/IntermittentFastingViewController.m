@@ -12,9 +12,13 @@
 #import "User.h"
 #import "ILTranslucentView.h"
 #import "ProtocolTimingViewController.h"
+#import <math.h>
 
-@interface IntermittentFastingViewController () <UIPickerViewDataSource, UIPickerViewDelegate>
+@import EventKit;
 
+@interface IntermittentFastingViewController () <UIPickerViewDataSource, UIPickerViewDelegate, UITableViewDataSource, UITableViewDelegate>
+
+@property (nonatomic, strong) NSArray *categoryArray;
 @property BOOL isFirstTime;
 @property BOOL isFirstClick;
 @property int currentSelection;
@@ -28,15 +32,29 @@
 @property ILTranslucentView *translucentView;
 @property UIButton *closePopUpViewButton;
 @property BOOL is35;
+@property NSArray *reminders;
+
+@property NSDictionary *nextReminderDictionary;
+@property NSTimeInterval secondsBetween;
+
+// The database with calendar events and reminders
+@property (strong, nonatomic) EKEventStore *eventStore;
+
+// Indicates whether app has access to event store.
+@property (nonatomic) BOOL isAccessToEventStoreGranted;
+
+@property (strong, nonatomic) EKCalendar *calendar;
 
 @end
 
 @implementation IntermittentFastingViewController
-@synthesize protocolArray, myPickerView, isFirstTime, isFirstClick, currentSelection, protocolTitleLabels, protocolInformationViews, protocolTitleSelection, fNotifications, eNotifications, user, coreDataStack, translucentView, closePopUpViewButton, is35;
+@synthesize categoryArray, protocolArray, myPickerView, isFirstTime, isFirstClick, currentSelection, protocolTitleLabels, protocolInformationViews, protocolTitleSelection, fNotifications, eNotifications, user, coreDataStack, translucentView, closePopUpViewButton, is35, nextReminderDictionary, myTableView, secondsBetween;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self updateAuthorizationStatusToAccessEventStore];
     
     is35 = NO;
     
@@ -61,8 +79,16 @@
     
     protocolTitleSelection = 0;
     
+    categoryArray = @[@"TIMER", @"INFORMATION"];
+    
     isFirstTime = YES;
     isFirstClick = YES;
+    
+    [NSTimer scheduledTimerWithTimeInterval:1.0
+                                     target:self
+                                   selector:@selector(targetMethod:)
+                                   userInfo:nil
+                                    repeats:YES];
 
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 9, 150, 40)];
     if (is35) {
@@ -84,7 +110,7 @@
     [self.view addSubview:titleLabel];
     [self.view addSubview:protocolPickerLabel];
     
-    [self drawInformationView];
+    [self fetchReminders];
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -108,6 +134,226 @@
     NSArray *fetchRequestArray = [coreDataStack.managedObjectContext executeFetchRequest:fetchRequest error:&error];
     
     user = fetchRequestArray[0];
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    IntermittentFastingTableViewCell *cell = (IntermittentFastingTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"IFCell"];
+    
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.myTitleLabel.font = [UIFont fontWithName:@"Oswald-Light" size:18];
+    cell.myTitleLabel.textColor = [UIColor whiteColor];
+    cell.myTitleLabel.text = categoryArray[indexPath.row];
+    
+    cell.backgroundColor = [UIColor clearColor];
+    
+    for (UIView *tempView in cell.cellContentView.subviews) {
+        [tempView removeFromSuperview];
+    }
+    
+    switch (indexPath.row) {
+        {case 0:
+            NSLog(@"");
+            
+            NSString *timerMessage;
+            if ([[nextReminderDictionary objectForKey:@"type"] isEqualToString:@"eating"]) {
+                timerMessage = @"TIME REMAINING TO FAST";
+            } else {
+                timerMessage = @"TIME REMAINING TO EAT";
+            }
+            
+            UILabel *timerMessageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, 320, 50)];
+            timerMessageLabel.font = [UIFont fontWithName:@"Oswald" size:15];
+            timerMessageLabel.textColor = [UIColor whiteColor];
+            timerMessageLabel.text = timerMessage;
+            [timerMessageLabel sizeToFit];
+            timerMessageLabel.frame = CGRectMake((320 - timerMessageLabel.frame.size.width)/2, 35, timerMessageLabel.frame.size.width, timerMessageLabel.frame.size.height);
+            if (is35) {
+                timerMessageLabel.frame = CGRectMake((320 - timerMessageLabel.frame.size.width)/2, 30, timerMessageLabel.frame.size.width, timerMessageLabel.frame.size.height);
+            }
+            
+            [cell.cellContentView addSubview:timerMessageLabel];
+            
+            if (secondsBetween < 0) {
+                [self fetchReminders];
+            }
+
+            int hoursBetween = (int)(secondsBetween/(60 * 60));
+            int minutesBetween = (int)(secondsBetween - (hoursBetween * (60 * 60)))/(60);
+            int secsBetween = (int)(secondsBetween - (hoursBetween * (60 * 60)) - (minutesBetween * 60));
+            
+            UILabel *hoursLeftLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, 58, 60, 100)];
+            if (is35) {
+                hoursLeftLabel.frame = CGRectMake(45, 49, 60, 100);
+            }
+            hoursLeftLabel.font = [UIFont fontWithName:@"Oswald" size:52];
+            hoursLeftLabel.textColor = [UIColor whiteColor];
+            hoursLeftLabel.text = [NSString stringWithFormat:@"%02d", hoursBetween];
+            hoursLeftLabel.textAlignment = NSTextAlignmentCenter;
+            
+            UILabel *minutesLeftLabel = [[UILabel alloc] initWithFrame:CGRectMake(127, 58, 60, 100)];
+            if (is35) {
+                minutesLeftLabel.frame = CGRectMake(127, 49, 60, 100);
+            }
+            minutesLeftLabel.font = [UIFont fontWithName:@"Oswald" size:52];
+            minutesLeftLabel.textColor = [UIColor whiteColor];
+            minutesLeftLabel.text = [NSString stringWithFormat:@"%02d", minutesBetween];
+            minutesLeftLabel.textAlignment = NSTextAlignmentCenter;
+            
+            UILabel *secondsLeftLabel = [[UILabel alloc] initWithFrame:CGRectMake(212, 58, 60, 100)];
+            if (is35) {
+                secondsLeftLabel.frame = CGRectMake(212, 49, 60, 100);
+            }
+            secondsLeftLabel.font = [UIFont fontWithName:@"Oswald" size:52];
+            secondsLeftLabel.textColor = [UIColor whiteColor];
+            secondsLeftLabel.text = [NSString stringWithFormat:@"%02d", secsBetween];
+            secondsLeftLabel.textAlignment = NSTextAlignmentCenter;
+            
+            UILabel *colonLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(108, 58, 100, 100)];
+            if (is35) {
+                colonLabel1.frame = CGRectMake(108, 49, 100, 100);
+            }
+            colonLabel1.font = [UIFont fontWithName:@"Oswald" size:52];
+            colonLabel1.textColor = [UIColor whiteColor];
+            colonLabel1.text = @":";
+            
+            UILabel *colonLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(192, 58, 100, 100)];
+            if (is35) {
+                colonLabel2.frame = CGRectMake(192, 49, 100, 100);
+            }
+            colonLabel2.font = [UIFont fontWithName:@"Oswald" size:52];
+            colonLabel2.textColor = [UIColor whiteColor];
+            colonLabel2.text = @":";
+            
+            UILabel *hoursLabel = [[UILabel alloc] initWithFrame:CGRectMake(56, 106, 100, 100)];
+            if (is35) {
+                hoursLabel.frame = CGRectMake(56, 90, 100, 100);
+            }
+            hoursLabel.font = [UIFont fontWithName:@"Oswald" size:15];
+            hoursLabel.textColor = [UIColor whiteColor];
+            hoursLabel.text = @"HOURS";
+            
+            UILabel *minutesLabel = [[UILabel alloc] initWithFrame:CGRectMake(128, 106, 100, 100)];
+            if (is35) {
+                minutesLabel.frame = CGRectMake(128, 90, 100, 100);
+            }
+            minutesLabel.font = [UIFont fontWithName:@"Oswald" size:15];
+            minutesLabel.textColor = [UIColor whiteColor];
+            minutesLabel.text = @"MINUTES";
+            
+            UILabel *secondsLabel = [[UILabel alloc] initWithFrame:CGRectMake(213, 106, 100, 100)];
+            if (is35) {
+                secondsLabel.frame = CGRectMake(213, 90, 100, 100);
+            }
+            secondsLabel.font = [UIFont fontWithName:@"Oswald" size:15];
+            secondsLabel.textColor = [UIColor whiteColor];
+            secondsLabel.text = @"SECONDS";
+            
+            [cell.cellContentView addSubview:hoursLeftLabel];
+            [cell.cellContentView addSubview:minutesLeftLabel];
+            [cell.cellContentView addSubview:secondsLeftLabel];
+            [cell.cellContentView addSubview:colonLabel1];
+            [cell.cellContentView addSubview:colonLabel2];
+            [cell.cellContentView addSubview:hoursLabel];
+            [cell.cellContentView addSubview:minutesLabel];
+            [cell.cellContentView addSubview:secondsLabel];
+            
+            break;}
+        {case 1:
+            NSLog(@"");
+            UIImageView *protocolDividerImage1 = [[UIImageView alloc] initWithFrame:CGRectMake(40, 0, 240, 20)];
+            [protocolDividerImage1 setImage:[UIImage imageNamed:@"protocoldividers_thin.png"]];
+            
+            UIImageView *protocolDividerImage2 = [[UIImageView alloc] initWithFrame:CGRectMake(40, 41, 240, 20)];
+            [protocolDividerImage2 setImage:[UIImage imageNamed:@"protocoldividers_thin.png"]];
+            
+            UIButton *leftArrowTouched = [[UIButton alloc] initWithFrame:CGRectMake(40, 24, 22, 20)];
+            leftArrowTouched.tag = 1;
+            [leftArrowTouched setImage:[UIImage imageNamed:@"triangle_arrow@2x.png"] forState:UIControlStateNormal];
+            [leftArrowTouched addTarget:self action:@selector(protocolArrowTouched:) forControlEvents:UIControlEventTouchUpInside];
+            
+            UIButton *rightArrowTouched = [[UIButton alloc] initWithFrame:CGRectMake(258, 24, 22, 20)];
+            rightArrowTouched.tag = 2;
+            [rightArrowTouched setImage:[UIImage imageNamed:@"triangle_arrow@2x.png"] forState:UIControlStateNormal];
+            rightArrowTouched.layer.affineTransform = CGAffineTransformMakeRotation(M_PI);
+            [rightArrowTouched addTarget:self action:@selector(protocolArrowTouched:) forControlEvents:UIControlEventTouchUpInside];
+            
+            [cell.cellContentView addSubview:protocolDividerImage1];
+            [cell.cellContentView addSubview:protocolDividerImage2];
+            
+            [cell.cellContentView addSubview:leftArrowTouched];
+            [cell.cellContentView addSubview:rightArrowTouched];
+            
+            for (UIView *protocolTitleView in cell.cellContentView.subviews) {
+                if (protocolTitleView.tag == 3) {
+                    [protocolTitleView removeFromSuperview];
+                }
+            }
+            
+            [cell.cellContentView addSubview:protocolTitleLabels[protocolTitleSelection]];
+            [cell.cellContentView addSubview:protocolInformationViews[protocolTitleSelection]];
+            break;}
+        {default:
+            break;}
+    }
+    
+    if (isFirstTime) {
+        cell.myImageView.image = [UIImage imageNamed:@"upArrow@2x.png"];
+        isFirstTime = NO;
+    } else {
+        cell.myImageView.image = [UIImage imageNamed:@"downArrow@2x.png"];
+    }
+    
+    return cell;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [categoryArray count];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    if (isFirstClick) {
+        NSIndexPath *myIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        IntermittentFastingTableViewCell *cell = (IntermittentFastingTableViewCell *)[tableView cellForRowAtIndexPath:myIndexPath];
+        cell.myImageView.image = [UIImage imageNamed:@"downArrow@2x.png"];
+        isFirstClick = NO;
+    }
+    
+    int row = (int)[indexPath row];
+    currentSelection = row;
+    
+    
+    IntermittentFastingTableViewCell* cell = (IntermittentFastingTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    cell.myImageView.image = [UIImage imageNamed:@"upArrow@2x.png"];
+    
+    [tableView beginUpdates];
+    [tableView endUpdates];
+}
+
+-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+    IntermittentFastingTableViewCell *cell = (IntermittentFastingTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+    cell.myImageView.image = [UIImage imageNamed:@"downArrow@2x.png"];
+    
+    [tableView beginUpdates];
+    [tableView endUpdates];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([indexPath row] == currentSelection) {
+        if (is35) {
+            return 237;
+        } else {
+            return 281;
+        }
+    }
+    else {
+        if (is35) {
+            return 46;
+        } else {
+            return 55;
+        }
+    }
 }
 
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
@@ -137,52 +383,6 @@
     return label;
 }
 
--(void)drawInformationView {
-    UIImageView *protocolDividerImage1 = [[UIImageView alloc] initWithFrame:CGRectMake(40, 269, 240, 20)];
-    if (is35) {
-        [protocolDividerImage1 setFrame:CGRectMake(40, 227, 240, 20)];
-    }
-    [protocolDividerImage1 setImage:[UIImage imageNamed:@"protocoldividers_thin.png"]];
-    
-    UIImageView *protocolDividerImage2 = [[UIImageView alloc] initWithFrame:CGRectMake(40, 310, 240, 20)];
-    if (is35) {
-        [protocolDividerImage2 setFrame:CGRectMake(40, 262, 240, 20)];
-    }
-    [protocolDividerImage2 setImage:[UIImage imageNamed:@"protocoldividers_thin.png"]];
-    
-    UIButton *leftArrowTouched = [[UIButton alloc] initWithFrame:CGRectMake(40, 290, 22, 20)];
-    if (is35) {
-        [leftArrowTouched setFrame:CGRectMake(40, 245, 22, 17)];
-    }
-    leftArrowTouched.tag = 1;
-    [leftArrowTouched setImage:[UIImage imageNamed:@"triangle_arrow@2x.png"] forState:UIControlStateNormal];
-    [leftArrowTouched addTarget:self action:@selector(protocolArrowTouched:) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIButton *rightArrowTouched = [[UIButton alloc] initWithFrame:CGRectMake(258, 290, 22, 20)];
-    if (is35) {
-        [rightArrowTouched setFrame:CGRectMake(258, 245, 22, 17)];
-    }
-    rightArrowTouched.tag = 2;
-    [rightArrowTouched setImage:[UIImage imageNamed:@"triangle_arrow@2x.png"] forState:UIControlStateNormal];
-    rightArrowTouched.layer.affineTransform = CGAffineTransformMakeRotation(M_PI);
-    [rightArrowTouched addTarget:self action:@selector(protocolArrowTouched:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.view addSubview:protocolDividerImage1];
-    [self.view addSubview:protocolDividerImage2];
-    
-    [self.view addSubview:leftArrowTouched];
-    [self.view addSubview:rightArrowTouched];
-    
-    for (UIView *protocolTitleView in self.view.subviews) {
-        if (protocolTitleView.tag == 3) {
-            [protocolTitleView removeFromSuperview];
-        }
-    }
-    
-    [self.view addSubview:protocolTitleLabels[protocolTitleSelection]];
-    [self.view addSubview:protocolInformationViews[protocolTitleSelection]];
-}
-
 -(void) makeInformationViews {
     UILabel *twentyByFourLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 15, 100, 100)];
     if (is35) {
@@ -202,9 +402,9 @@
     feedingLabel.text = @"Feeding";
     [feedingLabel sizeToFit];
     
-    UIView *twentyByFourView = [[UIView alloc] initWithFrame:CGRectMake((160 - ((twentyByFourLabel.frame.size.width + feedingLabel.frame.size.width + 5)/2)), 272, (twentyByFourLabel.frame.size.width + feedingLabel.frame.size.width + 5), 150)];
+    UIView *twentyByFourView = [[UIView alloc] initWithFrame:CGRectMake((160 - ((twentyByFourLabel.frame.size.width + feedingLabel.frame.size.width + 5)/2)), 6, (twentyByFourLabel.frame.size.width + feedingLabel.frame.size.width + 5), 150)];
     if (is35) {
-        [twentyByFourView setFrame:CGRectMake((160 - ((twentyByFourLabel.frame.size.width + feedingLabel.frame.size.width + 5)/2)), 230, (twentyByFourLabel.frame.size.width + feedingLabel.frame.size.width + 5), 127)];
+        [twentyByFourView setFrame:CGRectMake((160 - ((twentyByFourLabel.frame.size.width + feedingLabel.frame.size.width + 5)/2)), 5, (twentyByFourLabel.frame.size.width + feedingLabel.frame.size.width + 5), 127)];
     }
     [twentyByFourView addSubview:twentyByFourLabel];
     [twentyByFourView addSubview:feedingLabel];
@@ -230,9 +430,9 @@
     protocolLabel.text = @"PROTOCOL";
     [protocolLabel sizeToFit];
     
-    UIView *sixteenByEightView = [[UIView alloc] initWithFrame:CGRectMake(160 - ((sixteenByEightLabel.frame.size.width + protocolLabel.frame.size.width + 5)/2), 272, (sixteenByEightLabel.frame.size.width + protocolLabel.frame.size.width + 5), 150)];
+    UIView *sixteenByEightView = [[UIView alloc] initWithFrame:CGRectMake(160 - ((sixteenByEightLabel.frame.size.width + protocolLabel.frame.size.width + 5)/2), 6, (sixteenByEightLabel.frame.size.width + protocolLabel.frame.size.width + 5), 150)];
     if (is35) {
-        [sixteenByEightView setFrame:CGRectMake(160 - ((sixteenByEightLabel.frame.size.width + protocolLabel.frame.size.width + 5)/2), 230, (sixteenByEightLabel.frame.size.width + protocolLabel.frame.size.width + 5), 127)];
+        [sixteenByEightView setFrame:CGRectMake(160 - ((sixteenByEightLabel.frame.size.width + protocolLabel.frame.size.width + 5)/2), 5, (sixteenByEightLabel.frame.size.width + protocolLabel.frame.size.width + 5), 127)];
     }
     [sixteenByEightView addSubview:sixteenByEightLabel];
     [sixteenByEightView addSubview:protocolLabel];
@@ -249,9 +449,9 @@
     alternateDayLabel.text = @"ALTERNATE DAY DIET";
     [alternateDayLabel sizeToFit];
     
-    UIView *alternateDayView = [[UIView alloc] initWithFrame:CGRectMake(160 - (alternateDayLabel.frame.size.width/2), 272, alternateDayLabel.frame.size.width, 150)];
+    UIView *alternateDayView = [[UIView alloc] initWithFrame:CGRectMake(160 - (alternateDayLabel.frame.size.width/2), 6, alternateDayLabel.frame.size.width, 150)];
     if (is35) {
-        [alternateDayView setFrame:CGRectMake(160 - (alternateDayLabel.frame.size.width/2), 230, alternateDayLabel.frame.size.width, 127)];
+        [alternateDayView setFrame:CGRectMake(160 - (alternateDayLabel.frame.size.width/2), 5, alternateDayLabel.frame.size.width, 127)];
     }
     [alternateDayView addSubview:alternateDayLabel];
     alternateDayView.tag = 3;
@@ -332,9 +532,9 @@
     bulletPoint4.textColor = [UIColor whiteColor];
     bulletPoint4.text = @".";
     
-    UIView *twentyByFourInformationView = [[UIView alloc] initWithFrame:CGRectMake(0, 310, 320, 106)];
+    UIView *twentyByFourInformationView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, 106)];
     if (is35) {
-        twentyByFourInformationView.frame = CGRectMake(0, 262, 320, 90);
+        twentyByFourInformationView.frame = CGRectMake(0, 37, 320, 90);
     }
     twentyByFourInformationView.tag = 3;
     [twentyByFourInformationView addSubview:twentyByFourInstructionLabel1];
@@ -422,9 +622,9 @@
     sixteenByEightBulletPoint4.textColor = [UIColor whiteColor];
     sixteenByEightBulletPoint4.text = @".";
     
-    UIView *sixteenByEightInformationView = [[UIView alloc] initWithFrame:CGRectMake(0, 310, 320, 106)];
+    UIView *sixteenByEightInformationView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, 106)];
     if (is35) {
-        sixteenByEightInformationView.frame = CGRectMake(0, 262, 320, 90);
+        sixteenByEightInformationView.frame = CGRectMake(0, 37, 320, 90);
     }
     sixteenByEightInformationView.tag = 3;
     [sixteenByEightInformationView addSubview:sixteenByEightInstructionLabel1];
@@ -491,9 +691,9 @@
     alternateDaybulletPoint3.textColor = [UIColor whiteColor];
     alternateDaybulletPoint3.text = @".";
     
-    UIView *alternateDayInformationView = [[UIView alloc] initWithFrame:CGRectMake(0, 310, 320, 106)];
+    UIView *alternateDayInformationView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, 320, 106)];
     if (is35) {
-        alternateDayInformationView.frame = CGRectMake(0, 262, 320, 90);
+        alternateDayInformationView.frame = CGRectMake(0, 37, 320, 90);
     }
     alternateDayInformationView.tag = 3;
     [alternateDayInformationView addSubview:alternateDayInstructionLabel1];
@@ -671,12 +871,12 @@
 -(void) protocolArrowTouched:(UIButton *)sender {
     if (sender.tag == 1 && protocolTitleSelection > 0) {
         protocolTitleSelection -= 1;
-        [self drawInformationView];
+        [myTableView reloadData];
     }
     
     if (sender.tag == 2 && protocolTitleSelection < 2) {
         protocolTitleSelection += 1;
-        [self drawInformationView];
+        [myTableView reloadData];
     }
 }
 
@@ -710,6 +910,171 @@
     ProtocolTimingViewController *myProtocolTimingViewController = (ProtocolTimingViewController *) segue.destinationViewController;
     
     myProtocolTimingViewController.protocolSelection = (int)[myPickerView selectedRowInComponent:0] + 1;
+}
+
+- (EKEventStore *)eventStore {
+    if (!_eventStore) {
+        _eventStore = [[EKEventStore alloc] init];
+    }
+    return _eventStore;
+}
+
+- (void)updateAuthorizationStatusToAccessEventStore {
+    // 2
+    EKAuthorizationStatus authorizationStatus = [EKEventStore authorizationStatusForEntityType:EKEntityTypeReminder];
+    
+    switch (authorizationStatus) {
+            // 3
+        case EKAuthorizationStatusDenied:
+        case EKAuthorizationStatusRestricted: {
+            self.isAccessToEventStoreGranted = NO;
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Access Denied"
+                                                                message:@"This app doesn't have access to your Reminders." delegate:nil
+                                                      cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+            [alertView show];
+            break;
+        }
+            
+            // 4
+        case EKAuthorizationStatusAuthorized:
+            self.isAccessToEventStoreGranted = YES;
+            break;
+            
+            // 5
+        case EKAuthorizationStatusNotDetermined: {
+            __weak IntermittentFastingViewController *weakSelf = self;
+            [self.eventStore requestAccessToEntityType:EKEntityTypeReminder
+                                            completion:^(BOOL granted, NSError *error) {
+                                                dispatch_async(dispatch_get_main_queue(), ^{
+                                                    weakSelf.isAccessToEventStoreGranted = granted;
+                                                });
+                                            }];
+            break;
+        }
+    }
+}
+
+- (EKCalendar *)calendar {
+    if (!_calendar) {
+        
+        // 1
+        NSArray *calendars = [self.eventStore calendarsForEntityType:EKEntityTypeReminder];
+        
+        // 2
+        NSString *calendarTitle = @"IFCalendar";
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"title matches %@", calendarTitle];
+        NSArray *filtered = [calendars filteredArrayUsingPredicate:predicate];
+        
+        if ([filtered count]) {
+            _calendar = [filtered firstObject];
+        } else {
+            
+            // 3
+            _calendar = [EKCalendar calendarForEntityType:EKEntityTypeReminder eventStore:self.eventStore];
+            _calendar.title = @"IFCalendar";
+            _calendar.source = self.eventStore.defaultCalendarForNewReminders.source;
+            
+            // 4
+            NSError *calendarErr = nil;
+            BOOL calendarSuccess = [self.eventStore saveCalendar:_calendar commit:YES error:&calendarErr];
+            if (!calendarSuccess) {
+                // Handle error
+            }
+        }
+    }
+    return _calendar;
+}
+
+- (void)fetchReminders {
+    if (self.isAccessToEventStoreGranted) {
+        // 1
+        NSPredicate *predicate =
+        [self.eventStore predicateForRemindersInCalendars:@[self.calendar]];
+        
+        // 2
+        [self.eventStore fetchRemindersMatchingPredicate:predicate completion:^(NSArray *reminders) {
+            // 3
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.reminders = [self sortReminders:reminders];
+                nextReminderDictionary = [self determineTimeandTypeOfNextReminder:self.reminders];
+                NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+                
+                NSLog(@"The time of the next reminder is %@", [gregorianCalendar dateFromComponents:[nextReminderDictionary objectForKey:@"dateComponents"]]);
+                NSLog(@"The type of the next reminder is %@", [nextReminderDictionary objectForKey:@"type"]);
+
+                [myTableView beginUpdates];
+                [myTableView endUpdates];
+            });
+        }];
+    }
+}
+
+-(NSArray *) sortReminders:(NSArray *)reminderArray {
+    NSArray *sortedArray;
+    
+    sortedArray = [reminderArray sortedArrayUsingComparator:^NSComparisonResult(EKReminder *a, EKReminder *b) {
+        NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        NSDateComponents *firstDateComponent = a.dueDateComponents;
+        NSDateComponents *secondDateComponent = b.dueDateComponents;
+        
+        NSDate *first = [gregorianCalendar dateFromComponents:firstDateComponent];
+        NSDate *second = [gregorianCalendar dateFromComponents:secondDateComponent];
+        return [first compare:second];
+    }];
+    
+    return sortedArray;
+}
+
+-(NSDictionary *) determineTimeandTypeOfNextReminder:(NSArray *)reminderArray {
+    NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDate *currentMoment = [NSDate date];
+
+    EKReminder *nextReminder = [[EKReminder alloc] init];
+    nextReminder = nil;
+    
+    for (int i = 0; i < [reminderArray count]; i++) {
+        EKReminder *tempReminder = reminderArray[i];
+        NSDate *tempReminderDate = [gregorianCalendar dateFromComponents:tempReminder.dueDateComponents];
+        NSDate *nextReminderDate = [gregorianCalendar dateFromComponents:nextReminder.dueDateComponents];
+        
+        if ([currentMoment compare:tempReminderDate] == NSOrderedAscending) {
+            if (nextReminder == nil) {
+                nextReminder = tempReminder;
+            } else if ([nextReminderDate compare:tempReminderDate] == NSOrderedDescending) {
+                nextReminder = tempReminder;
+            }
+        }
+    }
+    
+    NSDateComponents *reminderDueDateComponents = [[NSDateComponents alloc] init];
+    if (nextReminder) {
+        reminderDueDateComponents = nextReminder.dueDateComponents;
+    }
+
+    NSString *reminderType = [[NSString alloc] init];
+    reminderType = nil;
+    if (nextReminder) {
+        if ([nextReminder.title isEqualToString:@"Time to start eating"]) {
+            reminderType = @"eating";
+        } else if ([nextReminder.title isEqualToString:@"Time to start fasting"]) {
+            reminderType = @"fasting";
+        }
+    }
+    
+    NSDictionary *reminderDictionary = [NSDictionary dictionaryWithObjectsAndKeys:reminderType, @"type", reminderDueDateComponents, @"dateComponents", nil];
+    
+    return reminderDictionary;
+}
+
+-(void)targetMethod:(id)sender {
+    NSCalendar *gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    
+    NSDate *tempReminderDate = [gregorianCalendar dateFromComponents:[nextReminderDictionary objectForKey:@"dateComponents"]];
+    NSDate *currentDate = [NSDate date];
+    
+    secondsBetween = [tempReminderDate timeIntervalSinceDate:currentDate];
+    
+    [myTableView reloadData];
 }
 
 @end

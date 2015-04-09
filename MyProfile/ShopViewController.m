@@ -12,7 +12,7 @@
 
 @interface ShopViewController () <UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, strong) NSArray *categoryArray;
+@property (nonatomic, strong) NSMutableArray *categoryArray;
 @property int whichLink;
 @property BOOL is35;
 
@@ -35,12 +35,22 @@
     
     whichLink = 0;
     
-    categoryArray = [NSArray new];
+    categoryArray = [NSMutableArray new];
     
     PFQuery *query = [PFQuery queryWithClassName:@"Links"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
-            categoryArray = objects;
+            [categoryArray addObjectsFromArray:objects];
+            for (int i = 0; i < [objects count]; i++) {
+                PFObject *tempObject = [objects objectAtIndex:i];
+                [categoryArray setObject:tempObject atIndexedSubscript:[tempObject[@"Order"] intValue]];
+            }
+            
+            for (int i = 0; i < [categoryArray count]; i++) {
+                PFObject *tempObject = [categoryArray objectAtIndex:i];
+                NSLog(@"%@", tempObject[@"name"]);
+            }
+//            categoryArray = [NSMutableArray arrayWithArray:objects];
             [myTableView reloadData];
         } else {
             NSString *errorString = [error userInfo][@"error"];
@@ -55,7 +65,7 @@
     }
     titleLabel.font = [UIFont fontWithName:@"Oswald-Light" size:13];
     titleLabel.textColor = [UIColor whiteColor];
-    titleLabel.text = @"SHOP";
+    titleLabel.text = @"GOODIES";
 
     [self.view addSubview:titleLabel];
 }
@@ -106,7 +116,7 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     NSString *linkString  = [[NSString alloc] init];
-    PFObject *tempObject = categoryArray[whichLink];
+    PFObject *tempObject = [categoryArray objectAtIndex:whichLink];
     
     linkString = [tempObject[@"url"] lowercaseString];
     

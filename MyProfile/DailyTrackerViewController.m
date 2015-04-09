@@ -7,6 +7,7 @@
 //
 
 #import "DailyTrackerViewController.h"
+#import "DailyTrackerTableViewCell.h"
 #import "AddFoodViewController.h"
 #import "FoodTrackerItem.h"
 #import "MacroCalculatorDetails.h"
@@ -17,7 +18,7 @@
 #import <FatSecretKit/FSServing.h>
 #import <FatSecretKit/FSRecipeServings.h>
 
-@interface DailyTrackerViewController ()
+@interface DailyTrackerViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property UIButton *addFoodButton;
 @property UILabel *dateLabel;
@@ -43,11 +44,12 @@
 @property NSArray *recordedWeights;
 @property BOOL isADF;
 @property BOOL is35;
+@property NSMutableArray *foodTrackerItemMutableArray;
 
 @end
 
 @implementation DailyTrackerViewController
-@synthesize addFoodButton, rightArrowImageView, dateLabel, dateInterval, foodTrackerItems, dataSource, selectedDate, caloriesConsumed, proteinsConsumed, fatsConsumed, carbsConsumed, caloriesConsumedLabel, proteinsConsumedLabel, fatsConsumedLabel, carbsConsumedLabel, caloriesAllowedLabel, proteinsAllowedLabel, fatsAllowedLabel, carbsAllowedLabel, myScrollView, user, coreDataStack, recordedMacroCalculatorDetails, calculateMacrosButton, recordedWeights, isADF, is35;
+@synthesize addFoodButton, rightArrowImageView, dateLabel, dateInterval, foodTrackerItems, dataSource, selectedDate, caloriesConsumed, proteinsConsumed, fatsConsumed, carbsConsumed, caloriesConsumedLabel, proteinsConsumedLabel, fatsConsumedLabel, carbsConsumedLabel, caloriesAllowedLabel, proteinsAllowedLabel, fatsAllowedLabel, carbsAllowedLabel, myTableView, user, coreDataStack, recordedMacroCalculatorDetails, calculateMacrosButton, recordedWeights, isADF, is35, foodTrackerItemMutableArray, recalculateMacrosButton;
 
 - (void)viewDidLoad
 {
@@ -127,6 +129,7 @@
     caloriesConsumedLabel.textColor = [UIColor whiteColor];
     caloriesConsumedLabel.text = @"0";
     caloriesConsumedLabel.hidden = YES;
+    caloriesConsumedLabel.userInteractionEnabled = NO;
     [caloriesConsumedLabel sizeToFit];
     
     proteinsConsumedLabel = [[UILabel alloc] init];
@@ -134,6 +137,7 @@
     proteinsConsumedLabel.textColor = [UIColor whiteColor];
     proteinsConsumedLabel.text = @"0";
     proteinsConsumedLabel.hidden = YES;
+    proteinsConsumedLabel.userInteractionEnabled = NO;
     [proteinsConsumedLabel sizeToFit];
     
     fatsConsumedLabel = [[UILabel alloc] init];
@@ -141,6 +145,7 @@
     fatsConsumedLabel.textColor = [UIColor whiteColor];
     fatsConsumedLabel.text = @"0";
     fatsConsumedLabel.hidden = YES;
+    fatsConsumedLabel.userInteractionEnabled = NO;
     [fatsConsumedLabel sizeToFit];
     
     carbsConsumedLabel = [[UILabel alloc] init];
@@ -148,6 +153,7 @@
     carbsConsumedLabel.textColor = [UIColor whiteColor];
     carbsConsumedLabel.text = @"0";
     carbsConsumedLabel.hidden = YES;
+    carbsConsumedLabel.userInteractionEnabled = NO;
     [carbsConsumedLabel sizeToFit];
     
     addFoodButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 497, 320, 71)];
@@ -172,6 +178,7 @@
     caloriesAllowedLabel.textColor = [UIColor grayColor];
     caloriesAllowedLabel.text = @"0";
     caloriesAllowedLabel.hidden = YES;
+    caloriesAllowedLabel.userInteractionEnabled = NO;
     [caloriesAllowedLabel sizeToFit];
     
     proteinsAllowedLabel = [[UILabel alloc] init];
@@ -179,6 +186,7 @@
     proteinsAllowedLabel.textColor = [UIColor grayColor];
     proteinsAllowedLabel.text = @"0";
     proteinsAllowedLabel.hidden = YES;
+    proteinsAllowedLabel.userInteractionEnabled = NO;
     [proteinsAllowedLabel sizeToFit];
     
     fatsAllowedLabel = [[UILabel alloc] init];
@@ -186,6 +194,7 @@
     fatsAllowedLabel.textColor = [UIColor grayColor];
     fatsAllowedLabel.text = @"0";
     fatsAllowedLabel.hidden = YES;
+    fatsAllowedLabel.userInteractionEnabled = NO;
     [fatsAllowedLabel sizeToFit];
     
     carbsAllowedLabel = [[UILabel alloc] init];
@@ -193,6 +202,7 @@
     carbsAllowedLabel.textColor = [UIColor grayColor];
     carbsAllowedLabel.text = @"0";
     carbsAllowedLabel.hidden = YES;
+    carbsAllowedLabel.userInteractionEnabled = NO;
     [carbsAllowedLabel sizeToFit];
     
     [self.view addSubview:caloriesAllowedLabel];
@@ -205,6 +215,20 @@
     [super viewWillAppear:animated];
 
     dataSource = [self dataForMasterArray];
+    
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:selectedDate];
+    [components setHour:0];
+    
+    NSString *selectedMidnightDate = [[calendar dateFromComponents:components] description];
+    NSDictionary *mealDictionary = dataSource;
+    
+    foodTrackerItemMutableArray = [NSMutableArray new];
+    for (FoodTrackerItem *foodTrackerItem in [mealDictionary objectForKey:selectedMidnightDate]) {
+        [foodTrackerItemMutableArray addObject:foodTrackerItem];
+    }
+    
+    [myTableView reloadData];
     
     [self addDateLabelSubView:selectedDate];
     [self updateFeastTracker];
@@ -413,11 +437,11 @@
     
     caloriesAllowedLabel.text = [NSString stringWithFormat:@"%.0f", caloriesAllowed];
     [caloriesAllowedLabel sizeToFit];
-    caloriesAllowedLabel.frame = CGRectMake(250, 135, caloriesAllowedLabel.frame.size.width, caloriesAllowedLabel.frame.size.height);
+    caloriesAllowedLabel.frame = CGRectMake(250, 27, caloriesAllowedLabel.frame.size.width, caloriesAllowedLabel.frame.size.height);
     if (is35) {
-        caloriesAllowedLabel.frame = CGRectMake(250, 114, caloriesAllowedLabel.frame.size.width, caloriesAllowedLabel.frame.size.height);
+        caloriesAllowedLabel.frame = CGRectMake(250, 26, caloriesAllowedLabel.frame.size.width, caloriesAllowedLabel.frame.size.height);
     }
-    [self.view addSubview:caloriesAllowedLabel];
+    [recalculateMacrosButton addSubview:caloriesAllowedLabel];
     
     float proteinsAllowed = [latestMacrosCalculatorDetails.latestWeight floatValue] * proteinFactor;
     
@@ -428,11 +452,11 @@
         proteinsAllowedLabel.text = @"-";
     }
     [proteinsAllowedLabel sizeToFit];
-    proteinsAllowedLabel.frame = CGRectMake(10, 135, proteinsAllowedLabel.frame.size.width, proteinsAllowedLabel.frame.size.height);
+    proteinsAllowedLabel.frame = CGRectMake(10, 27, proteinsAllowedLabel.frame.size.width, proteinsAllowedLabel.frame.size.height);
     if (is35) {
-        proteinsAllowedLabel.frame = CGRectMake(10, 114, proteinsAllowedLabel.frame.size.width, proteinsAllowedLabel.frame.size.height);
+        proteinsAllowedLabel.frame = CGRectMake(10, 26, proteinsAllowedLabel.frame.size.width, proteinsAllowedLabel.frame.size.height);
     }
-    [self.view addSubview:proteinsAllowedLabel];
+    [recalculateMacrosButton addSubview:proteinsAllowedLabel];
     
     float fatsAllowed = (caloriesAllowed * fatsFactor)/9;
     
@@ -443,11 +467,11 @@
         fatsAllowedLabel.text = @"-";
     }
     [fatsAllowedLabel sizeToFit];
-    fatsAllowedLabel.frame = CGRectMake(90, 135, fatsAllowedLabel.frame.size.width, fatsAllowedLabel.frame.size.height);
+    fatsAllowedLabel.frame = CGRectMake(90, 27, fatsAllowedLabel.frame.size.width, fatsAllowedLabel.frame.size.height);
     if (is35) {
-        fatsAllowedLabel.frame = CGRectMake(90, 114, fatsAllowedLabel.frame.size.width, fatsAllowedLabel.frame.size.height);
+        fatsAllowedLabel.frame = CGRectMake(90, 26, fatsAllowedLabel.frame.size.width, fatsAllowedLabel.frame.size.height);
     }
-    [self.view addSubview:fatsAllowedLabel];
+    [recalculateMacrosButton addSubview:fatsAllowedLabel];
     
     float carbsAllowed = (caloriesAllowed - (proteinsAllowed * 4) - (caloriesAllowed * fatsFactor))/4;
     
@@ -456,11 +480,11 @@
         carbsAllowedLabel.text = @"-";
     }
     [carbsAllowedLabel sizeToFit];
-    carbsAllowedLabel.frame = CGRectMake(170, 135, carbsAllowedLabel.frame.size.width, carbsAllowedLabel.frame.size.height);
+    carbsAllowedLabel.frame = CGRectMake(170, 27, carbsAllowedLabel.frame.size.width, carbsAllowedLabel.frame.size.height);
     if (is35) {
-        carbsAllowedLabel.frame = CGRectMake(170, 114, carbsAllowedLabel.frame.size.width, carbsAllowedLabel.frame.size.height);
+        carbsAllowedLabel.frame = CGRectMake(170, 26, carbsAllowedLabel.frame.size.width, carbsAllowedLabel.frame.size.height);
     }
-    [self.view addSubview:carbsAllowedLabel];
+    [recalculateMacrosButton addSubview:carbsAllowedLabel];
 }
 
 - (float)maintenanceLevelCalories:(int)weight heightInInches:(int)height age:(int)age gender:(int)gender neat:(int)neat {
@@ -582,11 +606,17 @@
     
     caloriesConsumedLabel.text = [NSString stringWithFormat:@"%.0f", caloriesConsumed];
     [caloriesConsumedLabel sizeToFit];
-    caloriesConsumedLabel.frame = CGRectMake(250, 100, caloriesConsumedLabel.frame.size.width, caloriesConsumedLabel.frame.size.height);
+//    caloriesConsumedLabel.frame = CGRectMake(250, 100, caloriesConsumedLabel.frame.size.width, caloriesConsumedLabel.frame.size.height);
+//    if (is35) {
+//        caloriesConsumedLabel.frame = CGRectMake(250, 85, caloriesConsumedLabel.frame.size.width, caloriesConsumedLabel.frame.size.height);
+//    }
+//    [self.view addSubview:caloriesConsumedLabel];
+    
+    caloriesConsumedLabel.frame = CGRectMake(250, -4, caloriesConsumedLabel.frame.size.width, caloriesConsumedLabel.frame.size.height);
     if (is35) {
-        caloriesConsumedLabel.frame = CGRectMake(250, 85, caloriesConsumedLabel.frame.size.width, caloriesConsumedLabel.frame.size.height);
+        caloriesConsumedLabel.frame = CGRectMake(250, -3, caloriesConsumedLabel.frame.size.width, caloriesConsumedLabel.frame.size.height);
     }
-    [self.view addSubview:caloriesConsumedLabel];
+    [recalculateMacrosButton addSubview:caloriesConsumedLabel];
 }
 
 - (void) calculateProteinsConsumedLabel {
@@ -607,11 +637,11 @@
     
     proteinsConsumedLabel.text = [NSString stringWithFormat:@"%.0f", proteinsConsumed];
     [proteinsConsumedLabel sizeToFit];
-    proteinsConsumedLabel.frame = CGRectMake(10, 100, proteinsConsumedLabel.frame.size.width, proteinsConsumedLabel.frame.size.height);
+    proteinsConsumedLabel.frame = CGRectMake(10, -4, proteinsConsumedLabel.frame.size.width, proteinsConsumedLabel.frame.size.height);
     if (is35) {
-        proteinsConsumedLabel.frame = CGRectMake(10, 85, proteinsConsumedLabel.frame.size.width, proteinsConsumedLabel.frame.size.height);
+        proteinsConsumedLabel.frame = CGRectMake(10, -3, proteinsConsumedLabel.frame.size.width, proteinsConsumedLabel.frame.size.height);
     }
-    [self.view addSubview:proteinsConsumedLabel];
+    [recalculateMacrosButton addSubview:proteinsConsumedLabel];
 }
 
 - (void) calculateFatsConsumedLabel {
@@ -632,11 +662,11 @@
     
     fatsConsumedLabel.text = [NSString stringWithFormat:@"%.0f", fatsConsumed];
     [fatsConsumedLabel sizeToFit];
-    fatsConsumedLabel.frame = CGRectMake(90, 100, fatsConsumedLabel.frame.size.width, fatsConsumedLabel.frame.size.height);
+    fatsConsumedLabel.frame = CGRectMake(90, -4, fatsConsumedLabel.frame.size.width, fatsConsumedLabel.frame.size.height);
     if (is35) {
-        fatsConsumedLabel.frame = CGRectMake(90, 85, fatsConsumedLabel.frame.size.width, fatsConsumedLabel.frame.size.height);
+        fatsConsumedLabel.frame = CGRectMake(90, -3, fatsConsumedLabel.frame.size.width, fatsConsumedLabel.frame.size.height);
     }
-    [self.view addSubview:fatsConsumedLabel];
+    [recalculateMacrosButton addSubview:fatsConsumedLabel];
 }
 
 - (void) calculateCarbsConsumedLabel {
@@ -657,11 +687,11 @@
     
     carbsConsumedLabel.text = [NSString stringWithFormat:@"%.0f", carbsConsumed];
     [carbsConsumedLabel sizeToFit];
-    carbsConsumedLabel.frame = CGRectMake(170, 100, carbsConsumedLabel.frame.size.width, carbsConsumedLabel.frame.size.height);
+    carbsConsumedLabel.frame = CGRectMake(170, -4, carbsConsumedLabel.frame.size.width, carbsConsumedLabel.frame.size.height);
     if (is35) {
-        carbsConsumedLabel.frame = CGRectMake(170, 85, carbsConsumedLabel.frame.size.width, carbsConsumedLabel.frame.size.height);
+        carbsConsumedLabel.frame = CGRectMake(170, -3, carbsConsumedLabel.frame.size.width, carbsConsumedLabel.frame.size.height);
     }
-    [self.view addSubview:carbsConsumedLabel];
+    [recalculateMacrosButton addSubview:carbsConsumedLabel];
 }
 
 - (NSDictionary *) dataForMasterArray {
@@ -721,7 +751,131 @@
     return fetchRequest;
 }
 
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    DailyTrackerTableViewCell *cell = (DailyTrackerTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"FeastCell"];
+    
+    FoodTrackerItem *foodTrackerItem = foodTrackerItemMutableArray[indexPath.row];
+    
+    UIView *dividerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)];
+    [dividerView setBackgroundColor:[UIColor whiteColor]];
+    
+    UILabel *numberOfServingsLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 7, 30, 38)];
+    if (is35) {
+        numberOfServingsLabel.frame = CGRectMake(10, 6, 30, 30);
+    }
+    numberOfServingsLabel.font = [UIFont fontWithName:@"Oswald-Light" size:18];
+    numberOfServingsLabel.textColor = [UIColor whiteColor];
+    numberOfServingsLabel.textAlignment = NSTextAlignmentCenter;
+    numberOfServingsLabel.adjustsFontSizeToFitWidth = YES;
+    if (foodTrackerItem.servingAmount > 0) {
+        numberOfServingsLabel.text = [NSString stringWithFormat:@"%@", ([NSNumber numberWithFloat:([foodTrackerItem.numberOfServings floatValue] * [foodTrackerItem.servingAmount floatValue])])];
+    } else {
+        numberOfServingsLabel.text = [NSString stringWithFormat:@"%@", foodTrackerItem.numberOfServings];
+    }
+    
+    UILabel *servingUnitLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 29, 35, 20)];
+    if (is35) {
+        servingUnitLabel.frame = CGRectMake(10, 24, 35, 17);
+    }
+    servingUnitLabel.font = [UIFont fontWithName:@"Oswald-Light" size:12];
+    servingUnitLabel.textColor = [UIColor whiteColor];
+    servingUnitLabel.adjustsFontSizeToFitWidth = YES;
+    servingUnitLabel.textAlignment = NSTextAlignmentCenter;
+    servingUnitLabel.text = [NSString stringWithFormat:@"%@", foodTrackerItem.servingUnit];
+    
+    UILabel *foodTrackerItemDetailLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, 7, 220, 38)];
+    if (is35) {
+        foodTrackerItemDetailLabel.frame = CGRectMake(45, 6, 220, 32);
+    }
+    [foodTrackerItemDetailLabel setAdjustsFontSizeToFitWidth:YES];
+    foodTrackerItemDetailLabel.textAlignment = NSTextAlignmentCenter;
+    foodTrackerItemDetailLabel.font = [UIFont fontWithName:@"Oswald-Light" size:18];
+    foodTrackerItemDetailLabel.textColor = [UIColor whiteColor];
+    foodTrackerItemDetailLabel.adjustsFontSizeToFitWidth = YES;
+    foodTrackerItemDetailLabel.text = [NSString stringWithFormat:@"%@",[foodTrackerItem.name lowercaseString]];
+    
+    UILabel *calorieLabel = [[UILabel alloc] initWithFrame:CGRectMake(272, 10, 48, 38)];
+    if (is35) {
+        calorieLabel.frame = CGRectMake(272, 10, 48, 32);
+    }
+    calorieLabel.font = [UIFont fontWithName:@"Oswald" size:18];
+    calorieLabel.textColor = [UIColor whiteColor];
+    calorieLabel.adjustsFontSizeToFitWidth = YES;
+    calorieLabel.text = [NSString stringWithFormat:@"%.0f", ([foodTrackerItem.caloriesPerServing floatValue] * [foodTrackerItem.numberOfServings intValue])];
+    [calorieLabel sizeToFit];
+    
+    UILabel *proteinLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 35, 70, 10)];
+    if (is35) {
+        proteinLabel.frame = CGRectMake(80, 31, 70, 8);
+    }
+    proteinLabel.font = [UIFont fontWithName:@"Oswald" size:10];
+    proteinLabel.textColor = [UIColor whiteColor];
+    proteinLabel.adjustsFontSizeToFitWidth = YES;
+    proteinLabel.text = [NSString stringWithFormat:@"P:%.0f", ([foodTrackerItem.proteinsPerServing floatValue] * [foodTrackerItem.numberOfServings intValue])];
+    
+    UILabel *fatLabel = [[UILabel alloc] initWithFrame:CGRectMake(160, 35, 70, 10)];
+    if (is35) {
+        fatLabel.frame = CGRectMake(160, 31, 70, 8);
+    }
+    fatLabel.font = [UIFont fontWithName:@"Oswald" size:10];
+    fatLabel.textColor = [UIColor whiteColor];
+    fatLabel.adjustsFontSizeToFitWidth = YES;
+    fatLabel.text = [NSString stringWithFormat:@"F:%.0f", ([foodTrackerItem.fatsPerServing floatValue] * [foodTrackerItem.numberOfServings intValue])];
+    
+    UILabel *carbsLabel = [[UILabel alloc] initWithFrame:CGRectMake(240, 35, 70, 10)];
+    if (is35) {
+        carbsLabel.frame = CGRectMake(240, 31, 70, 8);
+    }
+    carbsLabel.font = [UIFont fontWithName:@"Oswald" size:10];
+    carbsLabel.textColor = [UIColor whiteColor];
+    carbsLabel.adjustsFontSizeToFitWidth = YES;
+    carbsLabel.text = [NSString stringWithFormat:@"C:%.0f", ([foodTrackerItem.carbsPerServing floatValue] * [foodTrackerItem.numberOfServings intValue])];
+    
+    UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
+    if (is35) {
+        [containerView setFrame:CGRectMake(0, 0, 320, 42)];
+    }
+    
+    [containerView addSubview:dividerView];
+    [containerView addSubview:numberOfServingsLabel];
+    [containerView addSubview:servingUnitLabel];
+    [containerView addSubview:foodTrackerItemDetailLabel];
+    [containerView addSubview:calorieLabel];
+    [containerView addSubview:proteinLabel];
+    [containerView addSubview:fatLabel];
+    [containerView addSubview:carbsLabel];
+    
+    for (UIView *view in cell.contentView.subviews) {
+        [view removeFromSuperview];
+    }
+
+    [cell.contentView addSubview:containerView];
+    
+    return cell;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    return [foodTrackerItemMutableArray count];
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        NSManagedObject *eventToDelete = [coreDataStack.managedObjectContext objectWithID:[[foodTrackerItemMutableArray objectAtIndex:indexPath.row] objectID]];
+        [coreDataStack.managedObjectContext deleteObject:eventToDelete];
+        [foodTrackerItemMutableArray removeObjectAtIndex:indexPath.row];
+        [coreDataStack saveContext];
+        [myTableView reloadData];
+    }
+}
+
 -(void)updateFeastTracker {
+/*
+ 
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:selectedDate];
     [components setHour:0];
@@ -833,6 +987,7 @@
         }
         [myScrollView setContentSize:CGSizeMake(320, heightOfScrollView)];
     }
+ */
 }
 
 -(void) addFoodButtonPressed:(UIButton *)sender {
@@ -842,6 +997,21 @@
 - (IBAction)dateButtonPrevious:(id)sender {
     dateInterval = dateInterval - (24*60*60);
     [self addDateLabelSubView:[NSDate dateWithTimeIntervalSinceNow:dateInterval]];
+    dataSource = [self dataForMasterArray];
+    
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:selectedDate];
+    [components setHour:0];
+    
+    NSString *selectedMidnightDate = [[calendar dateFromComponents:components] description];
+    NSDictionary *mealDictionary = dataSource;
+    
+    foodTrackerItemMutableArray = [NSMutableArray new];
+    for (FoodTrackerItem *foodTrackerItem in [mealDictionary objectForKey:selectedMidnightDate]) {
+        [foodTrackerItemMutableArray addObject:foodTrackerItem];
+    }
+    
+    [myTableView reloadData];
     [self updateFeastTracker];
     
     if ([self checkMacroCalculation] == YES) {
@@ -862,6 +1032,22 @@
     } else {
         dateInterval = dateInterval + (24*60*60);
         [self addDateLabelSubView:[NSDate dateWithTimeIntervalSinceNow:dateInterval]];
+        
+        dataSource = [self dataForMasterArray];
+        
+        NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        NSDateComponents *components = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:selectedDate];
+        [components setHour:0];
+        
+        NSString *selectedMidnightDate = [[calendar dateFromComponents:components] description];
+        NSDictionary *mealDictionary = dataSource;
+        
+        foodTrackerItemMutableArray = [NSMutableArray new];
+        for (FoodTrackerItem *foodTrackerItem in [mealDictionary objectForKey:selectedMidnightDate]) {
+            [foodTrackerItemMutableArray addObject:foodTrackerItem];
+        }
+        
+        [myTableView reloadData];
         [self updateFeastTracker];
     }
     
@@ -878,6 +1064,24 @@
 
 - (IBAction)backButtonTouched:(id)sender {
     [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (IBAction)recalculateMacrosButton:(id)sender {
+    [self fillMacroCalculatorDetailsArray];
+    
+    for (MacroCalculatorDetails *tempMacroCalculatorDetails in recordedMacroCalculatorDetails) {
+        NSDateComponents *otherDay = [[NSCalendar currentCalendar] components:NSEraCalendarUnit|NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:tempMacroCalculatorDetails.date];
+        NSDateComponents *today = [[NSCalendar currentCalendar] components:NSEraCalendarUnit|NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:[NSDate dateWithTimeIntervalSinceNow:dateInterval]];
+        
+        if([today day] == [otherDay day] &&
+           [today month] == [otherDay month] &&
+           [today year] == [otherDay year] &&
+           [today era] == [otherDay era]) {
+            [coreDataStack.managedObjectContext deleteObject:tempMacroCalculatorDetails];
+            [coreDataStack saveContext];
+            [self performSegueWithIdentifier:@"CalculatorSegue" sender:self];
+        }
+    }
 }
 
 - (void) fetchUser {

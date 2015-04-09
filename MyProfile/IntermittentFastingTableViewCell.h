@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface IntermittentFastingTableViewCell : UITableViewCell
+
 @property (strong, nonatomic) IBOutlet UILabel *myTitleLabel;
+@property (strong, nonatomic) IBOutlet UIView *cellContentView;
 @property (strong, nonatomic) IBOutlet UIImageView *myImageView;
 
 @end

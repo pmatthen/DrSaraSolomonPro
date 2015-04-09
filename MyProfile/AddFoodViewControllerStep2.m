@@ -301,6 +301,7 @@
                         foodTrackerItem.fatsPerServing = [NSNumber numberWithFloat:[tempRecipeServings fatValue]];
                     }
                     foodTrackerItem.servingUnit = @"serving";
+                    foodTrackerItem.servingAmount = 0;
                     foodTrackerItem.name = tempRecipe.name;
                     foodTrackerItem.identifier = [NSNumber numberWithLong:tempRecipe.identifier];
                     foodTrackerItem.date = trackerDate;
@@ -318,6 +319,7 @@
                 foodTrackerItem.name = PFTempRecipe[@"name"];
                 foodTrackerItem.identifier = [NSNumber numberWithInt:0];
                 foodTrackerItem.numberOfServings = numberOfServingsArray[indexPath.row];
+                foodTrackerItem.servingAmount = [NSNumber numberWithInt:1];
                 foodTrackerItem.date = trackerDate;
                 [coreDataStack saveContext];
                 [self goToDailyTrackerViewController];
