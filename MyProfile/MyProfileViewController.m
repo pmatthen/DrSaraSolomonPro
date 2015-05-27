@@ -497,8 +497,9 @@
     NSMutableArray *weeklyWeightAverageArray = [NSMutableArray new];
     NSMutableArray *weeklyDateArray = [NSMutableArray new];
     
+    NSTimeInterval secondsBetweenDates = [lastPrecedingSunday timeIntervalSinceDate:tempPrecedingSunday];
     int index = 0;
-    while ([[tempPrecedingSunday dateByAddingTimeInterval:-(60 * 60 * 24 * 7)] compare:lastPrecedingSunday] != NSOrderedSame) {
+    while (secondsBetweenDates > 4000) {
         int count = 0;
         int totalWeight = 0;
         for (RecordedWeight *tempRecordedWeight in initialRecordedWeightsMutableArray) {
@@ -516,6 +517,8 @@
         }
         
         NSLog(@"averageForWeek #%i = %f", index, averageForWeek);
+        NSLog(@"tempPrecedingSunday = %@", tempPrecedingSunday);
+        NSLog(@"lastPrecedingSunday = %@", lastPrecedingSunday);
         
         [weeklyWeightAverageArray addObject:[NSNumber numberWithFloat:averageForWeek]];
         [weeklyDateArray addObject:tempPrecedingSunday];
@@ -523,6 +526,8 @@
         tempPrecedingSunday = [tempPrecedingSunday dateByAddingTimeInterval:(60 * 60 * 24 * 7)];
         tempFollowingSaturday = [tempFollowingSaturday dateByAddingTimeInterval:(60 * 60 * 24 * 7)];
         index += 1;
+
+        secondsBetweenDates = [lastPrecedingSunday timeIntervalSinceDate:tempPrecedingSunday];
     }
     
     // 3. END
@@ -531,6 +536,11 @@
     int backwardCount = 0;
     if ([weeklyWeightAverageArray count] > 0) {
         backwardCount = (int)[weeklyWeightAverageArray count] - 1;
+    } else {
+        for (int i = 0; i < 4; i++) {
+            [weeklyWeightAverageArray addObject:user.initialWeight];
+            [weeklyDateArray addObject:user.dateCreated];
+        }
     }
 
     for (int i = 4 - 1; i >= 0; i--) {

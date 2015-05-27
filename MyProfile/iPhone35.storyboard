@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="XGv-Yf-mGG">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="XGv-Yf-mGG">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
     </dependencies>
     <scenes>
         <!--Initial View Controller-->
@@ -162,11 +162,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="pattern_background.png" translatesAutoresizingMaskIntoConstraints="NO" id="b5v-TB-dfv">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5zg-4O-RAq">
                                 <rect key="frame" x="10" y="36" width="300" height="111"/>
                                 <string key="text">Please enter the email address you signed up with, and an email will be sent to you with instructions about how to reset your password</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Wlx-6s-El6">
@@ -505,9 +508,6 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="drawer_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="T36-Xz-mou">
                                 <rect key="frame" x="15" y="18" width="20" height="13"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="myLeftArrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="bw1-RX-Nr4">
-                                <rect key="frame" x="285" y="14" width="21" height="20"/>
-                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C8Z-IJ-VUI">
                                 <rect key="frame" x="33" y="61" width="120" height="37"/>
                                 <state key="normal" image="logout_button.png">
@@ -526,7 +526,7 @@
                                     <action selector="resetDataButtonTouched:" destination="aRv-I1-snJ" eventType="touchUpInside" id="KnB-rY-Pi8"/>
                                 </connections>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="73" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="Fua-0H-WCk">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="61" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="Fua-0H-WCk">
                                 <rect key="frame" x="0.0" y="115" width="320" height="365"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -536,13 +536,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="purple_rectangle_nav.png" translatesAutoresizingMaskIntoConstraints="NO" id="yCn-lS-eLU">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="74"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="62"/>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="MainMenu - arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="NyT-m1-7AA">
-                                                    <rect key="frame" x="276" y="17" width="36" height="41"/>
+                                                    <rect key="frame" x="276" y="10" width="36" height="41"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lVq-aI-dP7">
-                                                    <rect key="frame" x="12" y="21" width="256" height="34"/>
+                                                    <rect key="frame" x="12" y="14" width="256" height="34"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -559,6 +559,9 @@
                                     <outlet property="delegate" destination="aRv-I1-snJ" id="csf-Vr-6Te"/>
                                 </connections>
                             </tableView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="myLeftArrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="bw1-RX-Nr4">
+                                <rect key="frame" x="283" y="15" width="21" height="20"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -570,11 +573,60 @@
                         <segue destination="NPB-oD-rHw" kind="push" identifier="ShopSegue" id="GmE-T2-SWL"/>
                         <segue destination="7rL-yc-ff3" kind="push" identifier="TermsSegue" id="L2U-Ta-YUg"/>
                         <segue destination="7rL-yc-ff3" kind="push" identifier="PrivacySegue" id="Usn-Xd-Mg7"/>
+                        <segue destination="HWD-Wl-lG7" kind="push" identifier="HowToSegue" id="lHS-Zv-b8U"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bpw-Pw-1S1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="194" y="-694"/>
+        </scene>
+        <!--How To View Controller-->
+        <scene sceneID="g5P-SS-m3b">
+            <objects>
+                <viewController id="HWD-Wl-lG7" customClass="HowToViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="dZl-cV-GnF"/>
+                        <viewControllerLayoutGuide type="bottom" id="OCl-xW-tg4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="6zx-AS-EBi">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="pattern_background.png" translatesAutoresizingMaskIntoConstraints="NO" id="dgY-mE-HMy">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dwB-aa-1na">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="46"/>
+                                <state key="normal" image="myprofile_header.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="backButtonTouched:" destination="HWD-Wl-lG7" eventType="touchUpInside" id="B1x-NC-Wxp"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="drawer_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="T4s-2k-fVB">
+                                <rect key="frame" x="15" y="18" width="20" height="13"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="myLeftArrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="wBE-zI-elj">
+                                <rect key="frame" x="283" y="15" width="21" height="20"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jo4-7F-l8n">
+                                <rect key="frame" x="126" y="206" width="68" height="68"/>
+                                <state key="normal" image="playButton.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="playMovie:" destination="HWD-Wl-lG7" eventType="touchUpInside" id="8C7-NK-rZb"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="fqV-UK-6Ko"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fJV-kI-C2i" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="638" y="-694"/>
         </scene>
         <!--Videos Web View Controller-->
         <scene sceneID="0hs-pp-cnG">
@@ -2350,6 +2402,7 @@
         <image name="myprofile_header.png" width="320" height="54"/>
         <image name="myprofilenav_rectangles.png" width="320" height="54"/>
         <image name="pattern_background.png" width="320" height="568"/>
+        <image name="playButton.png" width="166" height="166"/>
         <image name="protocoldividers_thick.png" width="204" height="1"/>
         <image name="purple_background.png" width="320" height="513"/>
         <image name="purple_rectangle_nav.png" width="320" height="54"/>

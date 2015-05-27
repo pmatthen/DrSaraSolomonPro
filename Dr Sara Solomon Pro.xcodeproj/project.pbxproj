@@ -45,6 +45,8 @@
 		B13A9CA619249976009D1FD2 /* InitialViewControlllerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B13A9CA519249976009D1FD2 /* InitialViewControlllerTableViewCell.m */; };
 		B13A9CA91924AE1A009D1FD2 /* ParseSignUpViewControllerStep4.m in Sources */ = {isa = PBXBuildFile; fileRef = B13A9CA81924AE1A009D1FD2 /* ParseSignUpViewControllerStep4.m */; };
 		B13A9CAC1924AE2C009D1FD2 /* ParseLogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B13A9CAB1924AE2C009D1FD2 /* ParseLogInViewController.m */; };
+		B13C45491ADBB0BD00E0110B /* HowToViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B13C45481ADBB0BD00E0110B /* HowToViewController.m */; };
+		B13C454A1ADBB66C00E0110B /* HowTo.m4v in Resources */ = {isa = PBXBuildFile; fileRef = B13C45461ADBB08300E0110B /* HowTo.m4v */; };
 		B14187081A257AA800E9A6D5 /* ParseSignUpViewControllerStep2.m in Sources */ = {isa = PBXBuildFile; fileRef = B14187071A257AA800E9A6D5 /* ParseSignUpViewControllerStep2.m */; };
 		B141870B1A25AC3E00E9A6D5 /* fifthlevel_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B14187091A25AC3E00E9A6D5 /* fifthlevel_icon@2x.png */; };
 		B141870C1A25AC3E00E9A6D5 /* fourthlevel_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B141870A1A25AC3E00E9A6D5 /* fourthlevel_icon@2x.png */; };
@@ -58,7 +60,6 @@
 		B156C3D31960014E00C1E6AF /* leftArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = B156C3D21960014E00C1E6AF /* leftArrow.png */; };
 		B156C3D51960015200C1E6AF /* rightArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = B156C3D41960015200C1E6AF /* rightArrow.png */; };
 		B156C3DB1960398000C1E6AF /* AddFoodViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B156C3DA1960398000C1E6AF /* AddFoodViewController.m */; };
-		B158C5D51AD482C500053DBB /* HowToWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B158C5D41AD482C500053DBB /* HowToWebViewController.m */; };
 		B164AD821962C11F00873D6B /* field_line@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B164AD6E1962C11F00873D6B /* field_line@2x.png */; };
 		B164AD831962C11F00873D6B /* weight_and_gender_lines@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B164AD701962C11F00873D6B /* weight_and_gender_lines@2x.png */; };
 		B164AD841962C11F00873D6B /* height_lines@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B164AD721962C11F00873D6B /* height_lines@2x.png */; };
@@ -306,6 +307,7 @@
 		B1F99DFB19FF4BFB0033A245 /* arrow_small_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1F99DF719FF4BFB0033A245 /* arrow_small_right@2x.png */; };
 		B1F99DFC19FF4BFB0033A245 /* arrow_small_up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1F99DF819FF4BFB0033A245 /* arrow_small_up@2x.png */; };
 		B1FB95D619F0BBAD003DF0C4 /* addfoodbutton_activated@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1FB95D519F0BBAD003DF0C4 /* addfoodbutton_activated@2x.png */; };
+		B1FD20501ADBD0E9001F0F20 /* playButton.png in Resources */ = {isa = PBXBuildFile; fileRef = B1FD204F1ADBD0E9001F0F20 /* playButton.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -383,6 +385,9 @@
 		B13A9CA81924AE1A009D1FD2 /* ParseSignUpViewControllerStep4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseSignUpViewControllerStep4.m; sourceTree = "<group>"; };
 		B13A9CAA1924AE2C009D1FD2 /* ParseLogInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseLogInViewController.h; sourceTree = "<group>"; };
 		B13A9CAB1924AE2C009D1FD2 /* ParseLogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseLogInViewController.m; sourceTree = "<group>"; };
+		B13C45461ADBB08300E0110B /* HowTo.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = HowTo.m4v; sourceTree = "<group>"; };
+		B13C45471ADBB0BD00E0110B /* HowToViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HowToViewController.h; sourceTree = "<group>"; };
+		B13C45481ADBB0BD00E0110B /* HowToViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HowToViewController.m; sourceTree = "<group>"; };
 		B14187061A257AA800E9A6D5 /* ParseSignUpViewControllerStep2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseSignUpViewControllerStep2.h; sourceTree = "<group>"; };
 		B14187071A257AA800E9A6D5 /* ParseSignUpViewControllerStep2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseSignUpViewControllerStep2.m; sourceTree = "<group>"; };
 		B14187091A25AC3E00E9A6D5 /* fifthlevel_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fifthlevel_icon@2x.png"; sourceTree = "<group>"; };
@@ -404,8 +409,6 @@
 		B156C3D41960015200C1E6AF /* rightArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rightArrow.png; sourceTree = "<group>"; };
 		B156C3D91960398000C1E6AF /* AddFoodViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddFoodViewController.h; sourceTree = "<group>"; };
 		B156C3DA1960398000C1E6AF /* AddFoodViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddFoodViewController.m; sourceTree = "<group>"; };
-		B158C5D31AD482C500053DBB /* HowToWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HowToWebViewController.h; sourceTree = "<group>"; };
-		B158C5D41AD482C500053DBB /* HowToWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HowToWebViewController.m; sourceTree = "<group>"; };
 		B164AD6E1962C11F00873D6B /* field_line@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "field_line@2x.png"; sourceTree = "<group>"; };
 		B164AD701962C11F00873D6B /* weight_and_gender_lines@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "weight_and_gender_lines@2x.png"; sourceTree = "<group>"; };
 		B164AD721962C11F00873D6B /* height_lines@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "height_lines@2x.png"; sourceTree = "<group>"; };
@@ -678,6 +681,7 @@
 		B1F99DF719FF4BFB0033A245 /* arrow_small_right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_small_right@2x.png"; sourceTree = "<group>"; };
 		B1F99DF819FF4BFB0033A245 /* arrow_small_up@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow_small_up@2x.png"; sourceTree = "<group>"; };
 		B1FB95D519F0BBAD003DF0C4 /* addfoodbutton_activated@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addfoodbutton_activated@2x.png"; sourceTree = "<group>"; };
+		B1FD204F1ADBD0E9001F0F20 /* playButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playButton.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -925,8 +929,8 @@
 				B151EFBD1A1DC383005C7D91 /* ShopTableViewCell.m */,
 				B151EFBF1A1DCA56005C7D91 /* ShopWebViewController.h */,
 				B151EFC01A1DCA56005C7D91 /* ShopWebViewController.m */,
-				B158C5D31AD482C500053DBB /* HowToWebViewController.h */,
-				B158C5D41AD482C500053DBB /* HowToWebViewController.m */,
+				B13C45471ADBB0BD00E0110B /* HowToViewController.h */,
+				B13C45481ADBB0BD00E0110B /* HowToViewController.m */,
 				B11689AC1A2BE201003971A6 /* NewsletterViewController.h */,
 				B11689AD1A2BE201003971A6 /* NewsletterViewController.m */,
 				B11689AF1A2BE4FE003971A6 /* AboutViewController.h */,
@@ -944,6 +948,8 @@
 		B1681B3719174DF500923BB3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B1FD204F1ADBD0E9001F0F20 /* playButton.png */,
+				B13C45461ADBB08300E0110B /* HowTo.m4v */,
 				18D46C431A5A7C9C0055ED7E /* placeholder.jpg */,
 				B1D4377B1A1C9A3400D705CF /* More - assets_retina */,
 				B1F99DF419FF4BFB0033A245 /* arrows */,
@@ -1724,6 +1730,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B13C454A1ADBB66C00E0110B /* HowTo.m4v in Resources */,
 				B1745F3B199BAF1C00C44221 /* desserticon@2x.png in Resources */,
 				B1745F3C199BAF1C00C44221 /* dinnericon@2x.png in Resources */,
 				B1745F48199BAF1C00C44221 /* deafult_foodpic@2x.png in Resources */,
@@ -1889,6 +1896,7 @@
 				B1BE7531197BE356005C1979 /* update_button@2x.png in Resources */,
 				B178BF8F1990BBC100439A16 /* drawer_icon@2x.png in Resources */,
 				18A077911A63B5E400E76FE7 /* intermittent@2x.png in Resources */,
+				B1FD20501ADBD0E9001F0F20 /* playButton.png in Resources */,
 				B1745F4A199BAF1C00C44221 /* deafult_foodpic@2x.png in Resources */,
 				B178BF881990BBC100439A16 /* topstrip@2x.png in Resources */,
 				B178BF791990BBC100439A16 /* addicon@2x.png in Resources */,
@@ -2025,12 +2033,12 @@
 				B16AB98C1947100B002FC2BF /* RecipeSampleTableViewCell.m in Sources */,
 				186E03171A47BBFD00C83B49 /* IngredientDetailViewController.m in Sources */,
 				B1921139192634400017F4ED /* ParseSignUpViewControllerStep1.m in Sources */,
-				B158C5D51AD482C500053DBB /* HowToWebViewController.m in Sources */,
 				B1921142192634750017F4ED /* ParseSignUpViewControllerStep6.m in Sources */,
 				189607461A3ABEDA0055A57C /* MacroCalculatorViewControllerStep1.m in Sources */,
 				B126970B191A1363002425C3 /* MyProfileTableViewCell.m in Sources */,
 				18D46C471A5A8C110055ED7E /* SaraRecipeViewController.m in Sources */,
 				18FFF1721A453C72001A7489 /* MacroCalculatorViewControllerStep2.m in Sources */,
+				B13C45491ADBB0BD00E0110B /* HowToViewController.m in Sources */,
 				B169080919D2A67B00DE6C5A /* CoreDataStack.m in Sources */,
 				B118A1F41A22FF4B00F2D0CD /* ProtocolTimingViewController.m in Sources */,
 				B1DF1E6819E999160080C247 /* IntermittentFastingTableViewCell.m in Sources */,
@@ -2191,13 +2199,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MyProfile/Dr Sara Solomon Pro-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MyProfile/Dr Sara Solomon Pro-Info.plist";
 				PRODUCT_NAME = "Dr Sara Solomon Pro";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "5c5189f2-121b-4244-8a73-bfba884beecc";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2208,13 +2216,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MyProfile/Dr Sara Solomon Pro-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MyProfile/Dr Sara Solomon Pro-Info.plist";
 				PRODUCT_NAME = "Dr Sara Solomon Pro";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "5c5189f2-121b-4244-8a73-bfba884beecc";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

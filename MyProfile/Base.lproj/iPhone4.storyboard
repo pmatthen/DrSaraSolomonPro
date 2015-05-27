@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="k6v-JT-v9R">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="k6v-JT-v9R">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <scenes>
         <!--Menu View Controller-->
@@ -1375,9 +1375,11 @@
                                     <action selector="resetDataButtonTouched:" destination="oON-II-Jfu" eventType="touchUpInside" id="nKn-BW-Pd4"/>
                                 </connections>
                             </button>
-                            <tableView contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="86.400000000000006" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="hpe-mS-rAD">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="72" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="hpe-mS-rAD">
                                 <rect key="frame" x="0.0" y="136" width="320" height="432"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MoreCell" id="l4R-Th-8wH" customClass="MoreTableViewCell">
                                         <rect key="frame" x="0.0" y="1" width="320" height="87"/>
@@ -1387,16 +1389,16 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="purple_rectangle_nav.png" translatesAutoresizingMaskIntoConstraints="NO" id="ofJ-i9-MNU">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="88"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="73"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l0B-WI-ZQN">
-                                                    <rect key="frame" x="13" y="28" width="256" height="40"/>
+                                                    <rect key="frame" x="13" y="17" width="256" height="40"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="MainMenu - arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="b6a-01-ol8">
-                                                    <rect key="frame" x="269" y="20" width="43" height="48"/>
+                                                    <rect key="frame" x="269" y="13" width="43" height="48"/>
                                                 </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -1425,17 +1427,17 @@
                         <segue destination="2m2-8z-AOE" kind="push" identifier="VideoSegue" id="7Fg-59-dWs"/>
                         <segue destination="lka-5z-ofQ" kind="push" identifier="TermsSegue" id="yVw-k8-ReU"/>
                         <segue destination="lka-5z-ofQ" kind="push" identifier="PrivacySegue" id="P9j-38-PNl"/>
-                        <segue destination="WgI-N0-uCT" kind="push" identifier="HowToSegue" id="GO8-4z-7SF"/>
+                        <segue destination="WgI-N0-uCT" kind="push" identifier="HowToSegue" id="VON-tg-bVG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yq1-Kx-WUM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1988" y="1381"/>
         </scene>
-        <!--View Controller-->
+        <!--How To View Controller-->
         <scene sceneID="TOm-0n-Dmo">
             <objects>
-                <viewController id="WgI-N0-uCT" sceneMemberID="viewController">
+                <viewController id="WgI-N0-uCT" customClass="HowToViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="HVt-ip-NhO"/>
                         <viewControllerLayoutGuide type="bottom" id="U33-l1-zGm"/>
@@ -1452,6 +1454,9 @@
                                 <state key="normal" image="myprofile_header.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="backButtonTouched:" destination="WgI-N0-uCT" eventType="touchUpInside" id="hsu-VB-Rbj"/>
+                                </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="drawer_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="BS2-Sx-vIr">
                                 <rect key="frame" x="15" y="21" width="20" height="15"/>
@@ -1459,10 +1464,15 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="myLeftArrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="joG-xH-afz">
                                 <rect key="frame" x="285" y="17" width="25" height="24"/>
                             </imageView>
-                            <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tU7-rP-orH">
-                                <rect key="frame" x="0.0" y="55" width="320" height="513"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </webView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qA3-V5-crG">
+                                <rect key="frame" x="120" y="244" width="80" height="80"/>
+                                <state key="normal" image="playButton.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="playMovie:" destination="WgI-N0-uCT" eventType="touchUpInside" id="vYA-Tl-xrh"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -1470,7 +1480,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E8S-yd-0Hu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2519" y="1401"/>
+            <point key="canvasLocation" x="2518" y="1381"/>
         </scene>
         <!--Shop View Controller-->
         <scene sceneID="OH6-EI-t4E">
@@ -1971,11 +1981,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="pattern_background.png" translatesAutoresizingMaskIntoConstraints="NO" id="Wy0-q3-4c8">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="PRO-Dm-F0M">
                                 <rect key="frame" x="10" y="43" width="300" height="111"/>
                                 <string key="text">Please enter the email address you signed up with, and an email will be sent to you with instructions about how to reset your password</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="y3g-QA-VMV">
@@ -2542,6 +2555,7 @@
         <image name="myprofile_header.png" width="320" height="54"/>
         <image name="myprofilenav_rectangles.png" width="320" height="54"/>
         <image name="pattern_background.png" width="320" height="568"/>
+        <image name="playButton.png" width="166" height="166"/>
         <image name="protocoldividers_thick.png" width="204" height="1"/>
         <image name="purple_background.png" width="320" height="513"/>
         <image name="purple_rectangle_nav.png" width="320" height="54"/>

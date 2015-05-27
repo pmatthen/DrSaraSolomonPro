@@ -34,7 +34,7 @@
         is35 = YES;
     }
     
-    categoryArray = @[@"WORKOUTS", @"GOODIES", @"ABOUT", @"PRIVACY POLICY", @"TERMS OF SERVICE"];
+    categoryArray = @[@"WORKOUTS", @"GOODIES", @"HOW TO VIDEO", @"ABOUT", @"PRIVACY POLICY", @"TERMS OF SERVICE"];
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(40, 9, 100, 40)];
     if (is35) {
@@ -94,12 +94,15 @@
         [self performSegueWithIdentifier:@"ShopSegue" sender:self];
     }
     if (indexPath.row == 2) {
-        [self performSegueWithIdentifier:@"AboutSegue" sender:self];
+        [self performSegueWithIdentifier:@"HowToSegue" sender:self];
     }
     if (indexPath.row == 3) {
-        [self performSegueWithIdentifier:@"PrivacySegue" sender:self];
+        [self performSegueWithIdentifier:@"AboutSegue" sender:self];
     }
     if (indexPath.row == 4) {
+        [self performSegueWithIdentifier:@"PrivacySegue" sender:self];
+    }
+    if (indexPath.row == 5) {
         [self performSegueWithIdentifier:@"TermsSegue" sender:self];
     }
 }
